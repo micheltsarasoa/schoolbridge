@@ -1,0 +1,389 @@
+// SchoolBridge Database Schema
+// Offline-first school management platform for Madagascar
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== ENUMS =====
+
+enum UserRole {
+  ADMIN
+  EDUCATIONAL_MANAGER
+  TEACHER
+  STUDENT
+  PARENT
+}
+
+enum CourseStatus {
+  DRAFT
+  UNDER_REVIEW
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentType {
+  TEXT
+  VIDEO
+  PDF
+  INTERACTIVE
+  QUIZ
+}
+
+enum Language {
+  FR
+  EN
+  MG
+  ES
+}
+
+enum NotificationType {
+  COURSE_ASSIGNED
+  GRADE_POSTED
+  PARENT_INSTRUCTION
+  COURSE_VALIDATED
+  COURSE_REJECTED
+  ASSIGNMENT_DUE
+  SYSTEM_ALERT
+  MESSAGE_RECEIVED
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum InstructionStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+  NEEDS_HELP
+}
+
+// ===== USER MANAGEMENT =====
+
+model User {
+  id                String   @id @default(uuid())
+  email             String?  @unique
+  phone             String?  @unique
+  emailVerified     DateTime?
+  phoneVerified     DateTime?
+  password          String
+  name              String
+  role              UserRole
+  languagePreference Language @default(FR)
+  isActive          Boolean  @default(true)
+  lastLogin         DateTime?
+  failedLoginAttempts Int    @default(0)
+  lockedUntil       DateTime?
+  schoolId          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  school            School?  @relation(fields: [schoolId], references: [id], onDelete: SetNull)
+  accounts          Account[]
+  sessions          Session[]
+  coursesCreated    Course[] @relation("CourseCreator")
+  courseValidations CourseValidation[]
+  parentRelations   UserRelationship[] @relation("ParentUser")
+  studentRelations  UserRelationship[] @relation("StudentUser")
+  studentProgress   StudentProgress[]
+  instructionsGiven ParentInstruction[] @relation("InstructionCreator")
+  instructionsReceived ParentInstructionCompletion[]
+  notifications     Notification[]
+  auditLogs         AuditLog[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([schoolId])
+  @@index([role])
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model UserRelationship {
+  id          String   @id @default(uuid())
+  parentId    String
+  studentId   String
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  parent  User @relation("ParentUser", fields: [parentId], references: [id], onDelete: Cascade)
+  student User @relation("StudentUser", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, studentId])
+  @@index([parentId])
+  @@index([studentId])
+}
+
+// ===== SCHOOL MANAGEMENT =====
+
+model School {
+  id        String   @id @default(uuid())
+  name      String
+  code      String   @unique
+  address   String?
+  phone     String?
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users   User[]
+  courses Course[]
+  config  SchoolConfig?
+
+  @@index([code])
+}
+
+model SchoolConfig {
+  id                          String  @id @default(uuid())
+  schoolId                    String  @unique
+  allowVideoDownload          Boolean @default(true)
+  allowPdfDownload            Boolean @default(true)
+  allowInteractiveDownload    Boolean @default(true)
+  syncFrequencyHours          Int     @default(24)
+  maxDownloadSizeMB           Int     @default(100)
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+}
+
+// ===== COURSE MANAGEMENT =====
+
+model Course {
+  id              String        @id @default(uuid())
+  title           String
+  description     String?
+  teacherId       String
+  schoolId        String
+  status          CourseStatus  @default(DRAFT)
+  language        Language      @default(FR)
+  requiresOnline  Boolean       @default(false)
+  fileSizeBytes   Int?
+  thumbnailUrl    String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  publishedAt     DateTime?
+
+  // Relations
+  teacher         User          @relation("CourseCreator", fields: [teacherId], references: [id], onDelete: Restrict)
+  school          School        @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  content         CourseContent[]
+  validations     CourseValidation[]
+  versions        ContentVersion[]
+  assignments     CourseAssignment[]
+  progress        StudentProgress[]
+
+  @@index([teacherId])
+  @@index([schoolId])
+  @@index([status])
+  @@index([language])
+}
+
+model CourseContent {
+  id                      String      @id @default(uuid())
+  courseId                String
+  contentOrder            Int
+  contentType             ContentType
+  title                   String
+  contentData             Json
+  appearsAfterSeconds     Int?
+  disappearsAfterSeconds  Int?
+  fileReference           String?
+  offlineAvailable        Boolean     @default(false)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId, contentOrder])
+}
+
+model CourseValidation {
+  id            String   @id @default(uuid())
+  courseId      String
+  reviewerId    String
+  feedbackText  String?
+  status        String   // APPROVED, CHANGES_REQUESTED
+  suggestions   Json?
+  reviewedAt    DateTime @default(now())
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  reviewer User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  @@index([courseId])
+  @@index([reviewerId])
+}
+
+model ContentVersion {
+  id         String   @id @default(uuid())
+  courseId   String
+  version    Int
+  content    Json
+  changes    String?
+  createdBy  String
+  createdAt  DateTime @default(now())
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, version])
+  @@index([courseId])
+}
+
+model CourseAssignment {
+  id          String   @id @default(uuid())
+  courseId    String
+  studentId   String?
+  classId     String?
+  assignedAt  DateTime @default(now())
+  dueDate     DateTime?
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+  @@index([studentId])
+  @@index([classId])
+}
+
+// ===== PROGRESS TRACKING =====
+
+model StudentProgress {
+  id                    String   @id @default(uuid())
+  studentId             String
+  courseId              String
+  completionPercentage  Float    @default(0)
+  timeSpentMinutes      Int      @default(0)
+  lastAccessed          DateTime @default(now())
+  currentModule         String?
+  updatedAt             DateTime @updatedAt
+
+  student User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, courseId])
+  @@index([studentId])
+  @@index([courseId])
+}
+
+// ===== PARENT-TEACHER COMMUNICATION =====
+
+model ParentInstruction {
+  id              String   @id @default(uuid())
+  teacherId       String
+  studentId       String
+  instructionText String
+  isUrgent        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime?
+
+  teacher     User                            @relation("InstructionCreator", fields: [teacherId], references: [id], onDelete: Cascade)
+  completions ParentInstructionCompletion[]
+
+  @@index([teacherId])
+  @@index([studentId])
+  @@index([createdAt])
+}
+
+model ParentInstructionCompletion {
+  id             String            @id @default(uuid())
+  instructionId  String
+  parentId       String
+  completedAt    DateTime          @default(now())
+  status         InstructionStatus @default(COMPLETED)
+  notes          String?
+
+  instruction ParentInstruction @relation(fields: [instructionId], references: [id], onDelete: Cascade)
+  parent      User              @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([instructionId, parentId])
+  @@index([instructionId])
+  @@index([parentId])
+}
+
+// ===== NOTIFICATIONS =====
+
+model Notification {
+  id        String               @id @default(uuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  data      Json?
+  read      Boolean              @default(false)
+  readAt    DateTime?
+  actionUrl String?
+  priority  NotificationPriority @default(NORMAL)
+  createdAt DateTime             @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt])
+  @@index([type])
+}
+
+// ===== AUDIT LOGGING =====
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String
+  oldValue   Json?
+  newValue   Json?
+  ipAddress  String?
+  userAgent  String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([entityType, entityId])
+  @@index([action, createdAt])
+}

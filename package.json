@@ -1,0 +1,50 @@
+{
+  "name": "schoolbridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SchoolBridge - Offline-first school management platform for Madagascar",
+  "author": "SchoolBridge Team",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@prisma/client": "^6.18.0",
+    "@radix-ui/react-slot": "^1.2.3",
+    "bcryptjs": "^3.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.548.0",
+    "next": "16.0.1",
+    "next-auth": "^5.0.0-beta.30",
+    "next-intl": "^4.4.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.1",
+    "jest": "^30.2.0",
+    "postcss": "^8.5.6",
+    "prisma": "^6.18.0",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5"
+  }
+}

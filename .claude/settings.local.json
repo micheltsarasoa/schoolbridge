@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:claude.ai)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npm uninstall:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
