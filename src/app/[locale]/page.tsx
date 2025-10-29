@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+  const t = useTranslations();
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
@@ -9,22 +12,22 @@ export default function Home() {
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded bg-primary"></div>
-            <span className="text-xl font-bold">SchoolBridge</span>
+            <span className="text-xl font-bold">{t('common.schoolbridge')}</span>
           </div>
           <nav className="hidden md:flex gap-6">
             <Link href="#features" className="text-sm font-medium hover:text-primary">
-              Features
+              {t('nav.features')}
             </Link>
             <Link href="#about" className="text-sm font-medium hover:text-primary">
-              About
+              {t('nav.about')}
             </Link>
           </nav>
           <div className="flex gap-2">
             <Button variant="ghost" asChild>
-              <Link href="/login">Login</Link>
+              <Link href="/login">{t('nav.login')}</Link>
             </Button>
             <Button asChild>
-              <Link href="/register">Get Started</Link>
+              <Link href="/register">{t('auth.getStarted')}</Link>
             </Button>
           </div>
         </div>
@@ -35,20 +38,19 @@ export default function Home() {
         <section className="container mx-auto px-4 py-24 md:py-32">
           <div className="flex flex-col items-center text-center space-y-6">
             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-              Bridging Education Gaps,
+              {t('home.hero.title')}
               <br />
-              <span className="text-primary">Online and Offline</span>
+              <span className="text-primary">{t('home.hero.titleHighlight')}</span>
             </h1>
             <p className="max-w-2xl text-lg text-muted-foreground">
-              SchoolBridge is an offline-first school management platform designed for Madagascar.
-              Connect teachers, students, and parents even with limited internet connectivity.
+              {t('home.hero.description')}
             </p>
             <div className="flex gap-4">
               <Button size="lg" asChild>
-                <Link href="/register">Start Free Trial</Link>
+                <Link href="/register">{t('home.hero.startTrial')}</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="#features">Learn More</Link>
+                <Link href="#features">{t('home.hero.learnMore')}</Link>
               </Button>
             </div>
           </div>
@@ -57,7 +59,7 @@ export default function Home() {
         {/* Features Section */}
         <section id="features" className="border-t bg-muted/50 py-24">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">{t('home.features.title')}</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center text-center space-y-4">
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -76,9 +78,9 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold">Offline-First</h3>
+                <h3 className="text-xl font-semibold">{t('home.features.offlineFirst.title')}</h3>
                 <p className="text-muted-foreground">
-                  Works seamlessly with limited or no internet connectivity. Download courses and sync when online.
+                  {t('home.features.offlineFirst.description')}
                 </p>
               </div>
 
@@ -99,9 +101,9 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold">Multi-Role Support</h3>
+                <h3 className="text-xl font-semibold">{t('home.features.multiRole.title')}</h3>
                 <p className="text-muted-foreground">
-                  Tailored experiences for admins, teachers, students, and parents. Everyone stays connected.
+                  {t('home.features.multiRole.description')}
                 </p>
               </div>
 
@@ -122,9 +124,9 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold">Multilingual</h3>
+                <h3 className="text-xl font-semibold">{t('home.features.multilingual.title')}</h3>
                 <p className="text-muted-foreground">
-                  Full support for French and English, with course content in multiple languages including Malagasy.
+                  {t('home.features.multilingual.description')}
                 </p>
               </div>
             </div>
@@ -135,12 +137,12 @@ export default function Home() {
         <section className="py-24">
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-center text-center space-y-6">
-              <h2 className="text-3xl font-bold">Ready to Get Started?</h2>
+              <h2 className="text-3xl font-bold">{t('home.cta.title')}</h2>
               <p className="max-w-xl text-muted-foreground">
-                Join schools across Madagascar that are using SchoolBridge to provide quality education, online and offline.
+                {t('home.cta.description')}
               </p>
               <Button size="lg" asChild>
-                <Link href="/register">Create Your School Account</Link>
+                <Link href="/register">{t('home.cta.createAccount')}</Link>
               </Button>
             </div>
           </div>
@@ -153,20 +155,20 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="h-6 w-6 rounded bg-primary"></div>
-              <span className="font-semibold">SchoolBridge</span>
+              <span className="font-semibold">{t('common.schoolbridge')}</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              © 2025 SchoolBridge. All rights reserved.
+              {t('footer.copyright')}
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
-                Privacy
+                {t('footer.privacy')}
               </Link>
               <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
-                Terms
+                {t('footer.terms')}
               </Link>
               <Link href="mailto:contact@schoolbridge.app" className="text-sm text-muted-foreground hover:text-primary">
-                Contact
+                {t('footer.contact')}
               </Link>
             </div>
           </div>

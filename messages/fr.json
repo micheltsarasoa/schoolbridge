@@ -1,0 +1,101 @@
+{
+  "common": {
+    "schoolbridge": "SchoolBridge",
+    "tagline": "Combler les lacunes éducatives, en ligne et hors ligne",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Soumettre"
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "about": "À propos",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "dashboard": "Tableau de bord",
+    "courses": "Cours",
+    "users": "Utilisateurs",
+    "settings": "Paramètres"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "verifyEmail": "Vérifier l'email",
+    "getStarted": "Commencer",
+    "createAccount": "Créer un compte",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "signInWith": "Se connecter avec {provider}"
+  },
+  "home": {
+    "hero": {
+      "title": "Combler les lacunes éducatives,",
+      "titleHighlight": "En ligne et hors ligne",
+      "description": "SchoolBridge est une plateforme de gestion scolaire hors ligne conçue pour Madagascar. Connectez enseignants, élèves et parents même avec une connectivité Internet limitée.",
+      "startTrial": "Commencer l'essai gratuit",
+      "learnMore": "En savoir plus"
+    },
+    "features": {
+      "title": "Fonctionnalités clés",
+      "offlineFirst": {
+        "title": "Priorité hors ligne",
+        "description": "Fonctionne parfaitement avec une connectivité Internet limitée ou inexistante. Téléchargez des cours et synchronisez en ligne."
+      },
+      "multiRole": {
+        "title": "Support multi-rôles",
+        "description": "Expériences adaptées pour les administrateurs, enseignants, élèves et parents. Tout le monde reste connecté."
+      },
+      "multilingual": {
+        "title": "Multilingue",
+        "description": "Support complet pour le français et l'anglais, avec du contenu de cours dans plusieurs langues, y compris le malgache."
+      }
+    },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "description": "Rejoignez les écoles de Madagascar qui utilisent SchoolBridge pour offrir une éducation de qualité, en ligne et hors ligne.",
+      "createAccount": "Créer votre compte scolaire"
+    }
+  },
+  "roles": {
+    "admin": "Administrateur",
+    "educational_manager": "Responsable pédagogique",
+    "teacher": "Enseignant",
+    "student": "Élève",
+    "parent": "Parent"
+  },
+  "courses": {
+    "title": "Cours",
+    "myCourses": "Mes cours",
+    "allCourses": "Tous les cours",
+    "createCourse": "Créer un cours",
+    "editCourse": "Modifier le cours",
+    "courseTitle": "Titre du cours",
+    "courseDescription": "Description du cours",
+    "status": {
+      "draft": "Brouillon",
+      "under_review": "En révision",
+      "approved": "Approuvé",
+      "published": "Publié",
+      "archived": "Archivé"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 SchoolBridge. Tous droits réservés.",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "contact": "Contact"
+  }
+}
