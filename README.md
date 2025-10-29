@@ -53,7 +53,7 @@ SchoolBridge is a Progressive Web App (PWA) that enables schools to function eff
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/micheltsarasoa/schoolbridge.git
 cd schoolbridge
 ```
 
