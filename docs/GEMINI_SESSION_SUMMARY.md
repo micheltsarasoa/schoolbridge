@@ -162,7 +162,7 @@ During the Gemini session, significant progress was made on authentication, admi
 
 15. **GET/PUT `/api/profile/route.ts`**
     - Get current user profile
-    - Update profile (name, language, password)
+    - Update profile (name, password)
 
 16. **GET `/api/profile/export/route.ts`**
     - Export user data (GDPR compliance)
@@ -186,6 +186,8 @@ During the Gemini session, significant progress was made on authentication, admi
 ### New Components Added:
 
 All components follow shadcn/ui patterns with proper TypeScript typing and Tailwind CSS styling.
+
+**Sidebar Width**: The sidebar width has been configured to `10rem` (160px) for both desktop and mobile to provide a more compact layout.
 
 1. **Avatar** (`src/components/ui/avatar.tsx`)
 2. **Badge** (`src/components/ui/badge.tsx`)
@@ -249,60 +251,59 @@ All components follow shadcn/ui patterns with proper TypeScript typing and Tailw
 
 ### Authentication Pages:
 
-1. **`src/app/[locale]/login/page.tsx`**
+1. **`src/app/login/page.tsx`**
    - Login form
    - Email/phone authentication
    - Remember me option
    - Forgot password link
 
-2. **`src/app/[locale]/register/page.tsx`**
+2. **`src/app/register/page.tsx`**
    - User registration form
    - Email/phone validation
    - Password strength indicator
    - School selection
 
-3. **`src/app/[locale]/otp/page.tsx`**
+3. **`src/app/otp/page.tsx`**
    - OTP verification (2FA ready)
    - Input OTP component
 
 ### Admin Pages:
 
-4. **`src/app/[locale]/admin/layout.tsx`**
+4. **`src/app/admin/layout.tsx`**
    - Admin layout with sidebar
    - Role-based access control
    - Protected routes
 
-5. **`src/app/[locale]/admin/dashboard/page.tsx`**
+5. **`src/app/admin/dashboard/page.tsx`**
    - Admin dashboard
    - Statistics cards
    - Charts (users, courses, activity)
    - Recent activity feed
 
-6. **`src/app/[locale]/admin/users/page.tsx`**
+6. **`src/app/admin/users/page.tsx`**
    - User management table
    - Search and filters (role, school)
    - Create/edit/delete users
    - Bulk import option
 
-7. **`src/app/[locale]/admin/schools/page.tsx`**
+7. **`src/app/admin/schools/page.tsx`**
    - School management
    - CRUD operations
    - School configuration
 
-8. **`src/app/[locale]/admin/relationships/page.tsx`**
+8. **`src/app/admin/relationships/page.tsx`**
    - Parent-student relationships
    - Verification workflow
    - Relationship creation
 
 ### User Pages:
 
-9. **`src/app/[locale]/profile/page.tsx`**
+9. **`src/app/profile/page.tsx`**
    - User profile view/edit
    - Password change
-   - Language preference
    - Data export (GDPR)
 
-10. **`src/app/[locale]/notifications/page.tsx`**
+10. **`src/app/notifications/page.tsx`**
     - Notification center
     - Mark as read
     - Filter by type
@@ -360,7 +361,6 @@ npm run db:seed
 - Integrated NextAuth authentication
 - Protected routes array
 - Auto-redirect to login for unauthorized access
-- Preserved next-intl routing
 
 ### Protected Routes:
 
@@ -457,7 +457,6 @@ const protectedRoutes = [
 ### 5. User Profile Management
 ✅ View/edit profile
 ✅ Password change
-✅ Language preference
 ✅ Data export (GDPR compliance)
 
 ### 6. Academic Management (Database Ready)
@@ -474,7 +473,6 @@ const protectedRoutes = [
 ### Next.js Config:
 - Updated for Next.js 16
 - Sentry integration preserved
-- next-intl plugin
 
 ### Tailwind Config:
 - shadcn/ui color system
@@ -485,7 +483,6 @@ const protectedRoutes = [
 ### Proxy/Middleware:
 - NextAuth integration
 - Protected route handling
-- i18n routing preserved
 
 ---
 
@@ -610,7 +607,7 @@ Admin:
   Email: admin@schoolbridge.app
   Password: Password123!
 
-Teacher:
+Teacher:.
   Email: jane.teacher@centralhigh.edu
   Password: Password123!
 
@@ -642,12 +639,11 @@ SENTRY_PROJECT="..."
 ```
 src/
 ├── app/
-│   ├── [locale]/
-│   │   ├── admin/          # Admin pages
-│   │   ├── login/          # Auth pages
-│   │   ├── register/
-│   │   ├── profile/        # User pages
-│   │   └── notifications/
+│   ├── admin/              # Admin pages
+│   ├── login/              # Auth pages
+│   ├── register/
+│   ├── profile/            # User pages
+│   └── notifications/
 │   └── api/                # API routes
 │       ├── admin/
 │       ├── auth/

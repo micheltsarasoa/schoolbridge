@@ -343,7 +343,7 @@ SidebarInset.displayName = "SidebarInset"
 
 const SidebarInput = React.forwardRef<
   React.ElementRef<typeof Input>,
-  React.ComponentProps<typeof Input>
+  React.ComponentProps<"input">
 >(({ className, ...props }, ref) => {
   return (
     <Input
@@ -563,7 +563,6 @@ const SidebarMenuButton = React.forwardRef<
     ref
   ) => {
     const Comp = asChild ? Slot : "button"
-    const { isMobile, state } = useSidebar()
 
     const button = (
       <Comp
@@ -592,7 +591,7 @@ const SidebarMenuButton = React.forwardRef<
         <TooltipContent
           side="right"
           align="center"
-          hidden={state !== "collapsed" || isMobile}
+          // hidden={state !== "collapsed" || isMobile}
           {...tooltip}
         />
       </Tooltip>

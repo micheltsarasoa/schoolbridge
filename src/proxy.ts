@@ -18,7 +18,7 @@ const publicRoutes = [
   '/',
 ];
 
-export default async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Check if the current path is a protected route
@@ -47,5 +47,16 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes - accessible from Postman)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     * - *.png, *.jpg, *.jpeg, *.gif, *.svg, *.ico, *.webp (image files)
+     * - *.css, *.js (static assets)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|css|js)).*)'
+  ]
 };

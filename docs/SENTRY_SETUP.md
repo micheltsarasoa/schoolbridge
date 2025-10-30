@@ -91,6 +91,8 @@ For production deployments with source map uploads:
 
 ## Usage
 
+Sentry is configured to automatically capture unhandled errors and exceptions that occur in your application, both on the client and server side. This means that most errors will be reported to Sentry without any explicit action from your code. However, for specific scenarios, you might want to manually capture errors, send messages, or add additional context to your error reports. Below are examples of how to do this.
+
 ### Manual Error Capture
 
 ```typescript

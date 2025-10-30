@@ -47,7 +47,6 @@
 - [x] Configure branch protection rules on GitHub (documentation provided)
 - [x] Set up Sentry for error tracking
 - [x] Configure CI/CD pipeline (GitHub Actions)
-- [x] Configure i18n (French/English) with next-intl
 
 ### Sprint 2: Authentication & Security (Week 3-4)
 - [ ] Implement NextAuth.js with JWT
@@ -246,6 +245,9 @@
 - [ ] Progress streaks
 - [ ] Learning milestones
 
+### Internationalization
+- [ ] Re-implement internationalization (i18n) with next-intl
+
 ### Advanced Features
 - [ ] Real-time collaboration
 - [ ] Advanced analytics dashboard
@@ -333,7 +335,6 @@
 - ✅ **Configuration**: Environment variables, Tailwind CSS v3, PostCSS configured
 - ✅ **Documentation**: Comprehensive README with setup instructions
 - ✅ **GitHub Repository**: Code pushed to https://github.com/micheltsarasoa/schoolbridge
-- ✅ **Internationalization**: next-intl configured for French (default) and English
 - ✅ **Error Tracking**: Sentry SDK configured for production monitoring
 - ✅ **CI/CD Pipeline**: GitHub Actions workflows for testing and deployment
 - ✅ **Branch Protection**: Documentation created for GitHub branch protection setup
@@ -360,13 +361,12 @@
 
 **Next Actions:**
 1. ✅ Sprint 1 Complete!
-2. Begin Sprint 2: Authentication & Security implementation
-   - Implement NextAuth.js with JWT
-   - Add password hashing with bcrypt
-   - Implement email verification system
-   - Add rate limiting middleware
-3. Set up branch protection rules on GitHub (documentation ready at docs/BRANCH_PROTECTION.md)
-4. Configure Sentry DSN in production environment
-5. Set up GitHub Actions secrets for CI/CD
+2. **Immediate**: Run `npm run db:seed` to populate database
+3. **Test**: Login with provided credentials
+4. **Continue**: Create courses and progress API routes
+5. **Build**: Teacher, Student, Parent dashboards
+6. Set up branch protection rules on GitHub (documentation ready at docs/BRANCH_PROTECTION.md)
+7. Configure Sentry DSN in production environment
+8. Set up GitHub Actions secrets for CI/CD
 
 **GitHub Repository:** https://github.com/micheltsarasoa/schoolbridge
