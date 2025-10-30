@@ -69,13 +69,6 @@ export async function GET(request: NextRequest) {
             id: true,
             title: true,
           }
-        },
-        content: {
-          select: {
-            id: true,
-            title: true,
-            type: true,
-          }
         }
       },
       orderBy: { updatedAt: 'desc' },
@@ -158,10 +151,9 @@ export async function POST(request: NextRequest) {
     // Check if progress record already exists
     const existingProgress = await prisma.studentProgress.findUnique({
       where: {
-        studentId_courseId_contentId: {
+        studentId_courseId: {
           studentId: session.user.id,
           courseId,
-          contentId,
         }
       }
     });
@@ -175,22 +167,16 @@ export async function POST(request: NextRequest) {
           id: existingProgress.id
         },
         data: {
-          completed: completed !== undefined ? completed : existingProgress.completed,
-          timeSpent: timeSpent !== undefined ? existingProgress.timeSpent + timeSpent : existingProgress.timeSpent,
-          lastPosition: lastPosition !== undefined ? lastPosition : existingProgress.lastPosition,
+          completionPercentage: completed !== undefined ? (completed ? 100 : existingProgress.completionPercentage) : existingProgress.completionPercentage,
+          timeSpentMinutes: timeSpent !== undefined ? existingProgress.timeSpentMinutes + timeSpent : existingProgress.timeSpentMinutes,
+          currentModule: lastPosition !== undefined ? lastPosition : existingProgress.currentModule,
+          lastAccessed: new Date(),
         },
         include: {
           course: {
             select: {
               id: true,
               title: true,
-            }
-          },
-          content: {
-            select: {
-              id: true,
-              title: true,
-              type: true,
             }
           }
         }
@@ -201,23 +187,15 @@ export async function POST(request: NextRequest) {
         data: {
           studentId: session.user.id,
           courseId,
-          contentId,
-          completed: completed || false,
-          timeSpent: timeSpent || 0,
-          lastPosition,
+          completionPercentage: completed ? 100 : 0,
+          timeSpentMinutes: timeSpent || 0,
+          currentModule: lastPosition,
         },
         include: {
           course: {
             select: {
               id: true,
               title: true,
-            }
-          },
-          content: {
-            select: {
-              id: true,
-              title: true,
-              type: true,
             }
           }
         }

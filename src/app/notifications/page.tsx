@@ -40,7 +40,7 @@ export default function NotificationsPage() {
                   </Button>
                 )}
                 {notification.read && (
-                  <MailIcon className="h-5 w-5 text-muted-foreground" title="Read" />
+                  <MailIcon className="h-5 w-5 text-muted-foreground" />
                 )}
               </CardHeader>
               <CardContent>

@@ -63,16 +63,17 @@ export async function GET(request: NextRequest) {
           studentId: statsStudentId,
         },
         select: {
-          completed: true,
-          timeSpent: true,
+          completionPercentage: true,
+          timeSpentMinutes: true,
         }
       });
 
-      const completedCount = progress.filter(p => p.completed).length;
-      const totalTimeSpent = progress.reduce((sum, p) => sum + p.timeSpent, 0);
-      const completionPercentage = course._count.content > 0
-        ? Math.round((completedCount / course._count.content) * 100)
+      const avgCompletionPercentage = progress.length > 0
+        ? Math.round(progress.reduce((sum, p) => sum + p.completionPercentage, 0) / progress.length)
         : 0;
+      const completedCount = progress.filter(p => p.completionPercentage === 100).length;
+      const totalTimeSpent = progress.reduce((sum, p) => sum + p.timeSpentMinutes, 0);
+      const completionPercentage = avgCompletionPercentage;
 
       stats = {
         courseId: course.id,
@@ -123,25 +124,25 @@ export async function GET(request: NextRequest) {
         where: { courseId },
         select: {
           studentId: true,
-          completed: true,
-          timeSpent: true,
+          completionPercentage: true,
+          timeSpentMinutes: true,
         }
       });
 
       const studentStats = allProgress.reduce((acc: any, p) => {
         if (!acc[p.studentId]) {
-          acc[p.studentId] = { completed: 0, timeSpent: 0, total: 0 };
+          acc[p.studentId] = { completionPercentage: 0, timeSpent: 0, total: 0 };
         }
         acc[p.studentId].total++;
-        if (p.completed) acc[p.studentId].completed++;
-        acc[p.studentId].timeSpent += p.timeSpent;
+        acc[p.studentId].completionPercentage = Math.max(acc[p.studentId].completionPercentage, p.completionPercentage);
+        acc[p.studentId].timeSpent += p.timeSpentMinutes;
         return acc;
       }, {});
 
       const totalStudents = Object.keys(studentStats).length;
       const avgCompletion = totalStudents > 0
         ? Object.values(studentStats).reduce((sum: number, s: any) => {
-            return sum + (course._count.content > 0 ? (s.completed / course._count.content) * 100 : 0);
+            return sum + s.completionPercentage;
           }, 0) / totalStudents
         : 0;
 
@@ -154,11 +155,8 @@ export async function GET(request: NextRequest) {
         averageCompletionPercentage: Math.round(avgCompletion),
         studentStats: Object.entries(studentStats).map(([studentId, data]: [string, any]) => ({
           studentId,
-          completedContent: data.completed,
+          completionPercentage: data.completionPercentage,
           totalTimeSpent: data.timeSpent,
-          completionPercentage: course._count.content > 0
-            ? Math.round((data.completed / course._count.content) * 100)
-            : 0,
         })),
       };
 
@@ -192,22 +190,21 @@ export async function GET(request: NextRequest) {
               studentId: statsStudentId,
             },
             select: {
-              completed: true,
-              timeSpent: true,
+              completionPercentage: true,
+              timeSpentMinutes: true,
             }
           });
 
-          const completedCount = progress.filter(p => p.completed).length;
-          const totalTimeSpent = progress.reduce((sum, p) => sum + p.timeSpent, 0);
+          const avgCompletionPercentage = progress.length > 0
+            ? Math.round(progress.reduce((sum, p) => sum + p.completionPercentage, 0) / progress.length)
+            : 0;
+          const totalTimeSpent = progress.reduce((sum, p) => sum + p.timeSpentMinutes, 0);
 
           return {
             courseId: course.id,
             courseTitle: course.title,
             totalContent: course._count.content,
-            completedContent: completedCount,
-            completionPercentage: course._count.content > 0
-              ? Math.round((completedCount / course._count.content) * 100)
-              : 0,
+            completionPercentage: avgCompletionPercentage,
             totalTimeSpent,
           };
         })
