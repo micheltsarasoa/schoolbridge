@@ -37,17 +37,16 @@ export async function GET(
           select: {
             id: true,
             name: true,
-            description: true,
           }
         },
         content: {
-          orderBy: { order: 'asc' },
+          orderBy: { contentOrder: 'asc' },
           select: {
             id: true,
             title: true,
-            type: true,
-            order: true,
-            requiresOnline: true,
+            contentType: true,
+            contentOrder: true,
+            offlineAvailable: true,
           }
         },
         _count: {
@@ -95,17 +94,20 @@ export async function GET(
         return NextResponse.json({ message: 'Course not available' }, { status: 403 });
       }
 
-      const hasAccess = await prisma.courseAssignment.findFirst({
+      // Check if parent has access through their children
+      const childRelations = await prisma.userRelationship.findMany({
+        where: {
+          parentId: session.user.id,
+          isVerified: true
+        },
+        select: { studentId: true }
+      });
+
+      const childIds = childRelations.map(r => r.studentId);
+      const hasAccess = childIds.length > 0 && await prisma.courseAssignment.findFirst({
         where: {
           courseId: course.id,
-          student: {
-            studentRelations: {
-              some: {
-                parentId: session.user.id,
-                isVerified: true
-              }
-            }
-          }
+          studentId: { in: childIds }
         }
       });
 

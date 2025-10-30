@@ -28,13 +28,6 @@ export async function GET(
             status: true,
           }
         },
-        student: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          }
-        },
         class: {
           select: {
             id: true,
@@ -185,13 +178,6 @@ export async function PUT(
           select: {
             id: true,
             title: true,
-          }
-        },
-        student: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
           }
         },
         class: {

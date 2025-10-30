@@ -86,13 +86,6 @@ export async function GET(request: NextRequest) {
             thumbnailUrl: true,
           }
         },
-        student: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          }
-        },
         class: {
           select: {
             id: true,
@@ -278,13 +271,6 @@ export async function POST(request: NextRequest) {
             title: true,
           }
         },
-        student: studentId ? {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          }
-        } : undefined,
         class: classId ? {
           select: {
             id: true,

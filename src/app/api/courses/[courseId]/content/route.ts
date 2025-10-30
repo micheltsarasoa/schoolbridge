@@ -43,19 +43,28 @@ export async function GET(
     const isTeacher = session.user.role === 'TEACHER' && course.teacherId === session.user.id;
     const isAdmin = session.user.role === 'ADMIN' || session.user.role === 'EDUCATIONAL_MANAGER';
     const isStudentWithAccess = session.user.role === 'STUDENT' && course.assignments.length > 0;
-    const isParentWithAccess = session.user.role === 'PARENT' && await prisma.courseAssignment.findFirst({
-      where: {
-        courseId: course.id,
-        student: {
-          studentRelations: {
-            some: {
-              parentId: session.user.id,
-              isVerified: true
-            }
+
+    // Check if parent has access through their children
+    let isParentWithAccess = false;
+    if (session.user.role === 'PARENT') {
+      const childRelations = await prisma.userRelationship.findMany({
+        where: {
+          parentId: session.user.id,
+          isVerified: true
+        },
+        select: { studentId: true }
+      });
+
+      const childIds = childRelations.map(r => r.studentId);
+      if (childIds.length > 0) {
+        isParentWithAccess = !!(await prisma.courseAssignment.findFirst({
+          where: {
+            courseId: course.id,
+            studentId: { in: childIds }
           }
-        }
+        }));
       }
-    });
+    }
 
     if (!isTeacher && !isAdmin && !isStudentWithAccess && !isParentWithAccess) {
       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
@@ -64,16 +73,17 @@ export async function GET(
     // Get content
     const content = await prisma.courseContent.findMany({
       where: { courseId },
-      orderBy: { order: 'asc' },
+      orderBy: { contentOrder: 'asc' },
       select: {
         id: true,
         title: true,
-        description: true,
-        type: true,
-        order: true,
-        requiresOnline: true,
-        contentUrl: true,
-        duration: true,
+        contentType: true,
+        contentOrder: true,
+        contentData: true,
+        fileReference: true,
+        offlineAvailable: true,
+        appearsAfterSeconds: true,
+        disappearsAfterSeconds: true,
         createdAt: true,
         updatedAt: true,
       }
@@ -151,22 +161,26 @@ export async function POST(
     if (contentOrder === undefined || contentOrder === null) {
       const lastContent = await prisma.courseContent.findFirst({
         where: { courseId },
-        orderBy: { order: 'desc' },
-        select: { order: true }
+        orderBy: { contentOrder: 'desc' },
+        select: { contentOrder: true }
       });
-      contentOrder = lastContent ? lastContent.order + 1 : 0;
+      contentOrder = lastContent ? lastContent.contentOrder + 1 : 0;
     }
 
     // Create content
     const content = await prisma.courseContent.create({
       data: {
         title,
-        description,
-        type,
-        order: contentOrder,
-        requiresOnline: requiresOnline || false,
-        contentUrl,
-        duration,
+        contentType: type,
+        contentOrder: contentOrder,
+        contentData: {
+          description: description || '',
+          duration: duration || 0,
+        },
+        offlineAvailable: !requiresOnline,
+        fileReference: contentUrl,
+        appearsAfterSeconds: null,
+        disappearsAfterSeconds: null,
         courseId,
       }
     });

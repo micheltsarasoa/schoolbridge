@@ -1,22 +1,21 @@
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/auth";
 
 interface IParams {
-  params: { notificationId: string };
+  params: Promise<{ notificationId: string }>;
 }
 
 async function handler(req: Request, { params }: IParams) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { notificationId } = params;
+    const { notificationId } = await params;
 
     if (!notificationId) {
       return new NextResponse("Notification ID is required", { status: 400 });

@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
     if (contentId) where.contentId = contentId;
 
-    const progress = await prisma.courseProgress.findMany({
+    const progress = await prisma.studentProgress.findMany({
       where,
       include: {
         student: {
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if progress record already exists
-    const existingProgress = await prisma.courseProgress.findUnique({
+    const existingProgress = await prisma.studentProgress.findUnique({
       where: {
         studentId_courseId_contentId: {
           studentId: session.user.id,
@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
 
     if (existingProgress) {
       // Update existing progress
-      progress = await prisma.courseProgress.update({
+      progress = await prisma.studentProgress.update({
         where: {
           id: existingProgress.id
         },
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
       });
     } else {
       // Create new progress record
-      progress = await prisma.courseProgress.create({
+      progress = await prisma.studentProgress.create({
         data: {
           studentId: session.user.id,
           courseId,

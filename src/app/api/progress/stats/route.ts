@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ message: 'Course not found' }, { status: 404 });
       }
 
-      const progress = await prisma.courseProgress.findMany({
+      const progress = await prisma.studentProgress.findMany({
         where: {
           courseId,
           studentId: statsStudentId,
@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
       }
 
-      const allProgress = await prisma.courseProgress.findMany({
+      const allProgress = await prisma.studentProgress.findMany({
         where: { courseId },
         select: {
           studentId: true,
@@ -186,7 +186,7 @@ export async function GET(request: NextRequest) {
 
       const courseStats = await Promise.all(
         courses.map(async (course) => {
-          const progress = await prisma.courseProgress.findMany({
+          const progress = await prisma.studentProgress.findMany({
             where: {
               courseId: course.id,
               studentId: statsStudentId,

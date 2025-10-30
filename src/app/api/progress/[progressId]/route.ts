@@ -15,7 +15,7 @@ export async function GET(
 
     const { progressId } = await context.params;
 
-    const progress = await prisma.courseProgress.findUnique({
+    const progress = await prisma.studentProgress.findUnique({
       where: { id: progressId },
       include: {
         student: {
@@ -30,14 +30,6 @@ export async function GET(
             id: true,
             title: true,
             teacherId: true,
-          }
-        },
-        content: {
-          select: {
-            id: true,
-            title: true,
-            type: true,
-            description: true,
           }
         }
       }
@@ -102,7 +94,7 @@ export async function DELETE(
       );
     }
 
-    const progress = await prisma.courseProgress.findUnique({
+    const progress = await prisma.studentProgress.findUnique({
       where: { id: progressId }
     });
 
@@ -118,7 +110,7 @@ export async function DELETE(
       );
     }
 
-    await prisma.courseProgress.delete({
+    await prisma.studentProgress.delete({
       where: { id: progressId }
     });
 

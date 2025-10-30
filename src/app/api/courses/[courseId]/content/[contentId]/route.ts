@@ -47,19 +47,27 @@ export async function GET(
       }
     });
 
-    const isParentWithAccess = session.user.role === 'PARENT' && await prisma.courseAssignment.findFirst({
-      where: {
-        courseId: content.courseId,
-        student: {
-          studentRelations: {
-            some: {
-              parentId: session.user.id,
-              isVerified: true
-            }
+    // Check if parent has access through their children
+    let isParentWithAccess = false;
+    if (session.user.role === 'PARENT') {
+      const childRelations = await prisma.userRelationship.findMany({
+        where: {
+          parentId: session.user.id,
+          isVerified: true
+        },
+        select: { studentId: true }
+      });
+
+      const childIds = childRelations.map(r => r.studentId);
+      if (childIds.length > 0) {
+        isParentWithAccess = !!(await prisma.courseAssignment.findFirst({
+          where: {
+            courseId: content.courseId,
+            studentId: { in: childIds }
           }
-        }
+        }));
       }
-    });
+    }
 
     if (!isTeacher && !isAdmin && !isStudentWithAccess && !isParentWithAccess) {
       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
