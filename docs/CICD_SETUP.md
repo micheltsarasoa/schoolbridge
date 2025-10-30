@@ -6,6 +6,144 @@ This document explains the continuous integration and continuous deployment (CI/
 
 SchoolBridge uses GitHub Actions for automated testing, building, and deployment. The CI/CD pipeline ensures code quality, runs tests, and automates deployments to production.
 
+## Quick Start Guide
+
+Follow these steps to set up automatic testing and deployment for the first time.
+
+### Step 1: Generate Required Secrets
+
+**Generate NEXTAUTH_SECRET:**
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
+Save this value - you'll need it for GitHub secrets and Vercel environment variables.
+
+### Step 2: Set Up Vercel Deployment
+
+**Option A: Using Vercel Web Interface (Recommended)**
+
+1. Go to https://vercel.com and sign up/login (use GitHub account for easier integration)
+2. Click "Add New..." → "Project"
+3. Import your `schoolbridge` repository from GitHub
+4. Configure project settings:
+   - **Framework Preset:** Next.js
+   - **Root Directory:** `./`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `.next`
+
+5. Add Environment Variables in Vercel (Settings → Environment Variables):
+   ```
+   DATABASE_URL=postgresql://user:password@host:5432/database
+   NEXTAUTH_URL=https://your-project.vercel.app
+   NEXTAUTH_SECRET=<generated_from_step_1>
+   NEXT_PUBLIC_SENTRY_DSN=<optional_sentry_dsn>
+   ```
+
+6. Get Vercel credentials:
+   - Go to Settings → Tokens → Create Token (this is your `VERCEL_TOKEN`)
+   - In Project Settings, find `VERCEL_PROJECT_ID` and `VERCEL_ORG_ID`
+
+**Option B: Using Vercel CLI**
+
+```bash
+# Install Vercel CLI globally
+npm install -g vercel
+
+# Login to Vercel
+vercel login
+
+# Link your project (creates .vercel/project.json)
+vercel link
+
+# Get your organization ID
+vercel whoami
+
+# View project credentials
+cat .vercel/project.json
+```
+
+Answer the prompts:
+- Set up and deploy? **N** (No, we'll use GitHub Actions)
+- Which scope? Choose your account/team
+- Link to existing project? **N** (create new)
+- Project name: **schoolbridge**
+- Directory: **.**
+
+### Step 3: Configure GitHub Secrets
+
+Go to your GitHub repository: **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+
+Add the following secrets:
+
+**Required Secrets:**
+
+| Secret Name | Value | How to Get |
+|------------|-------|------------|
+| `DATABASE_URL` | `postgresql://user:password@host:5432/database` | Your PostgreSQL connection string |
+| `NEXTAUTH_URL` | `https://your-project.vercel.app` | Your production URL from Vercel |
+| `NEXTAUTH_SECRET` | From Step 1 | Generated with Node.js crypto |
+| `VERCEL_TOKEN` | From Vercel | Settings → Tokens → Create Token |
+| `VERCEL_ORG_ID` | From Vercel or `vercel whoami` | Your organization/user ID |
+| `VERCEL_PROJECT_ID` | From `.vercel/project.json` | Your project ID |
+
+**Optional but Recommended:**
+
+| Secret Name | Value | How to Get |
+|------------|-------|------------|
+| `NEXT_PUBLIC_SENTRY_DSN` | Sentry DSN | Sentry project settings → Client Keys |
+| `SENTRY_ORG` | Your Sentry org slug | From Sentry dashboard |
+| `SENTRY_PROJECT` | `schoolbridge` | Your Sentry project name |
+| `SENTRY_AUTH_TOKEN` | Sentry auth token | Settings → Auth Tokens → Create Token |
+| `SNYK_TOKEN` | Snyk API token | https://snyk.io/account → Auth Token |
+
+### Step 4: Create Production Environment
+
+1. Go to your GitHub repo → **Settings** → **Environments**
+2. Click **New environment** → name it `production`
+3. (Optional) Add protection rules:
+   - Required reviewers before deployment
+   - Wait timer before deployment
+   - Deployment branches: Only `main` branch
+
+### Step 5: Test Your Setup
+
+**Verify CI workflows:**
+```bash
+# Make a test commit
+git checkout -b test-cicd
+echo "# Testing CI/CD" >> README.md
+git add README.md
+git commit -m "test: verify CI/CD pipeline"
+git push origin test-cicd
+```
+
+Create a pull request on GitHub and watch the workflows run:
+- ✅ Lint and Type Check
+- ✅ Build Application
+- ✅ Run Tests
+- ✅ Security Scan
+- ✅ PR Validation
+
+**Trigger deployment:**
+```bash
+# Merge to main and watch deploy workflow
+git checkout main
+git merge test-cicd
+git push origin main
+```
+
+Go to **Actions** tab to see the Deploy workflow run.
+
+### Step 6: Verify Deployment
+
+1. Check GitHub Actions for successful deployment
+2. Visit your Vercel URL: `https://your-project.vercel.app`
+3. Check Sentry for the new release (if configured)
+4. Verify database migrations ran successfully
+
+---
+
 ## Workflows
 
 ### 1. CI Workflow (`ci.yml`)
@@ -322,6 +460,75 @@ updates:
     schedule:
       interval: "weekly"
 ```
+
+## Quick Reference
+
+### Essential Commands
+
+```bash
+# Generate NEXTAUTH_SECRET
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+
+# Vercel Setup
+npm install -g vercel
+vercel login
+vercel link
+vercel whoami
+
+# Test Locally Before Pushing
+npm run lint           # Run ESLint
+npm test              # Run Jest tests
+npm run test:e2e      # Run Playwright E2E tests
+npm run build         # Test production build
+npx tsc --noEmit      # Type check
+
+# Database Operations
+npx prisma migrate dev        # Create migration in dev
+npx prisma migrate deploy     # Deploy migration to production
+npx prisma generate          # Regenerate Prisma client
+npx prisma db push           # Push schema without migration
+
+# Git Workflow
+git checkout -b feature/new-feature
+git add .
+git commit -m "feat: add new feature"
+git push origin feature/new-feature
+
+# Trigger Manual Deployment
+# Go to GitHub Actions → Deploy workflow → Run workflow
+```
+
+### GitHub URLs
+
+- **Secrets:** `https://github.com/YOUR_USERNAME/schoolbridge/settings/secrets/actions`
+- **Actions:** `https://github.com/YOUR_USERNAME/schoolbridge/actions`
+- **Environments:** `https://github.com/YOUR_USERNAME/schoolbridge/settings/environments`
+- **Branch Protection:** `https://github.com/YOUR_USERNAME/schoolbridge/settings/branches`
+
+### Vercel URLs
+
+- **Dashboard:** https://vercel.com/dashboard
+- **Tokens:** https://vercel.com/account/tokens
+- **Project Settings:** https://vercel.com/YOUR_ORG/schoolbridge/settings
+
+### Environment Variables Checklist
+
+**Minimum Required for Deployment:**
+- [ ] `DATABASE_URL`
+- [ ] `NEXTAUTH_URL`
+- [ ] `NEXTAUTH_SECRET`
+- [ ] `VERCEL_TOKEN`
+- [ ] `VERCEL_ORG_ID`
+- [ ] `VERCEL_PROJECT_ID`
+
+**Recommended:**
+- [ ] `NEXT_PUBLIC_SENTRY_DSN`
+- [ ] `SENTRY_ORG`
+- [ ] `SENTRY_PROJECT`
+- [ ] `SENTRY_AUTH_TOKEN`
+
+**Optional:**
+- [ ] `SNYK_TOKEN`
 
 ## Resources
 
