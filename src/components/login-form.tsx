@@ -33,7 +33,22 @@ export function LoginForm({
         toast.error(result.error);
       } else if (result?.ok) {
         toast.success("Logged in successfully!");
-        router.push("/en/admin/dashboard"); // Redirect to admin dashboard
+
+        // Fetch user session to get role
+        const response = await fetch('/api/auth/session');
+        const session = await response.json();
+
+        // Role-based redirect
+        const roleRedirects: Record<string, string> = {
+          'ADMIN': '/admin/dashboard',
+          'EDUCATIONAL_MANAGER': '/admin/dashboard',
+          'TEACHER': '/teacher/dashboard',
+          'STUDENT': '/student/dashboard',
+          'PARENT': '/parent/dashboard',
+        };
+
+        const redirectPath = roleRedirects[session?.user?.role] || '/dashboard';
+        router.push(redirectPath);
       }
     } catch (error) {
       toast.error("An unexpected error occurred.");
