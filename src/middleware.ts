@@ -1,5 +1,3 @@
-import createMiddleware from 'next-intl/middleware';
-import { locales } from './i18n/request';
 import { NextRequest, NextResponse } from 'next/server';
 
 const protectedRoutes = [
@@ -9,10 +7,7 @@ const protectedRoutes = [
   '/parent',
   '/profile',
   '/notifications',
-  '/schools',
-  '/relationships',
-  '/users',
-  '/bulk-import',
+  '/dashboard',
 ];
 
 const publicRoutes = [
@@ -26,16 +21,13 @@ const publicRoutes = [
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Remove locale prefix for route matching
-  const pathnameWithoutLocale = pathname.replace(/^\/(en|fr)/, '') || '/';
-
   // Check if the current path is a protected route
   const isProtectedRoute = protectedRoutes.some(route =>
-    pathnameWithoutLocale.startsWith(route)
+    pathname.startsWith(route)
   );
 
   const isPublicRoute = publicRoutes.some(route =>
-    pathnameWithoutLocale === route || pathnameWithoutLocale.startsWith(route)
+    pathname === route || pathname.startsWith(route)
   );
 
   // For protected routes, check authentication via cookie
@@ -51,22 +43,9 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  // Proceed with next-intl middleware for i18n routing
-  const handleI18nRouting = createMiddleware({
-    locales,
-    defaultLocale: 'fr',
-    localePrefix: 'as-needed',
-  });
-
-  const response = handleI18nRouting(request);
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {
-  // Match all pathnames except for
-  // - API routes
-  // - _next (Next.js internals)
-  // - _vercel (Vercel internals)
-  // - Static files
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
 };
