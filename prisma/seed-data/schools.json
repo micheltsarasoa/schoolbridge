@@ -1,0 +1,18 @@
+[
+  {
+    "id": "clp000000000000000000001",
+    "name": "Central High School",
+    "code": "CHS001",
+    "address": "123 Main St, Anytown",
+    "phone": "555-1234",
+    "email": "info@centralhigh.edu"
+  },
+  {
+    "id": "clp000000000000000000002",
+    "name": "Northwood Academy",
+    "code": "NWA002",
+    "address": "456 Oak Ave, Otherville",
+    "phone": "555-5678",
+    "email": "contact@northwood.org"
+  }
+]

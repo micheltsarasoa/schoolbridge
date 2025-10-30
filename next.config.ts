@@ -6,6 +6,13 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   /* config options here */
+  experimental: {
+    turbopack: {
+      // Explicitly set the workspace root for Turbopack
+      // This addresses the warning about multiple lockfiles
+      root: "C:\\Users\\jms\\OneDrive - SPC CONSULTANTS\\source\\repos\\schoolbridge",
+    },
+  },
 };
 
 // Wrap with next-intl first, then Sentry

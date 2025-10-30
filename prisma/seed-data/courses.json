@@ -1,0 +1,42 @@
+[
+  {
+    "id": "clp000000000000000000016",
+    "title": "Introduction to Algebra",
+    "description": "Basic concepts of algebra for beginners.",
+    "teacherId": "clp000000000000000000004",
+    "schoolId": "clp000000000000000000001",
+    "subjectId": "clp000000000000000000009",
+    "status": "PUBLISHED",
+    "language": "EN",
+    "requiresOnline": false,
+    "fileSizeBytes": 1024000,
+    "thumbnailUrl": "https://example.com/thumbnails/algebra.jpg",
+    "publishedAt": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "clp000000000000000000017",
+    "title": "Biology Fundamentals",
+    "description": "Understanding the basics of living organisms.",
+    "teacherId": "clp000000000000000000004",
+    "schoolId": "clp000000000000000000001",
+    "subjectId": "clp000000000000000000010",
+    "status": "PUBLISHED",
+    "language": "EN",
+    "requiresOnline": true,
+    "fileSizeBytes": 2048000,
+    "thumbnailUrl": "https://example.com/thumbnails/biology.jpg",
+    "publishedAt": "2024-02-01T11:00:00.000Z"
+  },
+  {
+    "id": "clp000000000000000000018",
+    "title": "World History: Ancient Civilizations",
+    "description": "A journey through the earliest human societies.",
+    "teacherId": "clp000000000000000000004",
+    "schoolId": "clp000000000000000000001",
+    "subjectId": "clp000000000000000000011",
+    "status": "DRAFT",
+    "language": "EN",
+    "requiresOnline": false,
+    "fileSizeBytes": 1536000
+  }
+]
