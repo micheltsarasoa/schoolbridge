@@ -2,7 +2,24 @@
 
 **Purpose:** Definitive list of what belongs on each page and sidebar
 **Status:** Implementation blueprint
-**Last Updated:** 2025-10-30
+**Last Updated:** 2025-10-31
+
+---
+
+## 🔗 DEVELOPER GUIDE
+
+**For detailed implementation specs with code examples, see:**
+👉 **[PAGE_CONTENT_CHECKLIST_DETAILED.md](./PAGE_CONTENT_CHECKLIST_DETAILED.md)**
+
+The detailed guide includes:
+- Complete API endpoints with request/response examples
+- Database models and queries
+- Button actions and event handlers
+- Form validation with Zod schemas
+- State management patterns
+- Component specifications
+- Error handling strategies
+- Code snippets ready to use
 
 ---
 

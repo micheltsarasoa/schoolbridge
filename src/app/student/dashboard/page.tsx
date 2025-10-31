@@ -90,11 +90,8 @@ export default function StudentDashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Student Dashboard</h1>
-
-      {/* Top Row - Overview Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-4">
+      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Attendance Rate</CardTitle>
@@ -136,37 +133,23 @@ export default function StudentDashboardPage() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Section: Today's Schedule */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Today's Schedule</CardTitle>
-          <Button variant="outline" size="sm">View Full Week</Button>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 border rounded-md bg-secondary/20">
-              <div>
-                <p className="text-lg font-semibold">{studentData.currentClass.subject}</p>
-                <p className="text-sm text-muted-foreground">{studentData.currentClass.teacher} - {studentData.currentClass.location}</p>
-                <p className="text-sm text-muted-foreground">{studentData.currentClass.time}</p>
-              </div>
-              <Badge variant="default">Starts in {studentData.currentClass.countdown}</Badge>
+      <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+        <Card className="xl:col-span-2">
+          <CardHeader className="flex flex-row items-center">
+            <div className="grid gap-2">
+              <CardTitle>My Courses</CardTitle>
+              <CardDescription>
+                Your enrolled courses for the current semester.
+              </CardDescription>
             </div>
-            {/* Placeholder for full schedule list */}
-            <p className="text-sm text-muted-foreground">... Full schedule for today ...</p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Section: My Courses */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>My Courses</CardTitle>
-          <Button variant="outline" size="sm">View All Courses</Button>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <a href="/student/courses">
+                View All
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </Button>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {studentData.courses.map((course, index) => (
               <Card key={index}>
                 <CardHeader>
@@ -187,51 +170,25 @@ export default function StudentDashboardPage() {
                 </div>
               </Card>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Section: Assignments & Quizzes */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Assignments & Quizzes</CardTitle>
-          <Button variant="outline" size="sm">View All</Button>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Assignments & Quizzes</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
             {studentData.assignments.map((assignment, index) => (
               <div key={index} className="flex items-center justify-between p-3 border rounded-md">
                 <div>
                   <p className="font-semibold">{assignment.title}</p>
                   <p className="text-sm text-muted-foreground">{assignment.course} - Due {assignment.dueDate}</p>
                 </div>
-                <Badge variant={assignment.priority === 'High' ? 'destructive' : assignment.priority === 'Medium' ? 'warning' : 'outline'}>{assignment.status}</Badge>
+                <Badge variant={assignment.priority === 'High' ? 'destructive' : assignment.priority === 'Medium' ? 'secondary' : 'outline'}>{assignment.status}</Badge>
               </div>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Section: Upcoming Exams */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Upcoming Exams</CardTitle>
-          <Button variant="outline" size="sm">View All Exams</Button>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {studentData.upcomingExams.map((exam, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border rounded-md">
-                <div>
-                  <p className="font-semibold">{exam.name}</p>
-                  <p className="text-sm text-muted-foreground">{exam.subject} - {exam.date} at {exam.time}</p>
-                </div>
-                <Badge variant="secondary">{exam.status}</Badge>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
