@@ -1,3 +1,3 @@
 export default function Page() {
-  return <h1>Schools</h1>;
+  return <h1>Analytics</h1>;
 }
