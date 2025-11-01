@@ -23,9 +23,6 @@ export const showToast = {
         border: "1px solid rgb(147, 197, 253)",
         color: "rgb(30, 58, 138)",
       },
-      descriptionStyle: {
-        color: "rgb(55, 65, 81)",
-      },
     });
   },
 
@@ -42,9 +39,6 @@ export const showToast = {
         background: "rgb(240, 253, 244)",
         border: "1px solid rgb(134, 239, 172)",
         color: "rgb(20, 83, 45)",
-      },
-      descriptionStyle: {
-        color: "rgb(55, 65, 81)",
       },
     });
   },
@@ -63,9 +57,6 @@ export const showToast = {
         border: "1px solid rgb(253, 230, 138)",
         color: "rgb(113, 63, 18)",
       },
-      descriptionStyle: {
-        color: "rgb(55, 65, 81)",
-      },
     });
   },
 
@@ -82,9 +73,6 @@ export const showToast = {
         background: "rgb(254, 242, 242)",
         border: "1px solid rgb(248, 113, 113)",
         color: "rgb(127, 29, 29)",
-      },
-      descriptionStyle: {
-        color: "rgb(55, 65, 81)",
       },
     });
   },
