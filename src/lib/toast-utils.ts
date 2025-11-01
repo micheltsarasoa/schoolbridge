@@ -1,3 +1,5 @@
+'use client';
+
 import { toast } from "sonner";
 import { AlertCircle, CheckCircle2, Info, AlertTriangle } from "lucide-react";
 
