@@ -1,8 +1,9 @@
 import { toast } from "sonner";
+import { AlertCircle, CheckCircle2, Info, AlertTriangle } from "lucide-react";
 
 /**
  * Toast notification utilities with consistent styling and messages
- * Provides info, success, warning, and error toast types
+ * Provides info, success, warning, and error toast types with visual styling
  */
 
 export const showToast = {
@@ -14,6 +15,15 @@ export const showToast = {
       description,
       position: "top-right",
       duration: 4000,
+      icon: <Info className="h-5 w-5" />,
+      style: {
+        background: "rgb(239, 246, 255)",
+        border: "1px solid rgb(147, 197, 253)",
+        color: "rgb(30, 58, 138)",
+      },
+      descriptionStyle: {
+        color: "rgb(55, 65, 81)",
+      },
     });
   },
 
@@ -25,6 +35,15 @@ export const showToast = {
       description,
       position: "top-right",
       duration: 3000,
+      icon: <CheckCircle2 className="h-5 w-5" />,
+      style: {
+        background: "rgb(240, 253, 244)",
+        border: "1px solid rgb(134, 239, 172)",
+        color: "rgb(20, 83, 45)",
+      },
+      descriptionStyle: {
+        color: "rgb(55, 65, 81)",
+      },
     });
   },
 
@@ -36,6 +55,15 @@ export const showToast = {
       description,
       position: "top-right",
       duration: 4000,
+      icon: <AlertTriangle className="h-5 w-5" />,
+      style: {
+        background: "rgb(254, 252, 232)",
+        border: "1px solid rgb(253, 230, 138)",
+        color: "rgb(113, 63, 18)",
+      },
+      descriptionStyle: {
+        color: "rgb(55, 65, 81)",
+      },
     });
   },
 
@@ -47,6 +75,15 @@ export const showToast = {
       description,
       position: "top-right",
       duration: 4000,
+      icon: <AlertCircle className="h-5 w-5" />,
+      style: {
+        background: "rgb(254, 242, 242)",
+        border: "1px solid rgb(248, 113, 113)",
+        color: "rgb(127, 29, 29)",
+      },
+      descriptionStyle: {
+        color: "rgb(55, 65, 81)",
+      },
     });
   },
 
@@ -56,6 +93,11 @@ export const showToast = {
   loading: (message: string) => {
     return toast.loading(message, {
       position: "top-right",
+      style: {
+        background: "rgb(249, 250, 251)",
+        border: "1px solid rgb(226, 232, 240)",
+        color: "rgb(51, 65, 85)",
+      },
     });
   },
 
