@@ -1,6 +1,6 @@
 'use client'
 
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, Eye, EyeOff, Check, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -8,15 +8,22 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils"
 import { UserRole } from "@/generated/prisma";
 import Link from "next/link";
+import { showToast, isValidEmail } from "@/lib/toast-utils";
 
 interface School {
   id: string;
   name: string;
   code: string;
+}
+
+interface PasswordStrength {
+  hasMinLength: boolean;
+  hasUppercase: boolean;
+  hasLowercase: boolean;
+  hasNumber: boolean;
 }
 
 export default function RegisterPage() {
@@ -31,6 +38,14 @@ export default function RegisterPage() {
   const [schools, setSchools] = useState<School[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingSchools, setLoadingSchools] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState<PasswordStrength>({
+    hasMinLength: false,
+    hasUppercase: false,
+    hasLowercase: false,
+    hasNumber: false,
+  });
 
   // Fetch schools on component mount
   useEffect(() => {
@@ -50,27 +65,71 @@ export default function RegisterPage() {
     fetchSchools();
   }, []);
 
+  const checkPasswordStrength = (password: string): PasswordStrength => {
+    return {
+      hasMinLength: password.length >= 8,
+      hasUppercase: /[A-Z]/.test(password),
+      hasLowercase: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+    };
+  };
+
+  const isPasswordStrong = (strength: PasswordStrength): boolean => {
+    return strength.hasMinLength && strength.hasUppercase && strength.hasLowercase && strength.hasNumber;
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFormData(prevState => ({ ...prevState, password: value }));
+    setPasswordStrength(checkPasswordStrength(value));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     // Validation
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
+    if (!formData.name.trim()) {
+      showToast.warning("Name Required", "Please enter your full name.");
       setLoading(false);
       return;
     }
 
-    // Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number
-    const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (!PASSWORD_REGEX.test(formData.password)) {
-      toast.error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number");
+    if (!formData.email.trim()) {
+      showToast.warning("Email Required", "Please enter your email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (!isValidEmail(formData.email)) {
+      showToast.warning("Invalid Email", "Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.password) {
+      showToast.warning("Password Required", "Please enter a password.");
+      setLoading(false);
+      return;
+    }
+
+    if (!isPasswordStrong(passwordStrength)) {
+      showToast.error(
+        "Weak Password",
+        "Password must be at least 8 characters with uppercase, lowercase, and number."
+      );
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      showToast.error("Passwords Mismatch", "The passwords you entered do not match.");
       setLoading(false);
       return;
     }
 
     if (!formData.schoolId) {
-      toast.error("Please select a school");
+      showToast.warning("School Required", "Please select a school.");
       setLoading(false);
       return;
     }
@@ -91,14 +150,17 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message || "Registration failed");
+        showToast.error("Registration Failed", data.message || "An error occurred during registration.");
         return;
       }
 
-      toast.success("Verification code sent to your email!");
+      showToast.success("Verification Code Sent", "Check your email for the verification code.");
       router.push(`/register/verify-otp?email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
-      toast.error("Something went wrong. Please try again.");
+      showToast.error(
+        "Unexpected Error",
+        "Something went wrong. Please check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -190,27 +252,98 @@ export default function RegisterPage() {
                     <Label htmlFor="password">Password</Label>
                     <Input
                       id="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       name="password"
                       placeholder="Min 8 chars: 1 upper, 1 lower, 1 number"
                       value={formData.password}
-                      onChange={handleChange}
+                      onChange={handlePasswordChange}
                       required
                       minLength={8}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-[305px] text-muted-foreground hover:text-primary"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                    <div className="grid grid-cols-2 gap-2 mt-2 text-xs">
+                      <div className="flex items-center gap-2">
+                        {passwordStrength.hasMinLength ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <X className="h-4 w-4 text-muted-foreground" />
+                        )}
+                        <span className={passwordStrength.hasMinLength ? "text-green-600" : "text-muted-foreground"}>
+                          At least 8 characters
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {passwordStrength.hasUppercase ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <X className="h-4 w-4 text-muted-foreground" />
+                        )}
+                        <span className={passwordStrength.hasUppercase ? "text-green-600" : "text-muted-foreground"}>
+                          Uppercase letter
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {passwordStrength.hasLowercase ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <X className="h-4 w-4 text-muted-foreground" />
+                        )}
+                        <span className={passwordStrength.hasLowercase ? "text-green-600" : "text-muted-foreground"}>
+                          Lowercase letter
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {passwordStrength.hasNumber ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <X className="h-4 w-4 text-muted-foreground" />
+                        )}
+                        <span className={passwordStrength.hasNumber ? "text-green-600" : "text-muted-foreground"}>
+                          Number
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="grid gap-2">
                     <Label htmlFor="confirmPassword">Confirm Password</Label>
                     <Input
                       id="confirmPassword"
-                      type="password"
+                      type={showConfirmPassword ? "text" : "password"}
                       name="confirmPassword"
                       placeholder="Re-enter your password"
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-[435px] text-muted-foreground hover:text-primary"
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                    {formData.password && formData.confirmPassword && (
+                      <div className="text-xs flex items-center gap-2">
+                        {formData.password === formData.confirmPassword ? (
+                          <>
+                            <Check className="h-4 w-4 text-green-600" />
+                            <span className="text-green-600">Passwords match</span>
+                          </>
+                        ) : (
+                          <>
+                            <X className="h-4 w-4 text-red-600" />
+                            <span className="text-red-600">Passwords do not match</span>
+                          </>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <Button type="submit" disabled={loading || loadingSchools} className="w-full mt-2">

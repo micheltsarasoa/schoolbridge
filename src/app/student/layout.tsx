@@ -7,15 +7,8 @@ import {
   BookOpen,
   ChevronDown,
   Home,
-  Menu,
-  PanelLeft,
   Search,
   Settings,
-  Users,
-  BarChart,
-  Link,
-  School,
-  ShieldCheck,
   LogOut,
   GraduationCap,
   ClipboardList,
@@ -29,9 +22,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import { VerificationBanner } from "@/components/VerificationBanner"
+import { DashboardNavbar } from "@/components/dashboard-navbar"
 
 interface CourseGroup {
   subjectId: string;
@@ -325,37 +318,11 @@ export default function StudentLayout({
         </div>
 
         <div className={cn("min-h-screen transition-all duration-300 ease-in-out", sidebarOpen ? "md:pl-64" : "md:pl-0")}>
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur">
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileMenuOpen(true)}>
-            <Menu className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="hidden md:flex" onClick={() => setSidebarOpen(!sidebarOpen)}>
-            <PanelLeft className="h-5 w-5" />
-            </Button>
-            <div className="flex flex-1 items-center justify-between">
-            <h1 className="text-xl font-semibold">Student Dashboard</h1>
-            <div className="flex items-center gap-3">
-                <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-2xl relative">
-                        <Bell className="h-5 w-5" />
-                        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                        5
-                        </span>
-                    </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Notifications</TooltipContent>
-                </Tooltip>
-                </TooltipProvider>
-
-                <Avatar className="h-9 w-9 border-2 border-primary">
-                <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Student" />
-                <AvatarFallback>S</AvatarFallback>
-                </Avatar>
-            </div>
-            </div>
-        </header>
+        <DashboardNavbar
+          sidebarOpen={sidebarOpen}
+          onSidebarToggle={setSidebarOpen}
+          onMobileMenuToggle={() => setMobileMenuOpen(true)}
+        />
 
         <main className="flex-1 p-4 md:p-6">
             <VerificationBanner />
