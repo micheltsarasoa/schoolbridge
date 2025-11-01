@@ -5,10 +5,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { GalleryVerticalEnd } from "lucide-react";
+import { showToast, getAuthErrorMessage, isValidEmail } from "@/lib/toast-utils";
 
 export function LoginForm({
   className,
@@ -22,21 +22,55 @@ export function LoginForm({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+
     try {
+      // Validation
+      if (!email.trim()) {
+        showToast.warning("Email Required", "Please enter your email address.");
+        setLoading(false);
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showToast.warning("Invalid Email", "Please enter a valid email address.");
+        setLoading(false);
+        return;
+      }
+
+      if (!password) {
+        showToast.warning("Password Required", "Please enter your password.");
+        setLoading(false);
+        return;
+      }
+
+      if (password.length < 8) {
+        showToast.warning("Invalid Password", "Password must be at least 8 characters.");
+        setLoading(false);
+        return;
+      }
+
+      // Attempt login
       const result = await signIn("credentials", {
         redirect: false,
-        email,
+        email: email.trim(),
         password,
       });
 
       if (result?.error) {
-        toast.error(result.error);
+        // Parse and display specific error messages
+        const errorInfo = getAuthErrorMessage(result.error);
+        showToast.error(errorInfo.title, errorInfo.description);
       } else if (result?.ok) {
-        toast.success("Logged in successfully!");
+        showToast.success("Welcome!", "You have been successfully logged in.");
 
         // Fetch user session to get role
         const response = await fetch('/api/auth/session');
         const session = await response.json();
+
+        // Show info toast about redirect
+        if (session?.user?.name) {
+          showToast.info(`Welcome back, ${session.user.name}!`, "Redirecting to your dashboard...");
+        }
 
         // Role-based redirect
         const roleRedirects: Record<string, string> = {
@@ -48,10 +82,17 @@ export function LoginForm({
         };
 
         const redirectPath = roleRedirects[session?.user?.role] || '/dashboard';
+
+        // Small delay to show success toast
+        await new Promise(resolve => setTimeout(resolve, 1000));
         router.push(redirectPath);
       }
     } catch (error) {
-      toast.error("An unexpected error occurred.");
+      showToast.error(
+        "Unexpected Error",
+        "An unexpected error occurred. Please try again."
+      );
+      console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
