@@ -31,6 +31,7 @@ type QuizResult = {
   score: number;
   earnedPoints: number;
   totalPoints: number;
+  quizMode: 'PRACTICE' | 'EXAM' | 'TIMED_EXAM';
 };
 
 export default function QuizResultsPage() {
@@ -107,10 +108,27 @@ export default function QuizResultsPage() {
           </CardContent>
         </Card>
 
+        {/* Mode-Specific Message */}
+        {result?.quizMode === 'EXAM' && (
+          <Alert className="mb-6">
+            <AlertDescription>
+              <strong>📝 Exam Results:</strong> This quiz was in exam mode. Below are your final answers and the correct solutions.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {result?.quizMode === 'PRACTICE' && (
+          <Alert className="mb-6">
+            <AlertDescription>
+              <strong>✏️ Practice Quiz:</strong> Review your answers below to learn from your performance.
+            </AlertDescription>
+          </Alert>
+        )}
+
         {/* Detailed Results */}
         <Card>
           <CardHeader>
-            <CardTitle>Detailed Results</CardTitle>
+            <CardTitle>{result?.quizMode === 'EXAM' ? 'Answer Review' : 'Detailed Results'}</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">

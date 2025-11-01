@@ -29,7 +29,7 @@ export async function POST(
       );
     }
 
-    // Get quiz and questions
+    // Get quiz and questions with mode
     const quiz = await prisma.quiz.findUnique({
       where: { id },
       include: {
@@ -132,6 +132,7 @@ export async function POST(
       score,
       earnedPoints,
       totalPoints,
+      quizMode: quiz.mode,
     });
   } catch (error) {
     console.error('Error submitting quiz:', error);

@@ -19,16 +19,6 @@ export async function GET(
       include: {
         questions: {
           orderBy: { order: 'asc' },
-          select: {
-            id: true,
-            questionType: true,
-            text: true,
-            explanation: true,
-            order: true,
-            points: true,
-            options: true,
-            // DO NOT return correctAnswer to student
-          },
         },
         courseContent: {
           select: {
@@ -43,6 +33,20 @@ export async function GET(
     if (!quiz) {
       return NextResponse.json({ message: 'Quiz not found' }, { status: 404 });
     }
+
+    // Filter questions based on quiz mode
+    // In EXAM mode during the quiz, don't show correct answers
+    // In PRACTICE mode, show explanations (but not during the quiz, only in results)
+    const filteredQuestions = quiz.questions.map((q) => ({
+      id: q.id,
+      questionType: q.questionType,
+      text: q.text,
+      explanation: quiz.mode === 'PRACTICE' ? q.explanation : undefined, // Only show explanations in practice mode
+      order: q.order,
+      points: q.points,
+      options: q.options,
+      // Never return correctAnswer during quiz (shown only in results)
+    }));
 
     // Check if student has access to this quiz (if they're a student)
     if (session.user.role === 'STUDENT') {
@@ -95,10 +99,15 @@ export async function GET(
 
     return NextResponse.json({
       quiz: {
-        ...quiz,
-        submissionId: quizSubmission?.id,
+        id: quiz.id,
+        title: quiz.title,
+        description: quiz.description,
+        passingScore: quiz.passingScore,
         timeLimit: quiz.timeLimit,
+        mode: quiz.mode,
         showAnswersAfter: quiz.showAnswersAfter,
+        questions: filteredQuestions,
+        submissionId: quizSubmission?.id,
       },
     });
   } catch (error) {

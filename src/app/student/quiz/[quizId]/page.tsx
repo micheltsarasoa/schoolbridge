@@ -24,6 +24,7 @@ type Quiz = {
   description?: string;
   passingScore: number;
   timeLimit?: number;
+  mode: 'PRACTICE' | 'EXAM' | 'TIMED_EXAM';
   showAnswersAfter: boolean;
   questions: Question[];
   submissionId: string;
@@ -298,10 +299,19 @@ export default function QuizPage() {
                   </div>
                 </div>
 
-                {/* Explanation (shown after answer selection for some quizzes) */}
-                {quiz.showAnswersAfter && answers[currentQuestion.id] && currentQuestion.explanation && (
+                {/* Explanation (shown after answer selection only in PRACTICE mode) */}
+                {quiz.mode === 'PRACTICE' && answers[currentQuestion.id] && currentQuestion.explanation && (
                   <Alert>
                     <AlertDescription>{currentQuestion.explanation}</AlertDescription>
+                  </Alert>
+                )}
+
+                {/* Mode Indicator */}
+                {quiz.mode === 'EXAM' && (
+                  <Alert>
+                    <AlertDescription className="text-sm">
+                      📝 Exam Mode: Your answers are hidden until submission. You will see your results at the end.
+                    </AlertDescription>
                   </Alert>
                 )}
 

@@ -120,6 +120,12 @@ enum QuizAttemptStatus {
   GRADED
 }
 
+enum QuizMode {
+  PRACTICE     // Student gets instant feedback on each question
+  EXAM         // Student sees no feedback until submission, then final score and answers
+  TIMED_EXAM   // Like EXAM but with strict time limit, auto-submits when time expires
+}
+
 // ===== USER MANAGEMENT =====
 
 model User {
@@ -451,7 +457,8 @@ model Quiz {
   description     String?
   passingScore    Float      @default(70) // Percentage required to pass
   timeLimit       Int?       // Minutes allowed to complete quiz (null = unlimited)
-  showAnswersAfter Boolean    @default(true) // Show correct answers after submission
+  mode            QuizMode   @default(PRACTICE) // PRACTICE: instant feedback, EXAM: no feedback until end, TIMED_EXAM: exam with strict time limit
+  showAnswersAfter Boolean    @default(true) // Show correct answers after submission (auto-set based on mode)
   randomizeQuestions Boolean  @default(false) // Randomize question order for each student
   status          QuizStatus @default(DRAFT)
   createdAt       DateTime   @default(now())
