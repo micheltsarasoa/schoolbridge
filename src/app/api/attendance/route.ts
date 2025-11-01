@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
+import { AttendanceStatus } from '@/generated/prisma';
 
 // POST /api/attendance - Record attendance
 export async function POST(request: NextRequest) {
@@ -13,27 +14,20 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { studentId, classId, status, date } = body;
 
-    let present = false;
-    let notes: string | undefined = undefined;
-
-    if (status === 'Present') {
-      present = true;
-    } else if (status === 'Absent') {
-      present = false;
-    } else if (status === 'Late') {
-      present = true;
-      notes = 'Late';
-    } else if (status === 'Excused') {
-      present = false;
-      notes = 'Excused';
+    // Validate status is a valid AttendanceStatus
+    const validStatuses = Object.values(AttendanceStatus);
+    if (!validStatuses.includes(status)) {
+      return NextResponse.json(
+        { message: `Invalid status. Must be one of: ${validStatuses.join(', ')}` },
+        { status: 400 }
+      );
     }
 
     const attendance = await prisma.attendance.create({
       data: {
         studentId,
         classId,
-        present,
-        notes,
+        status,
         date: new Date(date),
         recordedById: session.user.id,
       },

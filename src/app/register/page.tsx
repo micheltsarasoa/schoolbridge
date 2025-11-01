@@ -36,7 +36,7 @@ export default function RegisterPage() {
   useEffect(() => {
     const fetchSchools = async () => {
       try {
-        const res = await fetch('/api/admin/schools');
+        const res = await fetch('/api/schools');
         if (res.ok) {
           const data = await res.json();
           setSchools(data.schools || []);
@@ -61,8 +61,10 @@ export default function RegisterPage() {
       return;
     }
 
-    if (formData.password.length < 8) {
-      toast.error("Password must be at least 8 characters long");
+    // Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number
+    const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!PASSWORD_REGEX.test(formData.password)) {
+      toast.error("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number");
       setLoading(false);
       return;
     }
@@ -93,8 +95,8 @@ export default function RegisterPage() {
         return;
       }
 
-      toast.success("Account created successfully! Please log in.");
-      router.push("/login");
+      toast.success("Verification code sent to your email!");
+      router.push(`/register/verify-otp?email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -190,7 +192,7 @@ export default function RegisterPage() {
                       id="password"
                       type="password"
                       name="password"
-                      placeholder="Minimum 8 characters"
+                      placeholder="Min 8 chars: 1 upper, 1 lower, 1 number"
                       value={formData.password}
                       onChange={handleChange}
                       required

@@ -21,7 +21,8 @@ import {
   ClipboardList,
   Calendar,
   Target,
-  Award
+  Award,
+  Download
 } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -30,17 +31,31 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import { VerificationBanner } from "@/components/VerificationBanner"
 
-const sidebarItems = [
+interface CourseGroup {
+  subjectId: string;
+  subjectName: string;
+  courses: {
+    id: string;
+    title: string;
+    hasOfflineContent: boolean;
+  }[];
+}
+
+interface SidebarItem {
+  title: string;
+  icon: React.ReactNode;
+  href: string;
+  items?: SidebarItem[];
+  hasOffline?: boolean;
+}
+
+const baseSidebarItems: SidebarItem[] = [
     {
         title: "Dashboard",
         icon: <Home />,
         href: "/student/dashboard",
-    },
-    {
-        title: "My Courses",
-        icon: <BookOpen />,
-        href: "/student/courses",
     },
     {
         title: "My Quizzes",
@@ -83,13 +98,68 @@ export default function StudentLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
+  const [courseGroups, setCourseGroups] = useState<CourseGroup[]>([])
+  const [loadingCourses, setLoadingCourses] = useState(true)
+
+  // Fetch courses on mount
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('/api/student/courses');
+        if (response.ok) {
+          const data = await response.json();
+          setCourseGroups(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Build dynamic courses item
+  const coursesItem: SidebarItem = {
+    title: "My Courses",
+    icon: <BookOpen />,
+    href: "/student/courses",
+    items: courseGroups.map(group => ({
+      title: group.subjectName,
+      icon: <BookOpen />,
+      href: `/student/courses?subject=${group.subjectId}`,
+      items: group.courses.map(course => ({
+        title: course.title,
+        icon: <BookOpen />,
+        href: `/student/courses/${course.id}`,
+        hasOffline: course.hasOfflineContent,
+      })),
+    })),
+  };
+
+  // Combine sidebar items
+  const sidebarItems = [
+    baseSidebarItems[0], // Dashboard
+    coursesItem, // Dynamic courses
+    ...baseSidebarItems.slice(1), // Rest of the items
+  ];
 
   useEffect(() => {
-    // No nested items in student sidebar, so no need to expand anything based on pathname
-  }, [pathname]);
+    const newExpandedItems: Record<string, boolean> = {};
+    sidebarItems.forEach(item => {
+      if (item.items && item.items.some(subItem => pathname.startsWith(subItem.href))) {
+        newExpandedItems[item.title] = true;
+      }
+    });
+    setExpandedItems(newExpandedItems);
+  }, [pathname, courseGroups]);
 
   const toggleExpanded = (title: string) => {
-    // No nested items, so no need to toggle expansion
+    setExpandedItems((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }))
   }
 
   const SidebarContent = () => (
@@ -117,13 +187,93 @@ export default function StudentLayout({
         <div className="space-y-1">
           {sidebarItems.map((item) => (
             <div key={item.title} className="mb-1">
-                <a href={item.href} className={cn(
-                    "flex w-full items-center gap-3 rounded-2xl px-3 py-2 text-sm font-medium hover:bg-muted",
-                    pathname === item.href ? "text-primary" : "",
+                <div className={cn(
+                  "flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium",
+                  item.items && item.items.some(subItem => pathname === subItem.href) ? "" : "hover:bg-muted",
                 )}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                </a>
+                    <a href={item.href} className={cn(
+                        "flex items-center gap-3",
+                        pathname === item.href ? "text-primary" : "",
+                    )}>
+                        {item.icon}
+                        <span>{item.title}</span>
+                        {item.hasOffline && (
+                          <div title="Available offline">
+                            <Download className="h-3 w-3 text-green-500 ml-1" />
+                          </div>
+                        )}
+                    </a>
+                    {item.items && item.items.length > 0 && (
+                    <button onClick={() => toggleExpanded(item.title)}>
+                        <ChevronDown
+                            className={cn(
+                            "ml-2 h-4 w-4 transition-transform",
+                            expandedItems[item.title] ? "rotate-180" : "",
+                            )}
+                        />
+                    </button>
+                    )}
+                </div>
+
+              {item.items && expandedItems[item.title] && (
+                <div className="mt-1 ml-6 space-y-1 border-l pl-3">
+                  {item.items.map((subItem) => (
+                    <div key={subItem.title} className="mb-1">
+                      <div className={cn(
+                        "flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm",
+                        subItem.items && subItem.items.some(subSubItem => pathname === subSubItem.href) ? "" : "hover:bg-muted",
+                      )}>
+                        <a
+                          href={subItem.href}
+                          className={cn("flex items-center gap-3",
+                            pathname === subItem.href ? "bg-primary/10 text-primary" : "",
+                          )}
+                        >
+                          {subItem.icon}
+                          <span>{subItem.title}</span>
+                          {subItem.hasOffline && (
+                            <div title="Available offline">
+                              <Download className="h-3 w-3 text-green-500 ml-1" />
+                            </div>
+                          )}
+                        </a>
+                        {subItem.items && subItem.items.length > 0 && (
+                          <button onClick={() => toggleExpanded(subItem.title)}>
+                            <ChevronDown
+                              className={cn(
+                                "ml-2 h-4 w-4 transition-transform",
+                                expandedItems[subItem.title] ? "rotate-180" : "",
+                              )}
+                            />
+                          </button>
+                        )}
+                      </div>
+
+                      {subItem.items && expandedItems[subItem.title] && (
+                        <div className="mt-1 ml-6 space-y-1 border-l pl-3">
+                          {subItem.items.map((subSubItem) => (
+                            <a
+                              key={subSubItem.title}
+                              href={subSubItem.href}
+                              className={cn("flex items-center gap-3 rounded-2xl px-3 py-2 text-sm hover:bg-muted",
+                                pathname === subSubItem.href ? "bg-primary/10 text-primary" : "",
+                              )}
+                            >
+                              {subSubItem.icon}
+                              <span>{subSubItem.title}</span>
+                              {subSubItem.hasOffline && (
+                                <div title="Available offline">
+                                  <Download className="h-3 w-3 text-green-500 ml-1" />
+                                </div>
+                              )}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -208,6 +358,7 @@ export default function StudentLayout({
         </header>
 
         <main className="flex-1 p-4 md:p-6">
+            <VerificationBanner />
             {children}
         </main>
         </div>

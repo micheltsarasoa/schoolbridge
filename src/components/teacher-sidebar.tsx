@@ -3,7 +3,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LucideIcon, LayoutDashboard, BookOpen, FileQuestion, ListTodo, Calendar, TrendingUp, Award, User, Bell } from "lucide-react";
+import { LucideIcon, LayoutDashboard, BookOpen, FileQuestion, ListTodo, Calendar, TrendingUp, Award, User, Bell, Download } from "lucide-react";
+import { useState, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -17,38 +18,24 @@ interface SidebarLink {
   href: string;
   icon: LucideIcon;
   submenu?: SidebarLink[];
+  hasOffline?: boolean;
 }
 
-const teacherLinks: SidebarLink[] = [
+interface CourseGroup {
+  subjectId: string;
+  subjectName: string;
+  courses: {
+    id: string;
+    title: string;
+    hasOfflineContent: boolean;
+  }[];
+}
+
+const baseTeacherLinks: SidebarLink[] = [
   {
     title: "Dashboard",
     href: "/teacher/dashboard",
     icon: LayoutDashboard,
-  },
-  {
-    title: "Courses",
-    href: "/teacher/courses",
-    icon: BookOpen,
-    submenu: [
-      {
-        title: "Mathematics",
-        href: "/teacher/courses/mathematics",
-        icon: BookOpen, // Placeholder icon
-        submenu: [
-          { title: "Algebra I", href: "/teacher/courses/mathematics/algebra-i", icon: BookOpen },
-          { title: "Geometry", href: "/teacher/courses/mathematics/geometry", icon: BookOpen },
-        ],
-      },
-      {
-        title: "Science",
-        href: "/teacher/courses/science",
-        icon: BookOpen, // Placeholder icon
-        submenu: [
-          { title: "Physics", href: "/teacher/courses/science/physics", icon: BookOpen },
-          { title: "Chemistry", href: "/teacher/courses/science/chemistry", icon: BookOpen },
-        ],
-      },
-    ],
   },
   {
     title: "Quizzes",
@@ -80,6 +67,55 @@ const teacherLinks: SidebarLink[] = [
 export function TeacherSidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const [courseGroups, setCourseGroups] = useState<CourseGroup[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('/api/teacher/courses');
+        if (response.ok) {
+          const data = await response.json();
+          setCourseGroups(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (session?.user) {
+      fetchCourses();
+    }
+  }, [session]);
+
+  // Build dynamic courses submenu
+  const coursesLink: SidebarLink = {
+    title: "Courses",
+    href: "/teacher/courses",
+    icon: BookOpen,
+    submenu: loading
+      ? []
+      : courseGroups.map(group => ({
+          title: group.subjectName,
+          href: `/teacher/courses?subject=${group.subjectId}`,
+          icon: BookOpen,
+          submenu: group.courses.map(course => ({
+            title: course.title,
+            href: `/teacher/courses/${course.id}`,
+            icon: BookOpen,
+            hasOffline: course.hasOfflineContent,
+          })),
+        })),
+  };
+
+  // Combine links
+  const teacherLinks = [
+    baseTeacherLinks[0], // Dashboard
+    coursesLink, // Dynamic courses
+    ...baseTeacherLinks.slice(1), // Rest of the links
+  ];
 
   const renderLinks = (links: SidebarLink[], isSubmenu: boolean = false) => {
     return links.map((link) => (
@@ -95,9 +131,14 @@ export function TeacherSidebar() {
           >
             <link.icon className="mr-2 h-4 w-4" />
             {link.title}
+            {link.hasOffline && (
+              <div title="Available offline">
+                <Download className="ml-auto h-3 w-3 text-green-500" />
+              </div>
+            )}
           </Button>
         </Link>
-        {link.submenu && (
+        {link.submenu && link.submenu.length > 0 && (
           <div className="ml-4">
             {renderLinks(link.submenu, true)}
           </div>

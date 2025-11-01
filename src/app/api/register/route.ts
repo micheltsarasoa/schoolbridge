@@ -1,12 +1,12 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import { sendOTPEmail } from "@/lib/email";
+import bcrypt from "bcryptjs";
 
 // Password complexity: at least 8 characters, 1 uppercase, 1 lowercase, 1 number
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { name, email, password, role } = body;
+    const { name, email, password, role, schoolId } = body;
 
-    if (!name || !email || !password || !role) {
+    if (!name || !email || !password || !role || !schoolId) {
       return new NextResponse("Missing required fields", { status: 400 });
     }
 
@@ -39,44 +39,61 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        role,
-        isActive: true, // User is active but not verified
-      },
+    // Check for existing pending registration
+    const existingPending = await prisma.pendingRegistration.findUnique({
+      where: { email },
     });
 
-    // Generate email verification token
-    const verificationToken = crypto.randomBytes(32).toString("hex");
-    const hashedToken = crypto
+    if (existingPending) {
+      await prisma.pendingRegistration.delete({
+        where: { email },
+      });
+    }
+
+    // Generate 6-digit OTP
+    const otp = crypto.randomInt(100000, 999999).toString();
+    const hashedOtp = crypto
       .createHash("sha256")
-      .update(verificationToken)
+      .update(otp)
       .digest("hex");
 
-    const tokenExpiry = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); // 24 hours
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 12);
 
-    await prisma.verificationToken.create({
+    const tokenExpiry = new Date(new Date().getTime() + 10 * 60 * 1000); // 10 minutes
+
+    // Store registration data in PendingRegistration
+    await prisma.pendingRegistration.create({
       data: {
-        identifier: email,
-        token: hashedToken,
+        email,
+        name,
+        passwordHash,
+        role,
+        schoolId,
+        otpHash: hashedOtp,
         expires: tokenExpiry,
       },
     });
 
-    // Log verification link for development
-    const verificationLink = `${process.env.NEXTAUTH_URL}/verify-email?token=${verificationToken}`;
-    console.log(`Email verification link for ${email}: ${verificationLink}`);
+    // Log OTP for development (ALWAYS log this for debugging)
+    console.log(`\n🔐 OTP for ${email}: ${otp}\n`);
+
+    // Send OTP email
+    try {
+      await sendOTPEmail(email, otp);
+      console.log(`📧 Email sent successfully to ${email}`);
+    } catch (emailError) {
+      console.error(`❌ Email sending failed for ${email}:`, emailError);
+      // Continue anyway - user can still use OTP from logs in development
+      // In production, you might want to fail here
+    }
 
     return NextResponse.json(
       {
-        message: "User created successfully. A verification email has been sent.",
+        message: "Verification code sent to your email",
+        email: email,
       },
-      { status: 201 }
+      { status: 200 }
     );
   } catch (error) {
     console.error("[REGISTER_POST]", error);

@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { VerificationBanner } from "@/components/VerificationBanner";
 
 export default function TeacherLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -150,6 +151,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
             </div>
           </header>
           <div className="flex-1 overflow-y-auto p-4">
+            <VerificationBanner />
             {children}
           </div>
         </SidebarInset>

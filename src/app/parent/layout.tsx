@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import { VerificationBanner } from "@/components/VerificationBanner"
 
 const sidebarItems = [
     {
@@ -174,6 +175,7 @@ export default function ParentLayout({
         </header>
 
         <main className="flex-1 p-4 md:p-6">
+            <VerificationBanner />
             {children}
         </main>
         </div>

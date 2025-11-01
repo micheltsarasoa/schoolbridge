@@ -30,11 +30,13 @@ enum CourseStatus {
 }
 
 enum ContentType {
+  LESSON
   TEXT
   VIDEO
   PDF
   INTERACTIVE
   QUIZ
+  ASSIGNMENT
 }
 
 enum Language {
@@ -76,44 +78,69 @@ enum SubmissionStatus {
   RESUBMISSION_REQUESTED
 }
 
+enum ValidationStatus {
+  APPROVED
+  CHANGES_REQUESTED
+  REJECTED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
 // ===== USER MANAGEMENT =====
 
 model User {
-  id                  String                        @id @default(uuid())
-  email               String?                       @unique
-  phone               String?                       @unique
+  id                  String    @id @default(uuid())
+  email               String?   @unique
+  phone               String?   @unique
   emailVerified       DateTime?
   phoneVerified       DateTime?
   password            String
   name                String
   role                UserRole
-  languagePreference  Language                      @default(FR)
-  isActive            Boolean                       @default(true)
+  languagePreference  Language  @default(FR)
+  isActive            Boolean   @default(true)
   lastLogin           DateTime?
-  failedLoginAttempts Int                           @default(0)
+  failedLoginAttempts Int       @default(0)
   lockedUntil         DateTime?
   schoolId            String?
-  createdAt           DateTime                      @default(now())
-  updatedAt           DateTime                      @updatedAt
+  settings            Json?     @default("{}")
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   // Relations
-  school                School?                       @relation(fields: [schoolId], references: [id], onDelete: SetNull)
-  accounts              Account[]
-  sessions              Session[]
-  coursesCreated        Course[]                      @relation("CourseCreator")
-  courseValidations     CourseValidation[]
-  parentRelations       UserRelationship[]            @relation("ParentUser")
-  studentRelations      UserRelationship[]            @relation("StudentUser")
-  studentProgress       StudentProgress[]
-  instructionsGiven     ParentInstruction[]           @relation("InstructionCreator")
-  instructionsReceived  ParentInstructionCompletion[]
-  notifications         Notification[]
-  auditLogs             AuditLog[]
-  classes               Class[]                       @relation("ClassStudents")
-  submissions           Submission[]
-  submissionsGraded     Submission[]                  @relation("SubmissionsGraded")
-  attendances           Attendance[]
-  attendancesRecorded   Attendance[]                  @relation("AttendancesRecorded")
+  school               School?                       @relation(fields: [schoolId], references: [id], onDelete: SetNull)
+  accounts             Account[]
+  sessions             Session[]
+  coursesCreated       Course[]                      @relation("CourseCreator")
+  courseValidations    CourseValidation[]
+  parentRelations      UserRelationship[]            @relation("ParentUser")
+  studentRelations     UserRelationship[]            @relation("StudentUser")
+  studentProgress      StudentProgress[]
+  instructionsGiven    ParentInstruction[]           @relation("InstructionCreator")
+  instructionsReceived ParentInstructionCompletion[]
+  notifications        Notification[]
+  auditLogs            AuditLog[]
+  classes              Class[]                       @relation("ClassStudents")
+  classSchedules       ClassSchedule[]               @relation("TeacherSchedules")
+  submissions          Submission[]
+  submissionsGraded    Submission[]                  @relation("SubmissionsGraded")
+  attendances          Attendance[]
+  attendancesRecorded  Attendance[]                  @relation("AttendancesRecorded")
 
   @@index([email])
   @@index([phone])
@@ -159,6 +186,20 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model PendingRegistration {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         UserRole
+  schoolId     String
+  otpHash      String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([email])
+}
+
 model UserRelationship {
   id         String   @id @default(uuid())
   parentId   String
@@ -177,22 +218,22 @@ model UserRelationship {
 // ===== SCHOOL MANAGEMENT =====
 
 model School {
-  id           String         @id @default(uuid())
-  name         String
-  code         String         @unique
-  address      String?
-  phone        String?
-  email        String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  code      String   @unique
+  address   String?
+  phone     String?
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
-  users        User[]
-  courses      Course[]
-  config       SchoolConfig?
+  users         User[]
+  courses       Course[]
+  config        SchoolConfig?
   academicYears AcademicYear[]
-  subjects     Subject[]
-  classes      Class[]
+  subjects      Subject[]
+  classes       Class[]
 
   @@index([code])
 }
@@ -240,19 +281,41 @@ model Subject {
 }
 
 model Class {
-  id          String   @id @default(uuid())
-  name        String // e.g., "Grade 5 - Section A"
-  schoolId    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String // e.g., "Grade 5 - Section A"
+  schoolId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   school      School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   students    User[]             @relation("ClassStudents")
   assignments CourseAssignment[]
   attendances Attendance[]
+  schedules   ClassSchedule[]
 
   @@unique([schoolId, name])
   @@index([schoolId])
+}
+
+model ClassSchedule {
+  id                  String   @id @default(uuid())
+  classId             String
+  teacherId           String
+  dayOfWeek           DayOfWeek
+  plannedStartTime    String   // Time format "HH:MM" e.g., "09:00"
+  plannedDuration     Int      // Duration in minutes e.g., 60
+  actualStartTime     String?  // Time format "HH:MM" e.g., "09:05" (when class actually starts)
+  actualDuration      Int?     // Actual duration in minutes (null if not yet conducted)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  class               Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  teacher             User     @relation("TeacherSchedules", fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, dayOfWeek])
+  @@index([classId])
+  @@index([teacherId])
+  @@index([dayOfWeek])
 }
 
 // ===== COURSE MANAGEMENT =====
@@ -291,7 +354,7 @@ model Course {
 }
 
 model CourseContent {
-  id                     String       @id @default(uuid())
+  id                     String      @id @default(uuid())
   courseId               String
   contentOrder           Int
   contentType            ContentType
@@ -300,9 +363,9 @@ model CourseContent {
   appearsAfterSeconds    Int?
   disappearsAfterSeconds Int?
   fileReference          String?
-  offlineAvailable       Boolean      @default(false)
-  createdAt              DateTime     @default(now())
-  updatedAt              DateTime     @updatedAt
+  offlineAvailable       Boolean     @default(false)
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
 
   course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
   submissions Submission[]
@@ -311,13 +374,13 @@ model CourseContent {
 }
 
 model CourseValidation {
-  id           String   @id @default(uuid())
+  id           String           @id @default(uuid())
   courseId     String
   reviewerId   String
   feedbackText String?
-  status       String // APPROVED, CHANGES_REQUESTED
+  status       ValidationStatus
   suggestions  Json?
-  reviewedAt   DateTime @default(now())
+  reviewedAt   DateTime         @default(now())
 
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   reviewer User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
@@ -352,7 +415,6 @@ model CourseAssignment {
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   class  Class? @relation(fields: [classId], references: [id], onDelete: Cascade)
 
-
   @@index([courseId])
   @@index([studentId])
   @@index([classId])
@@ -379,15 +441,16 @@ model StudentProgress {
 }
 
 model Submission {
-  id              String    @id @default(uuid())
+  id              String           @id @default(uuid())
   studentId       String
   courseContentId String
-  submittedAt     DateTime  @default(now())
+  submittedAt     DateTime         @default(now())
   content         Json? // The student's answers
   grade           Float?
   gradedById      String?
   gradedAt        DateTime?
   feedback        String?
+  status          SubmissionStatus @default(PENDING)
 
   student       User          @relation(fields: [studentId], references: [id], onDelete: Cascade)
   courseContent CourseContent @relation(fields: [courseContentId], references: [id], onDelete: Cascade)
@@ -402,17 +465,17 @@ model Submission {
 // ===== OPERATIONS & COMMUNICATION =====
 
 model Attendance {
-  id           String   @id @default(uuid())
+  id           String           @id @default(uuid())
   studentId    String
   classId      String
-  date         DateTime @db.Date
-  present      Boolean
+  date         DateTime         @db.Date
+  status       AttendanceStatus @default(ABSENT)
   notes        String?
   recordedById String
 
-  student    User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student    User  @relation(fields: [studentId], references: [id], onDelete: Cascade)
   class      Class @relation(fields: [classId], references: [id], onDelete: Cascade)
-  recordedBy User @relation("AttendancesRecorded", fields: [recordedById], references: [id], onDelete: Restrict)
+  recordedBy User  @relation("AttendancesRecorded", fields: [recordedById], references: [id], onDelete: Restrict)
 
   @@unique([studentId, classId, date])
   @@index([studentId])
@@ -421,15 +484,15 @@ model Attendance {
 }
 
 model ParentInstruction {
-  id              String   @id @default(uuid())
+  id              String    @id @default(uuid())
   teacherId       String
   studentId       String
   instructionText String
-  isUrgent        Boolean  @default(false)
-  createdAt       DateTime @default(now())
+  isUrgent        Boolean   @default(false)
+  createdAt       DateTime  @default(now())
   expiresAt       DateTime?
 
-  teacher     User                            @relation("InstructionCreator", fields: [teacherId], references: [id], onDelete: Cascade)
+  teacher     User                          @relation("InstructionCreator", fields: [teacherId], references: [id], onDelete: Cascade)
   completions ParentInstructionCompletion[]
 
   @@index([teacherId])
