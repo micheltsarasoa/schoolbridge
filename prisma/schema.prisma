@@ -101,6 +101,25 @@ enum DayOfWeek {
   SUNDAY
 }
 
+enum QuestionType {
+  MULTIPLE_CHOICE
+  SHORT_ANSWER
+  TRUE_FALSE
+  ESSAY
+}
+
+enum QuizStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum QuizAttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+}
+
 // ===== USER MANAGEMENT =====
 
 model User {
@@ -141,6 +160,7 @@ model User {
   submissionsGraded    Submission[]                  @relation("SubmissionsGraded")
   attendances          Attendance[]
   attendancesRecorded  Attendance[]                  @relation("AttendancesRecorded")
+  quizSubmissions      QuizSubmission[]
 
   @@index([email])
   @@index([phone])
@@ -287,11 +307,12 @@ model Class {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  school      School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
-  students    User[]             @relation("ClassStudents")
-  assignments CourseAssignment[]
-  attendances Attendance[]
-  schedules   ClassSchedule[]
+  school       School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  students     User[]             @relation("ClassStudents")
+  assignments  CourseAssignment[]
+  attendances  Attendance[]
+  schedules    ClassSchedule[]
+  quizAssignments QuizAssignment[] @relation("QuizAssignments")
 
   @@unique([schoolId, name])
   @@index([schoolId])
@@ -369,6 +390,7 @@ model CourseContent {
 
   course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
   submissions Submission[]
+  quiz        Quiz?        // One-to-one relation when contentType = QUIZ
 
   @@index([courseId, contentOrder])
 }
@@ -418,6 +440,106 @@ model CourseAssignment {
   @@index([courseId])
   @@index([studentId])
   @@index([classId])
+}
+
+// ===== QUIZ SYSTEM =====
+
+model Quiz {
+  id              String     @id @default(uuid())
+  courseContentId String     @unique // Link to CourseContent when contentType = QUIZ
+  title           String
+  description     String?
+  passingScore    Float      @default(70) // Percentage required to pass
+  timeLimit       Int?       // Minutes allowed to complete quiz (null = unlimited)
+  showAnswersAfter Boolean    @default(true) // Show correct answers after submission
+  randomizeQuestions Boolean  @default(false) // Randomize question order for each student
+  status          QuizStatus @default(DRAFT)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  questions       Question[]
+  assignments     QuizAssignment[]
+  submissions     QuizSubmission[]
+  courseContent   CourseContent @relation(fields: [courseContentId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
+model Question {
+  id           String       @id @default(uuid())
+  quizId       String
+  questionType QuestionType
+  text         String       // Question text
+  explanation  String?      // Optional explanation shown after answer
+  order        Int          // Question order in quiz
+  points       Float        @default(1) // Points for correct answer
+  options      Json         // For MULTIPLE_CHOICE: [{ id, text }, ...], For TRUE_FALSE: [{ id: "true", text: "True" }, { id: "false", text: "False" }]
+  correctAnswer Json        // Correct answer(s): { type: "single"|"multiple", value: string|string[] }
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  quiz      Quiz            @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  responses QuestionResponse[]
+
+  @@index([quizId, order])
+}
+
+model QuestionResponse {
+  id         String   @id @default(uuid())
+  questionId String
+  submissionId String
+  studentAnswer Json   // Student's answer to this question
+  isCorrect  Boolean? // null if not yet graded (for essay/short answer)
+  pointsEarned Float  @default(0)
+  createdAt  DateTime @default(now())
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  submission QuizSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId, submissionId])
+  @@unique([questionId, submissionId])
+}
+
+model QuizSubmission {
+  id          String             @id @default(uuid())
+  quizId      String
+  studentId   String
+  attemptNumber Int              @default(1) // Track multiple attempts
+  startedAt   DateTime           @default(now())
+  submittedAt DateTime?          // null if still in progress
+  score       Float?             // Percentage score
+  totalPoints Float?             // Total possible points for reference
+  timeSpent   Int?               // Seconds spent on quiz
+  status      QuizAttemptStatus  @default(IN_PROGRESS)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  quiz      Quiz               @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  student   User               @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  responses QuestionResponse[]
+
+  @@index([quizId])
+  @@index([studentId])
+  @@index([status])
+  @@unique([quizId, studentId, attemptNumber])
+}
+
+model QuizAssignment {
+  id          String   @id @default(uuid())
+  quizId      String
+  classId     String?
+  studentId   String?
+  assignedAt  DateTime @default(now())
+  dueDate     DateTime?
+  scheduledDate DateTime? // When the quiz is scheduled to be taken
+  createdAt   DateTime @default(now())
+
+  quiz    Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  class   Class? @relation("QuizAssignments", fields: [classId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+  @@index([classId])
+  @@index([studentId])
 }
 
 // ===== PROGRESS TRACKING & ASSESSMENT =====
