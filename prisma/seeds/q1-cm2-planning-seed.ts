@@ -1,4 +1,5 @@
 import { PrismaClient, UserRole, ContentType, DayOfWeek, AttendanceStatus, CourseStatus, SubmissionStatus, QuizMode } from '../../src/generated/prisma';
+import bcryptjs from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -44,13 +45,14 @@ async function seedQ1CM2() {
     console.log('✅ Academic year created:', academicYear.name);
 
     // 3. Create Teacher (Mme. Martin)
+    const teacherPassword = await bcryptjs.hash('teacher_password', 10);
     const teacher = await prisma.user.upsert({
       where: { email: 'mme.martin@ecole.fr' },
       update: {},
       create: {
         email: 'mme.martin@ecole.fr',
         name: 'Mme. Marie Martin',
-        password: 'hashed_password_here',
+        password: teacherPassword,
         role: UserRole.TEACHER,
         schoolId: school.id,
       },
@@ -70,6 +72,7 @@ async function seedQ1CM2() {
 
     // 5. Create Students
     const students: any[] = [];
+    const studentPassword = await bcryptjs.hash('student_password', 10);
     for (const name of studentNames) {
       const student = await prisma.user.upsert({
         where: { email: `${name.toLowerCase().replace(' ', '.')}@student.fr` },
@@ -77,7 +80,7 @@ async function seedQ1CM2() {
         create: {
           email: `${name.toLowerCase().replace(' ', '.')}@student.fr`,
           name,
-          password: 'student_password',
+          password: studentPassword,
           role: UserRole.STUDENT,
           schoolId: school.id,
         },
@@ -478,8 +481,20 @@ async function seedQ1CM2() {
 
       // Let 15 students take the quiz
       for (let i = 0; i < 15; i++) {
-        const submission = await prisma.quizSubmission.create({
-          data: {
+        const submission = await prisma.quizSubmission.upsert({
+          where: {
+            quizId_studentId_attemptNumber: {
+              quizId: quiz.id,
+              studentId: students[i].id,
+              attemptNumber: 1,
+            },
+          },
+          update: {
+            startedAt: new Date('2025-09-10T10:00:00'),
+            submittedAt: new Date('2025-09-10T10:25:00'),
+            timeSpent: 1500, // 25 minutes
+          },
+          create: {
             quizId: quiz.id,
             studentId: students[i].id,
             attemptNumber: 1,
@@ -514,8 +529,19 @@ async function seedQ1CM2() {
           totalPoints += question.points;
           if (isCorrect) earnedPoints += question.points;
 
-          await prisma.questionResponse.create({
-            data: {
+          await prisma.questionResponse.upsert({
+            where: {
+              questionId_submissionId: {
+                questionId: question.id,
+                submissionId: submission.id,
+              },
+            },
+            update: {
+              studentAnswer,
+              isCorrect: isCorrect === null ? null : isCorrect,
+              pointsEarned: isCorrect === true ? question.points : 0,
+            },
+            create: {
               questionId: question.id,
               submissionId: submission.id,
               studentAnswer,
