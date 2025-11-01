@@ -47,7 +47,7 @@ export async function seedCourses() {
 
     if (!teacher) {
       const bcrypt = require('bcryptjs');
-      const hashedPassword = await bcrypt.hash('Teacher123', 12);
+      const hashedPassword = await bcrypt.hash('Password123!', 12);
       teacher = await prisma.user.create({
         data: {
           email: 'teacher@schoolbridge.com',

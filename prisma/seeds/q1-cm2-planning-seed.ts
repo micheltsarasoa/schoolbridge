@@ -45,7 +45,7 @@ async function seedQ1CM2() {
     console.log('✅ Academic year created:', academicYear.name);
 
     // 3. Create Teacher (Mme. Martin)
-    const teacherPassword = await bcryptjs.hash('teacher_password', 10);
+    const teacherPassword = await bcryptjs.hash('Password123!', 10);
     const teacher = await prisma.user.upsert({
       where: { email: 'mme.martin@ecole.fr' },
       update: {},
@@ -72,7 +72,7 @@ async function seedQ1CM2() {
 
     // 5. Create Students
     const students: any[] = [];
-    const studentPassword = await bcryptjs.hash('student_password', 10);
+    const studentPassword = await bcryptjs.hash('Password123!', 10);
     for (const name of studentNames) {
       const student = await prisma.user.upsert({
         where: { email: `${name.toLowerCase().replace(' ', '.')}@student.fr` },
