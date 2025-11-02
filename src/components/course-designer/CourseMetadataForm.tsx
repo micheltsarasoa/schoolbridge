@@ -78,27 +78,27 @@ export function CourseMetadataForm({
     },
   });
 
-  // Fetch available subjects
+  // Fetch available subjects from API
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
         setLoadingSubjects(true);
-        // TODO: Replace with actual API call
+        setSubjectsError(null);
         const response = await fetch('/api/subjects');
-        if (!response.ok) throw new Error('Failed to fetch subjects');
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to fetch subjects');
+        }
+
         const data = await response.json();
         setSubjects(data.subjects || []);
       } catch (error) {
         console.error('Error fetching subjects:', error);
-        setSubjectsError('Failed to load subjects');
-        // Hardcode some subjects for now
-        setSubjects([
-          { id: '1', name: 'Mathematics' },
-          { id: '2', name: 'Science' },
-          { id: '3', name: 'English' },
-          { id: '4', name: 'History' },
-          { id: '5', name: 'Geography' },
-        ]);
+        setSubjectsError(
+          'Unable to load subjects. Please check your internet connection and try again.'
+        );
+        setSubjects([]);
       } finally {
         setLoadingSubjects(false);
       }
@@ -182,24 +182,43 @@ export function CourseMetadataForm({
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      disabled={loadingSubjects}
+                      disabled={loadingSubjects || subjects.length === 0}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a subject" />
+                          <SelectValue
+                            placeholder={
+                              loadingSubjects
+                                ? 'Loading subjects...'
+                                : subjects.length === 0
+                                ? 'No subjects available'
+                                : 'Select a subject'
+                            }
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {subjects.map((subject) => (
-                          <SelectItem key={subject.id} value={subject.id}>
-                            {subject.name}
-                          </SelectItem>
-                        ))}
+                        {subjects.length > 0 ? (
+                          subjects.map((subject) => (
+                            <SelectItem key={subject.id} value={subject.id}>
+                              {subject.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className="p-2 text-sm text-muted-foreground">
+                            No subjects available
+                          </div>
+                        )}
                       </SelectContent>
                     </Select>
                     <FormDescription>
                       What subject is this course about?
                     </FormDescription>
+                    {subjectsError && (
+                      <div className="text-sm text-destructive mt-1">
+                        {subjectsError}
+                      </div>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
