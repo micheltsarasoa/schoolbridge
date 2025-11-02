@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import {
+  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -424,7 +425,9 @@ export function ContentItemEditor({
           </TabsList>
 
           <TabsContent value="basic" className="space-y-4 mt-4">
-            {renderContentForm()}
+            <Form {...form}>
+              {renderContentForm()}
+            </Form>
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-4 mt-4">

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import {
+  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -387,60 +388,61 @@ function QuestionEditorDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="text"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Question Text *</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Enter your question..."
-                    rows={3}
-                    className="resize-none"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      setFormData((prev) => ({ ...prev, text: e.target.value }));
-                    }}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Question Type *</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    setFormData((prev) => ({
-                      ...prev,
-                      type: value as Question['type'],
-                    }));
-                  }}
-                >
+        <Form {...form}>
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="text"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Question Text *</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <Textarea
+                      placeholder="Enter your question..."
+                      rows={3}
+                      className="resize-none"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setFormData((prev) => ({ ...prev, text: e.target.value }));
+                      }}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="MULTIPLE_CHOICE">Multiple Choice</SelectItem>
-                    <SelectItem value="TRUE_FALSE">True/False</SelectItem>
-                    <SelectItem value="SHORT_ANSWER">Short Answer</SelectItem>
-                    <SelectItem value="ESSAY">Essay</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Question Type *</FormLabel>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setFormData((prev) => ({
+                        ...prev,
+                        type: value as Question['type'],
+                      }));
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="MULTIPLE_CHOICE">Multiple Choice</SelectItem>
+                      <SelectItem value="TRUE_FALSE">True/False</SelectItem>
+                      <SelectItem value="SHORT_ANSWER">Short Answer</SelectItem>
+                      <SelectItem value="ESSAY">Essay</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
 
           {(formData.type === 'MULTIPLE_CHOICE' ||
             formData.type === 'TRUE_FALSE') && (
@@ -522,8 +524,9 @@ function QuestionEditorDialog({
                 </FormControl>
               </FormItem>
             )}
-          />
-        </div>
+            />
+          </div>
+        </Form>
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
