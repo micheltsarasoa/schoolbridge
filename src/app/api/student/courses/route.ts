@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 
-// GET /api/student/courses - Get courses assigned to the current student, grouped by subject
+// GET /api/student/courses - Get student's courses
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
@@ -12,97 +12,89 @@ export async function GET(request: NextRequest) {
 
     const studentId = session.user.id;
 
-    // Get student's class assignments
-    const student = await prisma.user.findUnique({
+    // Get student's classes to find enrolled courses
+    const studentClasses = await prisma.user.findUnique({
       where: { id: studentId },
       select: {
-        id: true,
         classes: {
-          select: {
-            id: true,
-          },
+          select: { id: true },
         },
       },
     });
 
-    if (!student || student.classes.length === 0) {
-      return NextResponse.json([]);
-    }
+    const classIds = studentClasses?.classes.map((c) => c.id) || [];
 
-    const classIds = student.classes.map(c => c.id);
-
-    // Get courses assigned to the student's classes or directly to the student
-    const courseAssignments = await prisma.courseAssignment.findMany({
+    // Get all courses for the student's classes through CourseAssignment
+    // Include both class-based assignments and individual student assignments
+    const courses = await prisma.course.findMany({
       where: {
-        OR: [
-          { studentId: studentId },
-          { classId: { in: classIds } },
-        ],
+        status: 'PUBLISHED',  // Only show published courses
+        assignments: {
+          some: {
+            OR: [
+              ...(classIds.length > 0 ? [{ classId: { in: classIds } }] : []),  // Courses assigned to student's classes (if any)
+              { studentId: studentId },        // Courses assigned directly to this student
+            ],
+          },
+        },
       },
-      select: {
-        course: {
+      include: {
+        subject: true,
+        teacher: {
           select: {
             id: true,
-            title: true,
-            subjectId: true,
-            status: true,
-            subject: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-            content: {
-              select: {
-                offlineAvailable: true,
-              },
-            },
+            name: true,
+            email: true,
           },
+        },
+        content: {
+          select: { id: true },
         },
       },
     });
 
-    // Filter published courses only
-    const publishedCourses = courseAssignments
-      .map(assignment => assignment.course)
-      .filter(course => course.status === 'PUBLISHED');
+    // Get student progress for all courses
+    const progressData = await prisma.studentProgress.findMany({
+      where: {
+        studentId: studentId,
+        courseId: {
+          in: courses.map((c) => c.id),
+        },
+      },
+    });
 
-    // Check if any content is offline available
-    const coursesWithOffline = publishedCourses.map(course => ({
-      id: course.id,
-      title: course.title,
-      subjectId: course.subjectId,
-      subjectName: course.subject.name,
-      hasOfflineContent: course.content.some(c => c.offlineAvailable),
-    }));
+    // Create a map of course progress
+    const progressMap = new Map(
+      progressData.map((p) => [p.courseId, p.completionPercentage])
+    );
 
-    // Group courses by subject
-    const groupedBySubject = coursesWithOffline.reduce((acc, course) => {
-      const subjectName = course.subjectName;
-      if (!acc[subjectName]) {
-        acc[subjectName] = {
-          subjectId: course.subjectId,
-          subjectName: subjectName,
-          courses: [],
-        };
-      }
-      acc[subjectName].courses.push({
+    // Format courses data
+    const formattedCourses = courses.map((course) => {
+      return {
         id: course.id,
         title: course.title,
-        hasOfflineContent: course.hasOfflineContent,
-      });
-      return acc;
-    }, {} as Record<string, { subjectId: string; subjectName: string; courses: { id: string; title: string; hasOfflineContent: boolean }[] }>);
+        description: course.description,
+        subject: course.subject.name,
+        teacher: course.teacher?.name || 'Unknown',
+        teacherId: course.teacher?.id || null,
+        progress: Math.round(progressMap.get(course.id) || 0),
+        lastAccessed: 'Never',
+        contentCount: course.content.length,
+      };
+    });
 
-    // Convert to array
-    const result = Object.values(groupedBySubject);
+    // Get unique subjects
+    const subjects = [...new Set(formattedCourses.map((c) => c.subject))].sort();
 
-    return NextResponse.json(result);
+    return NextResponse.json({
+      courses: formattedCourses,
+      stats: {
+        totalCourses: formattedCourses.length,
+        subjects,
+      },
+    });
   } catch (error) {
     console.error('Error fetching student courses:', error);
-    return NextResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }

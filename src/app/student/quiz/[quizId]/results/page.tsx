@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -11,48 +11,134 @@ import { CheckCircle, XCircle, HelpCircle, ArrowLeft } from 'lucide-react';
 type QuizResult = {
   submission: {
     id: string;
+    quizId: string;
+    quizTitle: string;
+    courseTitle: string;
     score: number;
     totalPoints: number;
+    earnedPoints: number;
     submittedAt: string;
     timeSpent: number;
+    status: string;
     responses: Array<{
       questionId: string;
+      question: {
+        text: string;
+        type: string;
+        explanation: string | null;
+        points: number;
+        correctAnswer: any;
+      };
       studentAnswer: any;
       isCorrect: boolean | null;
       pointsEarned: number;
-      question: {
-        text: string;
-        correctAnswer: any;
-        points: number;
-      };
     }>;
   };
-  passed: boolean;
-  score: number;
-  earnedPoints: number;
-  totalPoints: number;
+  stats: {
+    correctAnswers: number;
+    totalQuestions: number;
+    passed: boolean;
+    score: number;
+    earnedPoints: number;
+    totalPoints: number;
+  };
   quizMode: 'PRACTICE' | 'EXAM' | 'TIMED_EXAM';
 };
 
-export default function QuizResultsPage() {
+function QuizResultsContent() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const quizId = params.quizId as string;
+  const submissionId = searchParams.get('submissionId');
 
   const [result, setResult] = useState<QuizResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Note: In a real app, you'd fetch the results from an API
-    // For now, this is a placeholder that would be called after quiz submission
-    setLoading(false);
-  }, [quizId]);
+    const fetchResults = async () => {
+      if (!submissionId) {
+        setError('Submission ID is required to view results');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/student/quiz-results/${submissionId}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('Quiz results not found');
+          } else if (response.status === 403) {
+            setError('You do not have access to these results');
+          } else {
+            setError('Failed to load quiz results');
+          }
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+        setResult(data);
+      } catch (err) {
+        console.error('Error fetching results:', err);
+        setError('An error occurred while loading results');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [submissionId]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <p className="text-lg">Loading results...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+        <div className="max-w-4xl mx-auto">
+          <Button
+            variant="ghost"
+            onClick={() => router.push('/student/quizzes')}
+            className="mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Quizzes
+          </Button>
+          <Alert className="border-red-200 bg-red-50">
+            <AlertDescription className="text-red-800">
+              <strong>Error:</strong> {error}
+            </AlertDescription>
+          </Alert>
+        </div>
+      </div>
+    );
+  }
+
+  if (!result) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+        <div className="max-w-4xl mx-auto">
+          <Button
+            variant="ghost"
+            onClick={() => router.push('/student/quizzes')}
+            className="mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Quizzes
+          </Button>
+          <Alert className="border-yellow-200 bg-yellow-50">
+            <AlertDescription className="text-yellow-800">
+              <strong>No results found</strong>
+            </AlertDescription>
+          </Alert>
+        </div>
       </div>
     );
   }
@@ -70,46 +156,50 @@ export default function QuizResultsPage() {
           Back to Quizzes
         </Button>
 
+        {/* Quiz Title */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold">{result.submission.quizTitle}</h1>
+          <p className="text-muted-foreground">{result.submission.courseTitle}</p>
+        </div>
+
         {/* Results Summary */}
         <Card className="mb-6 border-2">
-          <CardHeader className={`${result?.passed ? 'bg-green-50' : 'bg-red-50'}`}>
+          <CardHeader className={`${result.stats.passed ? 'bg-green-50' : 'bg-red-50'}`}>
             <div className="text-center">
               <div className="flex justify-center mb-4">
-                {result?.passed ? (
+                {result.stats.passed ? (
                   <CheckCircle className="h-16 w-16 text-green-500" />
                 ) : (
                   <XCircle className="h-16 w-16 text-red-500" />
                 )}
               </div>
               <CardTitle className="text-2xl mb-2">
-                {result?.passed ? 'Great Job!' : 'Quiz Completed'}
+                {result.stats.passed ? 'Great Job!' : 'Quiz Completed'}
               </CardTitle>
-              <Badge variant={result?.passed ? 'default' : 'destructive'} className="text-lg px-4 py-1">
-                {Math.round(result?.score || 0)}%
+              <Badge variant={result.stats.passed ? 'default' : 'destructive'} className="text-lg px-4 py-1">
+                {Math.round(result.stats.score || 0)}%
               </Badge>
             </div>
           </CardHeader>
 
           <CardContent className="grid grid-cols-3 gap-4 py-6">
             <div className="text-center">
-              <p className="text-3xl font-bold">{Math.round(result?.earnedPoints || 0)}</p>
+              <p className="text-3xl font-bold">{Math.round(result.stats.earnedPoints || 0)}</p>
               <p className="text-sm text-muted-foreground">Points Earned</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold">{Math.round(result?.totalPoints || 0)}</p>
+              <p className="text-3xl font-bold">{Math.round(result.stats.totalPoints || 0)}</p>
               <p className="text-sm text-muted-foreground">Total Points</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold">
-                {result?.submission.responses.filter((r) => r.isCorrect === true).length || 0}
-              </p>
+              <p className="text-3xl font-bold">{result.stats.correctAnswers}</p>
               <p className="text-sm text-muted-foreground">Correct Answers</p>
             </div>
           </CardContent>
         </Card>
 
         {/* Mode-Specific Message */}
-        {result?.quizMode === 'EXAM' && (
+        {result.quizMode === 'EXAM' && (
           <Alert className="mb-6">
             <AlertDescription>
               <strong>📝 Exam Results:</strong> This quiz was in exam mode. Below are your final answers and the correct solutions.
@@ -117,7 +207,7 @@ export default function QuizResultsPage() {
           </Alert>
         )}
 
-        {result?.quizMode === 'PRACTICE' && (
+        {result.quizMode === 'PRACTICE' && (
           <Alert className="mb-6">
             <AlertDescription>
               <strong>✏️ Practice Quiz:</strong> Review your answers below to learn from your performance.
@@ -128,11 +218,11 @@ export default function QuizResultsPage() {
         {/* Detailed Results */}
         <Card>
           <CardHeader>
-            <CardTitle>{result?.quizMode === 'EXAM' ? 'Answer Review' : 'Detailed Results'}</CardTitle>
+            <CardTitle>{result.quizMode === 'EXAM' ? 'Answer Review' : 'Detailed Results'}</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">
-            {result?.submission.responses.map((response, index) => (
+            {result.submission.responses.map((response, index) => (
               <div
                 key={response.questionId}
                 className={`border rounded-lg p-4 ${
@@ -177,9 +267,16 @@ export default function QuizResultsPage() {
                       <p className="font-medium text-muted-foreground">Correct Answer:</p>
                       <p className="text-green-700 font-semibold">
                         {typeof response.question.correctAnswer === 'object'
-                          ? JSON.stringify(response.question.correctAnswer.value)
+                          ? JSON.stringify(response.question.correctAnswer.value || response.question.correctAnswer)
                           : response.question.correctAnswer}
                       </p>
+                    </div>
+                  )}
+
+                  {response.question.explanation && (
+                    <div>
+                      <p className="font-medium text-muted-foreground">Explanation:</p>
+                      <p className="text-foreground">{response.question.explanation}</p>
                     </div>
                   )}
                 </div>
@@ -199,5 +296,19 @@ export default function QuizResultsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function QuizResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen">
+          <p className="text-lg">Loading results...</p>
+        </div>
+      }
+    >
+      <QuizResultsContent />
+    </Suspense>
   );
 }

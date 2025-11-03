@@ -32,6 +32,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Notifications } from '@/components/notifications';
 import { signOut } from 'next-auth/react';
 
 interface DashboardNavbarProps {
@@ -169,7 +170,7 @@ export function DashboardNavbar({
           <Breadcrumb>
             <BreadcrumbList>
               {breadcrumbs.map((item, index, array) => (
-                <div key={item.href} className="flex items-center gap-1">
+                <div key={`breadcrumb-${index}-${item.href}`} className="flex items-center gap-1">
                   {index > 0 && <BreadcrumbSeparator className="hidden sm:inline" />}
                   <BreadcrumbItem className="hidden sm:inline-flex">
                     {index === array.length - 1 ? (
@@ -230,16 +231,9 @@ export function DashboardNavbar({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-lg relative"
-                >
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                    5
-                  </span>
-                </Button>
+                <div>
+                  <Notifications />
+                </div>
               </TooltipTrigger>
               <TooltipContent>Notifications</TooltipContent>
             </Tooltip>

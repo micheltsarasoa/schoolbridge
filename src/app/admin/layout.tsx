@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from "react"
-import { usePathname } from 'next/navigation';
+import { useState, useEffect, Suspense } from "react"
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   Bell,
   BookOpen,
@@ -98,12 +98,13 @@ const sidebarItems = [
   },
 ]
 
-export default function AdminLayout({
+function AdminLayoutContent({
   children,
 }: {
   children: React.ReactNode
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
@@ -111,12 +112,19 @@ export default function AdminLayout({
   useEffect(() => {
     const newExpandedItems: Record<string, boolean> = {};
     sidebarItems.forEach(item => {
-      if (item.items && item.items.some(subItem => pathname.startsWith(subItem.href))) {
+      if (item.items && item.items.some(subItem => {
+        // Check if pathname matches and search params match (for filtered views)
+        const pathMatches = pathname.startsWith(subItem.href.split('?')[0]);
+        const queryMatches = subItem.href.includes('?')
+          ? subItem.href === pathname + '?' + searchParams.toString()
+          : true;
+        return pathMatches;
+      })) {
         newExpandedItems[item.title] = true;
       }
     });
     setExpandedItems(newExpandedItems);
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) => ({
@@ -175,17 +183,31 @@ export default function AdminLayout({
 
               {item.items && expandedItems[item.title] && (
                 <div className="mt-1 ml-6 space-y-1 border-l pl-3">
-                  {item.items.map((subItem) => (
-                    <a
-                      key={subItem.title}
-                      href={subItem.href}
-                      className={cn("flex items-center justify-between rounded-2xl px-3 py-2 text-sm hover:bg-muted",
-                        pathname === subItem.href ? "bg-primary/10 text-primary" : "",
-                      )}
-                    >
-                      {subItem.title}
-                    </a>
-                  ))}
+                  {item.items.map((subItem) => {
+                    // Check if this is the active link
+                    let isActive = false;
+                    if (subItem.href.includes('?')) {
+                      // For links with query params, match both path and exact query
+                      const [subPath, subQuery] = subItem.href.split('?');
+                      const currentQuery = searchParams.toString();
+                      isActive = pathname === subPath && currentQuery === subQuery;
+                    } else {
+                      // For links without query params, only match if there are no search params
+                      isActive = pathname === subItem.href && searchParams.toString() === '';
+                    }
+
+                    return (
+                      <a
+                        key={subItem.title}
+                        href={subItem.href}
+                        className={cn("flex items-center justify-between rounded-2xl px-3 py-2 text-sm hover:bg-muted",
+                          isActive ? "bg-primary/10 text-primary font-semibold" : "",
+                        )}
+                      >
+                        {subItem.title}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -258,5 +280,17 @@ export default function AdminLayout({
         </main>
         </div>
     </div>
+  )
+}
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AdminLayoutContent children={children} />
+    </Suspense>
   )
 }

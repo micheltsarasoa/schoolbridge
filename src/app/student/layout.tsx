@@ -101,7 +101,25 @@ export default function StudentLayout({
         const response = await fetch('/api/student/courses');
         if (response.ok) {
           const data = await response.json();
-          setCourseGroups(data);
+          // Transform the API response to courseGroups format
+          const groupedBySubject: Record<string, CourseGroup> = {};
+
+          data.courses.forEach((course: any) => {
+            if (!groupedBySubject[course.subject]) {
+              groupedBySubject[course.subject] = {
+                subjectId: course.subject.toLowerCase().replace(/\s+/g, '-'),
+                subjectName: course.subject,
+                courses: []
+              };
+            }
+            groupedBySubject[course.subject].courses.push({
+              id: course.id,
+              title: course.title,
+              hasOfflineContent: false,
+            });
+          });
+
+          setCourseGroups(Object.values(groupedBySubject));
         }
       } catch (error) {
         console.error('Failed to fetch courses:', error);

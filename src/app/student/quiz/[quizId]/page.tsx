@@ -115,7 +115,8 @@ export default function QuizPage() {
 
       if (!res.ok) throw new Error('Failed to submit quiz');
 
-      router.push(`/student/quiz/${quizId}/results`);
+      // Redirect to results page with submission ID
+      router.push(`/student/quiz/${quizId}/results?submissionId=${quiz.submissionId}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit quiz');
     } finally {
