@@ -186,7 +186,7 @@ export function Notifications() {
                             </p>
                           </div>
                           {!notification.isRead && (
-                            <div className="h-2 w-2 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                            <div className="h-2 w-2 rounded-full bg-blue-500 mt-1 shrink-0" />
                           )}
                         </div>
                         <div className="flex items-center justify-between mt-2">

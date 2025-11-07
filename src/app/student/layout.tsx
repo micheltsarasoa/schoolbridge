@@ -177,7 +177,7 @@ export default function StudentLayout({
     <div className="flex h-full flex-col">
       <div className="p-4">
         <div className="flex items-center gap-3">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-green-600 to-lime-600 text-white">
+          <div className="flex aspect-square size-10 items-center justify-center rounded-2xl bg-linear-to-br from-green-600 to-lime-600 text-white">
             <GraduationCap className="size-5" />
           </div>
           <div>

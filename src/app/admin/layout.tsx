@@ -137,7 +137,7 @@ function AdminLayoutContent({
     <div className="flex h-full flex-col">
       <div className="p-4">
         <div className="flex items-center gap-3">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+          <div className="flex aspect-square size-10 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-indigo-600 text-white">
             <ShieldCheck className="size-5" />
           </div>
           <div>

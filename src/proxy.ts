@@ -56,6 +56,7 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      * - *.png, *.jpg, *.jpeg, *.gif, *.svg, *.ico, *.webp (image files)
      * - *.css, *.js (static assets)
+     * TO-DO: need to add '/dashboard/:path*'
      */
     '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|css|js)).*)'
   ]

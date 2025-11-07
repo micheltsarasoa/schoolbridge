@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CourseMinimalistCard } from '@/components/dashboard/common/course-minimalist-card';
 
 type DashboardData = {
   stats: {
@@ -205,30 +206,7 @@ export default function StudentDashboardPage() {
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {courses.map((course) => (
-                  <Card key={course.id}>
-                    <CardHeader>
-                      <CardTitle className="text-lg">{course.title}</CardTitle>
-                      <CardDescription>{course.teacher}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between text-sm mb-2">
-                        <span>Progress</span>
-                        <span>{course.progress}%</span>
-                      </div>
-                      <Progress value={course.progress} className="h-2" />
-                      {course.currentModule && (
-                        <p className="text-xs text-muted-foreground mt-2">
-                          Current: {course.currentModule}
-                        </p>
-                      )}
-                    </CardContent>
-                    <div className="flex justify-between items-center p-4 pt-0">
-                      <Button variant="secondary" size="sm" asChild>
-                        <a href={`/student/courses/${course.id}`}>Continue Learning</a>
-                      </Button>
-                      <Badge variant="outline">{course.subject}</Badge>
-                    </div>
-                  </Card>
+                  <CourseMinimalistCard key={course.id} course={course} />
                 ))}
               </div>
             )}

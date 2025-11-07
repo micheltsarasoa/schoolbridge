@@ -139,7 +139,7 @@ function DraggableContentItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center gap-3 p-4 bg-card border rounded-lg hover:shadow-sm transition-shadow ${
+      className={`flex items-center gap-3 p-4 bg-card border rounded-lg hover:shadow-xs transition-shadow ${
         isDragging ? 'opacity-50' : ''
       }`}
     >
@@ -149,7 +149,7 @@ function DraggableContentItem({
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <IconComponent className="h-4 w-4 flex-shrink-0" />
+          <IconComponent className="h-4 w-4 shrink-0" />
           <h3 className="font-medium truncate">{item.title}</h3>
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -163,7 +163,7 @@ function DraggableContentItem({
         </div>
       </div>
 
-      <div className="flex gap-2 flex-shrink-0">
+      <div className="flex gap-2 shrink-0">
         <Button
           variant="ghost"
           size="sm"
@@ -216,7 +216,7 @@ function AddContentDialog({
                 className="p-4 text-left border rounded-lg hover:bg-accent hover:border-primary transition-colors group"
               >
                 <div className="flex items-start gap-3">
-                  <Icon className="h-5 w-5 mt-1 text-muted-foreground group-hover:text-primary flex-shrink-0" />
+                  <Icon className="h-5 w-5 mt-1 text-muted-foreground group-hover:text-primary shrink-0" />
                   <div>
                     <h4 className="font-semibold text-sm">{type.label}</h4>
                     <p className="text-xs text-muted-foreground mt-1">

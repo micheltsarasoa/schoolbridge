@@ -22,18 +22,20 @@
 
 **Sidebar Navigation:**
 - Dashboard
-- My Courses (with hierarchical submenu: Math > Algebra, Science > Physics/Chemistry)
-- My Quizzes
-- My Todo
-- My Planning
-- My Forecast
-- My Results & Badges
+- Email 
+- Courses (with hierarchical submenu: Math > Algebra, Science > Physics/Chemistry)
+- Quizzes
+- Todo
+- Planning
+- Forecast
+- Results & Badges
 - Profile (bottom section)
 - Notifications (bottom section)
 
 **Pages Status:**
 - ✅ `/student/dashboard` - EXISTS (placeholder)
 - ✅ `/student/courses` - EXISTS (placeholder)
+- 🔳 `/student/email`
 - ✅ `/student/quizzes` - EXISTS (placeholder)
 - ✅ `/student/todo` - EXISTS (placeholder)
 - ✅ `/student/planning` - EXISTS (placeholder)
@@ -51,15 +53,27 @@
 **Sidebar:**
 ```
 📊 Dashboard
+📬 Inbox
 📚 Courses
-   ├── [Dynamic: by subject from database]
+   ├── Sciences
+   ├── Languages & Arts
+   ├── Maths
+   ├── Civic & Morals
+   ├── Social Studies
+   ├── Special Topics
+   ├── Technologies
    └── View All Courses
 🗓️ Planning (existing)
-📝 Exams (NEW - renamed from Quizzes)
+📝 Exams & Result (NEW - renamed from Quizzes)
 🧩 Quizzes (NEW - separate from exams)
 🏆 Results & Badges (existing)
-📋 Todo (existing)
-🔔 Notifications
+📋 Todos (existing)
+💹 Forecast
+
+
+🔔 Support
+🤝 Feedback
+
 👤 Profile
    ├── Settings (NEW)
    ├── Digital ID Card (NEW)
@@ -132,26 +146,30 @@
 
 **Sidebar:**
 ```
-📊 Dashboard
-👥 My Children
+----
+👥 My Children (collapsed)
    ├── [Child 1 Name] (NEW - dynamic)
    ├── [Child 2 Name] (NEW - dynamic)
    └── Add Another Child (NEW)
+----
+📊 Dashboard
+📬 Inbox
 📚 Academic Progress (NEW)
    ├── Grades & Reports
    ├── Attendance
    └── Course Overview
+🗓️ School Calendar (NEW)
 📋 Permission & Forms (NEW)
-   ├── Pending Approvals
-   ├── Permission Slips
-   └── EOTC Forms
 🏫 School Communication (NEW)
    ├── Notices & Alerts
    ├── Newsletters
    └── Teacher Messages
-🗓️ School Calendar (NEW)
+
 💰 Fees & Payments (DEFER - not MVP)
-🔔 Notifications
+
+🔔 Support
+🤝 Feedback
+
 👤 Profile
    ├── Family Settings
    ├── Communication Preferences
@@ -242,6 +260,7 @@
 **Sidebar:**
 ```
 📊 Dashboard
+📬 Inbox
 👥 My Classes (NEW - better than "Courses" for teachers)
    ├── [Class 1 - dynamic]
    ├── [Class 2 - dynamic]
@@ -261,13 +280,15 @@
    └── Progress Reports
 🗓️ Teacher Planner (existing Planning)
    ├── Daily Schedule
-   ├── Weekly Planning
-   └── Term Overview
+   └── Weekly Planning
 🏫 School Management (NEW)
-   ├── Attendance (NEW)
-   ├── Staff Forms
-   └── Staff Notices
-🔔 Notifications
+   └── Attendance
+💹 Forecast
+
+
+🔔 Support
+🤝 Feedback
+
 👤 Profile
    ├── Teacher Settings
    ├── Digital Staff ID

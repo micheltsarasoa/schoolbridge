@@ -32,7 +32,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Notifications } from '@/components/notifications';
+import { Notifications } from '@/components/layout/NavBar/notifications';
 import { signOut } from 'next-auth/react';
 
 interface DashboardNavbarProps {
@@ -147,7 +147,7 @@ export function DashboardNavbar({
   };
 
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur">
+    <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur-sm">
       <Button
         variant="ghost"
         size="icon"

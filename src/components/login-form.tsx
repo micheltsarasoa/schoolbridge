@@ -80,7 +80,8 @@ export function LoginForm({
           'STUDENT': '/student/dashboard',
           'PARENT': '/parent/dashboard',
         };
-
+        // put in the cookie
+        
         const redirectPath = roleRedirects[session?.user?.role] || '/dashboard';
 
         // Small delay to show success toast
@@ -188,7 +189,7 @@ export function LoginForm({
           
         </CardContent>
       </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
+      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div>

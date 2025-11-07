@@ -143,7 +143,7 @@ export default function LessonPage() {
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-40 py-4 flex-shrink-0">
+      <div className="bg-white border-b sticky top-0 z-40 py-4 shrink-0">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between mb-4">
             <Button
@@ -197,7 +197,7 @@ export default function LessonPage() {
             {/* QUIZ Card */}
             {lesson.type === 'QUIZ' && (
               <Card className="overflow-hidden mb-6">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 aspect-video flex items-center justify-center">
+                <div className="bg-linear-to-br from-blue-500 to-blue-600 aspect-video flex items-center justify-center">
                   <div className="text-center text-white">
                     <FileText className="h-16 w-16 mx-auto mb-4" />
                     <p className="text-xl font-bold mb-2">Quiz</p>
@@ -328,7 +328,7 @@ export default function LessonPage() {
                             : 'hover:bg-gray-50 border-l-4 border-transparent'
                         }`}
                       >
-                        <div className="flex-shrink-0 mt-1">
+                        <div className="shrink-0 mt-1">
                           {completedContent.has(content.id) ? (
                             <CheckCircle2 className="h-5 w-5 text-green-600" />
                           ) : (

@@ -134,6 +134,9 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
     cell: ({ row, table }) => {
       const user = row.original;
       const tableInstance = table as any;

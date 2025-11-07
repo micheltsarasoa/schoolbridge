@@ -95,7 +95,7 @@ export default function CourseDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
         <div className="max-w-6xl mx-auto p-6">
           <Button
             variant="ghost"
@@ -115,7 +115,7 @@ export default function CourseDetailPage() {
 
   if (error || !course) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
         <div className="max-w-6xl mx-auto p-6">
           <Button
             variant="ghost"
@@ -135,7 +135,7 @@ export default function CourseDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
       <div className="max-w-6xl mx-auto p-6">
         {/* Header */}
         <Button
@@ -149,7 +149,7 @@ export default function CourseDetailPage() {
 
         {/* Course Info Card */}
         <Card className="mb-6 border-2">
-          <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
+          <CardHeader className="bg-linear-to-r from-blue-50 to-indigo-50">
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 <CardTitle className="text-3xl mb-2">{course.title}</CardTitle>
