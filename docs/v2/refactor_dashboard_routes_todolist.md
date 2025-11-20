@@ -5,6 +5,8 @@ Migrate routes from `src/app/{admin, teacher, parent, student}` to `src/app/dash
 
 ## Phase 1: Preparation and Analysis
 
+*   [ ] Review `constitution.md` for guiding principles on modular architecture, development workflow, and governance that apply to this refactoring.
+*   [ ] Consider creating a formal `spec.md` for this refactoring using the `spec-template.md` and `speckit.specify` command to fully define its scope, requirements, and success criteria.
 *   [ ] Analyze `src/app/admin` to identify all files, subdirectories, and their dependencies.
 *   [ ] Analyze `src/app/teacher` to identify all files, subdirectories, and their dependencies.
 *   [ ] Analyze `src/app/parent` to identify all files, subdirectories, and their dependencies.
