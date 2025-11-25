@@ -153,6 +153,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
           </header>
           <div className="flex-1 overflow-y-auto p-4">
             <VerificationBanner />
+            <TeacherApprovalStatus />
             {children}
           </div>
         </SidebarInset>
