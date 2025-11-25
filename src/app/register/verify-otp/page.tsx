@@ -67,8 +67,8 @@ function VerifyOTPContent() {
         return;
       }
 
-      toast.success("Email verified successfully! You can now log in.");
-      router.push("/login");
+      toast.success("Email verified successfully! Let's complete your profile.");
+      router.push("/onboarding");
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     } finally {
