@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
     const tokenExpiry = new Date(new Date().getTime() + 10 * 60 * 1000); // 10 minutes
 
     // Store registration data in PendingRegistration
-    await prisma.pendingRegistration.create({
+    const pendingReg = await prisma.pendingRegistration.create({
       data: {
         email,
         name,
@@ -114,6 +114,17 @@ export async function POST(req: NextRequest) {
         expires: tokenExpiry,
       },
     });
+
+    // Mark invitation code as used (will be finalized after OTP verification)
+    if (invitationCode) {
+      await prisma.invitationCode.update({
+        where: { code: invitationCode },
+        data: { 
+          usedBy: email, // Temporarily store email, will update to userId after verification
+          usedAt: new Date(),
+        },
+      });
+    }
 
     // Log OTP for development (ALWAYS log this for debugging)
     console.log(`\n🔐 OTP for ${email}: ${otp}\n`);
