@@ -80,6 +80,30 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Update invitation code with actual user ID
+    const invitationCode = await prisma.invitationCode.findFirst({
+      where: { usedBy: email },
+    });
+
+    if (invitationCode) {
+      await prisma.invitationCode.update({
+        where: { id: invitationCode.id },
+        data: { usedBy: user.id },
+      });
+    }
+
+    // Create teacher approval record if role is TEACHER
+    if (pendingRegistration.role === 'TEACHER') {
+      await prisma.teacherApproval.create({
+        data: {
+          userId: user.id,
+          schoolId: pendingRegistration.schoolId,
+          status: 'PENDING',
+        },
+      });
+      console.log(`Teacher approval record created for: ${email}`);
+    }
+
     // Delete pending registration
     await prisma.pendingRegistration.delete({
       where: { email },
