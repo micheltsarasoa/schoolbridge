@@ -10,14 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { UserSettings } from '@/types/settings';
+import { TeacherProfileSettings } from '@/components/settings/profile-settings';
 
-export default function StudentSettingsPage() {
+export default function TeacherSettingsPage() {
   const [settings, setSettings] = useState<UserSettings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch settings on mount
   useEffect(() => {
     fetchSettings();
   }, []);
@@ -104,30 +104,30 @@ export default function StudentSettingsPage() {
         </Button>
       </div>
 
-      <Tabs defaultValue="notifications" className="space-y-4">
+      <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="display">Display</TabsTrigger>
           <TabsTrigger value="privacy">Privacy</TabsTrigger>
           <TabsTrigger value="accessibility">Accessibility</TabsTrigger>
         </TabsList>
 
-        {/* Notifications Tab */}
+        <TabsContent value="profile">
+          <TeacherProfileSettings settings={settings} updateSettings={updateSettings} isSaving={isSaving} />
+        </TabsContent>
+
         <TabsContent value="notifications">
           <Card>
             <CardHeader>
               <CardTitle>Notification Preferences</CardTitle>
-              <CardDescription>
-                Choose which notifications you want to receive
-              </CardDescription>
+              <CardDescription>Choose which notifications you want to receive</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <Label htmlFor="email-notif">Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive notifications via email
-                  </p>
+                  <p className="text-sm text-muted-foreground">Receive notifications via email</p>
                 </div>
                 <Switch
                   id="email-notif"
@@ -142,9 +142,7 @@ export default function StudentSettingsPage() {
               <div className="flex items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <Label htmlFor="push-notif">Push Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive push notifications in the app
-                  </p>
+                  <p className="text-sm text-muted-foreground">Receive push notifications in the app</p>
                 </div>
                 <Switch
                   id="push-notif"
@@ -155,75 +153,15 @@ export default function StudentSettingsPage() {
                   disabled={isSaving}
                 />
               </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="grade-notif">Grade Posted</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Get notified when grades are posted
-                  </p>
-                </div>
-                <Switch
-                  id="grade-notif"
-                  checked={settings.notifications?.gradePosted ?? true}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      notifications: { ...settings.notifications, gradePosted: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="assignment-notif">Assignment Due</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Reminders for upcoming assignment deadlines
-                  </p>
-                </div>
-                <Switch
-                  id="assignment-notif"
-                  checked={settings.notifications?.assignmentDue ?? true}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      notifications: { ...settings.notifications, assignmentDue: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="course-notif">Course Assigned</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Get notified when new courses are assigned
-                  </p>
-                </div>
-                <Switch
-                  id="course-notif"
-                  checked={settings.notifications?.courseAssigned ?? true}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      notifications: { ...settings.notifications, courseAssigned: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Display Tab */}
         <TabsContent value="display">
           <Card>
             <CardHeader>
               <CardTitle>Display Settings</CardTitle>
-              <CardDescription>
-                Customize how the app looks and feels
-              </CardDescription>
+              <CardDescription>Customize how the app looks and feels</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -244,43 +182,6 @@ export default function StudentSettingsPage() {
                     <SelectItem value="system">System</SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-sm text-muted-foreground">
-                  Choose your preferred color theme
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="compact-mode">Compact Mode</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Reduce spacing for more content density
-                  </p>
-                </div>
-                <Switch
-                  id="compact-mode"
-                  checked={settings.display?.compactMode ?? false}
-                  onCheckedChange={(checked) =>
-                    updateSettings({ display: { ...settings.display, compactMode: checked } })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="show-avatars">Show Avatars</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Display user profile pictures
-                  </p>
-                </div>
-                <Switch
-                  id="show-avatars"
-                  checked={settings.display?.showAvatars ?? true}
-                  onCheckedChange={(checked) =>
-                    updateSettings({ display: { ...settings.display, showAvatars: checked } })
-                  }
-                  disabled={isSaving}
-                />
               </div>
 
               <div className="space-y-2">
@@ -302,30 +203,22 @@ export default function StudentSettingsPage() {
                     <SelectItem value="ES">Español</SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-sm text-muted-foreground">
-                  Choose your preferred interface language
-                </p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Privacy Tab */}
         <TabsContent value="privacy">
           <Card>
             <CardHeader>
               <CardTitle>Privacy Settings</CardTitle>
-              <CardDescription>
-                Control your privacy and visibility
-              </CardDescription>
+              <CardDescription>Control your privacy and visibility</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <Label htmlFor="show-email">Show Email</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Make your email visible to teachers
-                  </p>
+                  <p className="text-sm text-muted-foreground">Make your email visible to students</p>
                 </div>
                 <Switch
                   id="show-email"
@@ -336,63 +229,22 @@ export default function StudentSettingsPage() {
                   disabled={isSaving}
                 />
               </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="show-phone">Show Phone</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Make your phone number visible to teachers
-                  </p>
-                </div>
-                <Switch
-                  id="show-phone"
-                  checked={settings.privacy?.showPhone ?? false}
-                  onCheckedChange={(checked) =>
-                    updateSettings({ privacy: { ...settings.privacy, showPhone: checked } })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="teacher-messages">Allow Teacher Messages</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Teachers can send you direct messages
-                  </p>
-                </div>
-                <Switch
-                  id="teacher-messages"
-                  checked={settings.privacy?.allowTeacherMessages ?? true}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      privacy: { ...settings.privacy, allowTeacherMessages: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Accessibility Tab */}
         <TabsContent value="accessibility">
           <Card>
             <CardHeader>
               <CardTitle>Accessibility Settings</CardTitle>
-              <CardDescription>
-                Adjust the app for better accessibility
-              </CardDescription>
+              <CardDescription>Adjust the app for better accessibility</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="font-size">Font Size</Label>
                 <Select
                   value={settings.accessibility?.fontSize ?? 'medium'}
-                  onValueChange={(
-                    value: 'small' | 'medium' | 'large' | 'extra-large'
-                  ) =>
+                  onValueChange={(value: 'small' | 'medium' | 'large' | 'extra-large') =>
                     updateSettings({ accessibility: { ...settings.accessibility, fontSize: value } })
                   }
                   disabled={isSaving}
@@ -407,66 +259,6 @@ export default function StudentSettingsPage() {
                     <SelectItem value="extra-large">Extra Large</SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-sm text-muted-foreground">
-                  Adjust text size for better readability
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="high-contrast">High Contrast</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Increase contrast for better visibility
-                  </p>
-                </div>
-                <Switch
-                  id="high-contrast"
-                  checked={settings.accessibility?.highContrast ?? false}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      accessibility: { ...settings.accessibility, highContrast: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="reduce-motion">Reduce Motion</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Minimize animations and transitions
-                  </p>
-                </div>
-                <Switch
-                  id="reduce-motion"
-                  checked={settings.accessibility?.reduceMotion ?? false}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      accessibility: { ...settings.accessibility, reduceMotion: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="screen-reader">Screen Reader Optimized</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Optimize for screen reader users
-                  </p>
-                </div>
-                <Switch
-                  id="screen-reader"
-                  checked={settings.accessibility?.screenReaderOptimized ?? false}
-                  onCheckedChange={(checked) =>
-                    updateSettings({
-                      accessibility: { ...settings.accessibility, screenReaderOptimized: checked },
-                    })
-                  }
-                  disabled={isSaving}
-                />
               </div>
             </CardContent>
           </Card>
