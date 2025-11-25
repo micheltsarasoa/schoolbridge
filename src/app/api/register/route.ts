@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { name, email, password, role, schoolId } = body;
+    const { name, email, password, role, schoolId, invitationCode } = body;
 
     if (!name || !email || !password || !role || !schoolId) {
       return new NextResponse("Missing required fields", { status: 400 });
@@ -27,6 +27,46 @@ export async function POST(req: NextRequest) {
         "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
         { status: 400 }
       );
+    }
+
+    // Validate invitation code for TEACHER and PARENT roles
+    if (role === 'TEACHER' || role === 'PARENT') {
+      if (!invitationCode) {
+        return new NextResponse(
+          `${role === 'TEACHER' ? 'Teachers' : 'Parents'} must provide an invitation code`,
+          { status: 400 }
+        );
+      }
+
+      // Check if invitation code is valid
+      const invitation = await prisma.invitationCode.findUnique({
+        where: { code: invitationCode },
+      });
+
+      if (!invitation) {
+        return new NextResponse("Invalid invitation code", { status: 400 });
+      }
+
+      if (!invitation.isActive) {
+        return new NextResponse("This invitation code is no longer active", { status: 400 });
+      }
+
+      if (invitation.usedBy) {
+        return new NextResponse("This invitation code has already been used", { status: 400 });
+      }
+
+      if (invitation.expiresAt && invitation.expiresAt < new Date()) {
+        return new NextResponse("This invitation code has expired", { status: 400 });
+      }
+
+      if (invitation.schoolId !== schoolId) {
+        return new NextResponse("This invitation code is for a different school", { status: 400 });
+      }
+
+      const expectedRole = invitation.role === 'TEACHER' ? 'TEACHER' : 'PARENT';
+      if (role !== expectedRole) {
+        return new NextResponse(`This invitation code is for ${expectedRole} role only`, { status: 400 });
+      }
     }
 
     const existingUser = await prisma.user.findUnique({
