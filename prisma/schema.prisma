@@ -254,12 +254,13 @@ model School {
   updatedAt DateTime @updatedAt
 
   // Relations
-  users         User[]
-  courses       Course[]
-  config        SchoolConfig?
-  academicYears AcademicYear[]
-  subjects      Subject[]
-  classes       Class[]
+  users           User[]
+  courses         Course[]
+  config          SchoolConfig?
+  academicYears   AcademicYear[]
+  subjects        Subject[]
+  classes         Class[]
+  invitationCodes InvitationCode[]
 
   @@index([code])
 }
