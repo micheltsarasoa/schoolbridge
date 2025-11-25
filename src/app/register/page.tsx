@@ -239,6 +239,23 @@ export default function RegisterPage() {
                   </div>
 
                   <div className="grid gap-2">
+                    <Label htmlFor="role">I am a</Label>
+                    <Select
+                      value={formData.role}
+                      onValueChange={(value) => setFormData(prev => ({ ...prev, role: value as UserRole }))}
+                    >
+                      <SelectTrigger id="role">
+                        <SelectValue placeholder="Select your role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={UserRole.STUDENT}>Student</SelectItem>
+                        <SelectItem value={UserRole.PARENT}>Parent</SelectItem>
+                        <SelectItem value={UserRole.TEACHER}>Teacher</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="grid gap-2">
                     <Label htmlFor="school">School</Label>
                     <Select
                       value={formData.schoolId}
@@ -257,6 +274,28 @@ export default function RegisterPage() {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  {(formData.role === UserRole.TEACHER || formData.role === UserRole.PARENT) && (
+                    <div className="grid gap-2">
+                      <Label htmlFor="invitationCode">
+                        Invitation Code *
+                      </Label>
+                      <Input
+                        id="invitationCode"
+                        type="text"
+                        placeholder="Enter your invitation code"
+                        name="invitationCode"
+                        value={formData.invitationCode}
+                        onChange={handleChange}
+                        required={formData.role === UserRole.TEACHER || formData.role === UserRole.PARENT}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        {formData.role === UserRole.TEACHER 
+                          ? "Teachers need an invitation code from their school admin"
+                          : "Parents need an invitation code to register and link children"}
+                      </p>
+                    </div>
+                  )}
 
                   <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
