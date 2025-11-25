@@ -685,3 +685,68 @@ model AuditLog {
   @@index([entityType, entityId])
   @@index([action, createdAt])
 }
+
+// ===== INVITATION & APPROVAL SYSTEM =====
+
+enum InvitationCodeRole {
+  TEACHER
+  PARENT
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model InvitationCode {
+  id        String              @id @default(uuid())
+  code      String              @unique
+  role      InvitationCodeRole
+  schoolId  String
+  createdBy String
+  usedBy    String?             @unique
+  isActive  Boolean             @default(true)
+  expiresAt DateTime?
+  createdAt DateTime            @default(now())
+  usedAt    DateTime?
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+
+  @@index([code])
+  @@index([schoolId])
+  @@index([isActive])
+}
+
+model TeacherApproval {
+  id          String         @id @default(uuid())
+  userId      String         @unique
+  schoolId    String
+  status      ApprovalStatus @default(PENDING)
+  approvedBy  String?
+  rejectedBy  String?
+  reason      String?
+  requestedAt DateTime       @default(now())
+  reviewedAt  DateTime?
+
+  @@index([userId])
+  @@index([schoolId])
+  @@index([status])
+}
+
+model ParentChildLink {
+  id          String         @id @default(uuid())
+  parentId    String
+  studentId   String
+  status      ApprovalStatus @default(PENDING)
+  approvedBy  String?
+  rejectedBy  String?
+  reason      String?
+  requestedAt DateTime       @default(now())
+  reviewedAt  DateTime?
+
+  @@unique([parentId, studentId])
+  @@index([parentId])
+  @@index([studentId])
+  @@index([status])
+}
