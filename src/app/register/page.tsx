@@ -136,6 +136,13 @@ export default function RegisterPage() {
       return;
     }
 
+    // Check invitation code for TEACHER and PARENT roles
+    if ((formData.role === UserRole.TEACHER || formData.role === UserRole.PARENT) && !formData.invitationCode.trim()) {
+      showToast.warning("Invitation Code Required", `${formData.role === UserRole.TEACHER ? 'Teachers' : 'Parents'} need an invitation code to register.`);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/register`, {
         method: "POST",
@@ -145,7 +152,8 @@ export default function RegisterPage() {
           email: formData.email,
           password: formData.password,
           schoolId: formData.schoolId,
-          role: UserRole.STUDENT, // Default role for public registration
+          role: formData.role,
+          invitationCode: formData.invitationCode || undefined,
         }),
       });
 
