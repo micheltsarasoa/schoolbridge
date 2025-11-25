@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { UserSettings } from '@/types/settings';
+import { StudentProfileSettings } from '@/components/settings/profile-settings';
 
 export default function StudentSettingsPage() {
   const [settings, setSettings] = useState<UserSettings | null>(null);
