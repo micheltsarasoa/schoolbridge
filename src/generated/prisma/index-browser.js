@@ -121,340 +121,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  phone: 'phone',
-  emailVerified: 'emailVerified',
-  phoneVerified: 'phoneVerified',
-  password: 'password',
-  name: 'name',
-  role: 'role',
-  languagePreference: 'languagePreference',
-  isActive: 'isActive',
-  lastLogin: 'lastLogin',
-  failedLoginAttempts: 'failedLoginAttempts',
-  lockedUntil: 'lockedUntil',
-  schoolId: 'schoolId',
-  settings: 'settings',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.AccountScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  type: 'type',
-  provider: 'provider',
-  providerAccountId: 'providerAccountId',
-  refresh_token: 'refresh_token',
-  access_token: 'access_token',
-  expires_at: 'expires_at',
-  token_type: 'token_type',
-  scope: 'scope',
-  id_token: 'id_token',
-  session_state: 'session_state'
-};
-
-exports.Prisma.SessionScalarFieldEnum = {
-  id: 'id',
-  sessionToken: 'sessionToken',
-  userId: 'userId',
-  expires: 'expires'
-};
-
-exports.Prisma.VerificationTokenScalarFieldEnum = {
-  identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
-};
-
-exports.Prisma.PendingRegistrationScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  name: 'name',
-  passwordHash: 'passwordHash',
-  role: 'role',
-  schoolId: 'schoolId',
-  otpHash: 'otpHash',
-  expires: 'expires',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.UserRelationshipScalarFieldEnum = {
-  id: 'id',
-  parentId: 'parentId',
-  studentId: 'studentId',
-  isVerified: 'isVerified',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.SchoolScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  code: 'code',
-  address: 'address',
-  phone: 'phone',
-  email: 'email',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SchoolConfigScalarFieldEnum = {
-  id: 'id',
-  schoolId: 'schoolId',
-  allowVideoDownload: 'allowVideoDownload',
-  allowPdfDownload: 'allowPdfDownload',
-  allowInteractiveDownload: 'allowInteractiveDownload',
-  syncFrequencyHours: 'syncFrequencyHours',
-  maxDownloadSizeMB: 'maxDownloadSizeMB'
-};
-
-exports.Prisma.AcademicYearScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  schoolId: 'schoolId',
-  isActive: 'isActive'
-};
-
-exports.Prisma.SubjectScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  schoolId: 'schoolId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ClassScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  schoolId: 'schoolId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ClassScheduleScalarFieldEnum = {
-  id: 'id',
-  classId: 'classId',
-  teacherId: 'teacherId',
-  dayOfWeek: 'dayOfWeek',
-  plannedStartTime: 'plannedStartTime',
-  plannedDuration: 'plannedDuration',
-  actualStartTime: 'actualStartTime',
-  actualDuration: 'actualDuration',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CourseScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  teacherId: 'teacherId',
-  schoolId: 'schoolId',
-  subjectId: 'subjectId',
-  status: 'status',
-  language: 'language',
-  requiresOnline: 'requiresOnline',
-  fileSizeBytes: 'fileSizeBytes',
-  thumbnailUrl: 'thumbnailUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  publishedAt: 'publishedAt'
-};
-
-exports.Prisma.CourseContentScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  contentOrder: 'contentOrder',
-  contentType: 'contentType',
-  title: 'title',
-  contentData: 'contentData',
-  appearsAfterSeconds: 'appearsAfterSeconds',
-  disappearsAfterSeconds: 'disappearsAfterSeconds',
-  fileReference: 'fileReference',
-  offlineAvailable: 'offlineAvailable',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CourseValidationScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  reviewerId: 'reviewerId',
-  feedbackText: 'feedbackText',
-  status: 'status',
-  suggestions: 'suggestions',
-  reviewedAt: 'reviewedAt'
-};
-
-exports.Prisma.ContentVersionScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  version: 'version',
-  content: 'content',
-  changes: 'changes',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.CourseAssignmentScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  studentId: 'studentId',
-  classId: 'classId',
-  assignedAt: 'assignedAt',
-  dueDate: 'dueDate'
-};
-
-exports.Prisma.QuizScalarFieldEnum = {
-  id: 'id',
-  courseContentId: 'courseContentId',
-  title: 'title',
-  description: 'description',
-  passingScore: 'passingScore',
-  timeLimit: 'timeLimit',
-  mode: 'mode',
-  showAnswersAfter: 'showAnswersAfter',
-  randomizeQuestions: 'randomizeQuestions',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.QuestionScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  questionType: 'questionType',
-  text: 'text',
-  explanation: 'explanation',
-  order: 'order',
-  points: 'points',
-  options: 'options',
-  correctAnswer: 'correctAnswer',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.QuestionResponseScalarFieldEnum = {
-  id: 'id',
-  questionId: 'questionId',
-  submissionId: 'submissionId',
-  studentAnswer: 'studentAnswer',
-  isCorrect: 'isCorrect',
-  pointsEarned: 'pointsEarned',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.QuizSubmissionScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  studentId: 'studentId',
-  attemptNumber: 'attemptNumber',
-  startedAt: 'startedAt',
-  submittedAt: 'submittedAt',
-  score: 'score',
-  totalPoints: 'totalPoints',
-  timeSpent: 'timeSpent',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.QuizAssignmentScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  classId: 'classId',
-  studentId: 'studentId',
-  assignedAt: 'assignedAt',
-  dueDate: 'dueDate',
-  scheduledDate: 'scheduledDate',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.StudentProgressScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  courseId: 'courseId',
-  completionPercentage: 'completionPercentage',
-  timeSpentMinutes: 'timeSpentMinutes',
-  lastAccessed: 'lastAccessed',
-  currentModule: 'currentModule',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SubmissionScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  courseContentId: 'courseContentId',
-  submittedAt: 'submittedAt',
-  content: 'content',
-  grade: 'grade',
-  gradedById: 'gradedById',
-  gradedAt: 'gradedAt',
-  feedback: 'feedback',
-  status: 'status'
-};
-
-exports.Prisma.AttendanceScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  classId: 'classId',
-  date: 'date',
-  status: 'status',
-  notes: 'notes',
-  recordedById: 'recordedById'
-};
-
-exports.Prisma.ParentInstructionScalarFieldEnum = {
-  id: 'id',
-  teacherId: 'teacherId',
-  studentId: 'studentId',
-  instructionText: 'instructionText',
-  isUrgent: 'isUrgent',
-  createdAt: 'createdAt',
-  expiresAt: 'expiresAt'
-};
-
-exports.Prisma.ParentInstructionCompletionScalarFieldEnum = {
-  id: 'id',
-  instructionId: 'instructionId',
-  parentId: 'parentId',
-  completedAt: 'completedAt',
-  status: 'status',
-  notes: 'notes'
-};
-
-exports.Prisma.NotificationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  type: 'type',
-  title: 'title',
-  message: 'message',
-  data: 'data',
-  read: 'read',
-  readAt: 'readAt',
-  actionUrl: 'actionUrl',
-  priority: 'priority',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.AuditLogScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  action: 'action',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.InvitationCodeScalarFieldEnum = {
   id: 'id',
   code: 'code',
@@ -492,6 +158,711 @@ exports.Prisma.ParentChildLinkScalarFieldEnum = {
   reviewedAt: 'reviewedAt'
 };
 
+exports.Prisma.CourseScalarFieldEnum = {
+  id: 'id',
+  uuid: 'uuid',
+  title: 'title',
+  slug: 'slug',
+  subtitle: 'subtitle',
+  description: 'description',
+  language: 'language',
+  level: 'level',
+  publishedAt: 'publishedAt',
+  lastUpdatedAt: 'lastUpdatedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  categoryId: 'categoryId',
+  instructorId: 'instructorId',
+  schoolId: 'schoolId',
+  contentType: 'contentType',
+  status: 'status',
+  isPublic: 'isPublic',
+  requiresOnline: 'requiresOnline',
+  features: 'features',
+  requirements: 'requirements',
+  targetAudience: 'targetAudience',
+  learningObjectives: 'learningObjectives',
+  tags: 'tags',
+  captions: 'captions',
+  totalSizeBytes: 'totalSizeBytes',
+  offlineAvailable: 'offlineAvailable',
+  downloadPriority: 'downloadPriority',
+  estimatedDataUsage: 'estimatedDataUsage'
+};
+
+exports.Prisma.CourseValidationScalarFieldEnum = {
+  id: 'id',
+  reviewerId: 'reviewerId',
+  status: 'status',
+  feedback: 'feedback',
+  suggestions: 'suggestions',
+  reviewedAt: 'reviewedAt',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VersionScalarFieldEnum = {
+  id: 'id',
+  current: 'current',
+  publishedVersions: 'publishedVersions',
+  courseId: 'courseId'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId'
+};
+
+exports.Prisma.StatisticsScalarFieldEnum = {
+  id: 'id',
+  totalSections: 'totalSections',
+  totalLectures: 'totalLectures',
+  totalQuizzes: 'totalQuizzes',
+  totalAssignments: 'totalAssignments',
+  totalArticles: 'totalArticles',
+  totalDownloadableResources: 'totalDownloadableResources',
+  totalDuration: 'totalDuration',
+  totalDurationFormatted: 'totalDurationFormatted',
+  totalStudents: 'totalStudents',
+  totalReviews: 'totalReviews',
+  averageRating: 'averageRating',
+  ratingDistribution: 'ratingDistribution',
+  completionRate: 'completionRate',
+  lastMonthEnrollments: 'lastMonthEnrollments',
+  courseId: 'courseId'
+};
+
+exports.Prisma.CertificateScalarFieldEnum = {
+  id: 'id',
+  available: 'available',
+  completionPercentage: 'completionPercentage',
+  quizzesRequired: 'quizzesRequired',
+  minimumQuizScore: 'minimumQuizScore',
+  courseId: 'courseId'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  order: 'order',
+  totalLectures: 'totalLectures',
+  totalDuration: 'totalDuration',
+  durationFormatted: 'durationFormatted',
+  courseId: 'courseId'
+};
+
+exports.Prisma.LectureScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  order: 'order',
+  duration: 'duration',
+  durationFormatted: 'durationFormatted',
+  isPreview: 'isPreview',
+  isFree: 'isFree',
+  downloadPriority: 'downloadPriority',
+  sectionId: 'sectionId',
+  sizeBytes: 'sizeBytes',
+  estimatedDataUsage: 'estimatedDataUsage',
+  offlineAvailable: 'offlineAvailable'
+};
+
+exports.Prisma.VideoScalarFieldEnum = {
+  id: 'id',
+  versionId: 'versionId',
+  version: 'version',
+  sources: 'sources',
+  hlsUrl: 'hlsUrl',
+  dashUrl: 'dashUrl',
+  thumbnail: 'thumbnail',
+  thumbnailSprite: 'thumbnailSprite',
+  captions: 'captions',
+  uploadedAt: 'uploadedAt',
+  processedAt: 'processedAt',
+  status: 'status',
+  updateNotes: 'updateNotes',
+  lectureId: 'lectureId',
+  defaultQuality: 'defaultQuality',
+  offlineOptimized: 'offlineOptimized'
+};
+
+exports.Prisma.ArticleScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  contentHtml: 'contentHtml',
+  estimatedReadingTime: 'estimatedReadingTime',
+  wordCount: 'wordCount',
+  images: 'images',
+  updatedAt: 'updatedAt',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.QuizScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  passingScore: 'passingScore',
+  totalPoints: 'totalPoints',
+  timeLimit: 'timeLimit',
+  attemptsAllowed: 'attemptsAllowed',
+  shuffleQuestions: 'shuffleQuestions',
+  shuffleAnswers: 'shuffleAnswers',
+  showCorrectAnswers: 'showCorrectAnswers',
+  showCorrectAnswersAfter: 'showCorrectAnswersAfter',
+  questionCount: 'questionCount',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.QuestionScalarFieldEnum = {
+  id: 'id',
+  order: 'order',
+  type: 'type',
+  question: 'question',
+  points: 'points',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  acceptedAnswers: 'acceptedAnswers',
+  orderingItems: 'orderingItems',
+  explanation: 'explanation',
+  hint: 'hint',
+  partialCredit: 'partialCredit',
+  quizId: 'quizId'
+};
+
+exports.Prisma.QuizAttemptScalarFieldEnum = {
+  id: 'id',
+  attemptNumber: 'attemptNumber',
+  startedAt: 'startedAt',
+  submittedAt: 'submittedAt',
+  score: 'score',
+  pointsEarned: 'pointsEarned',
+  pointsPossible: 'pointsPossible',
+  percentage: 'percentage',
+  passed: 'passed',
+  timeSpent: 'timeSpent',
+  answers: 'answers',
+  quizId: 'quizId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.CodingExerciseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  instructions: 'instructions',
+  starterCode: 'starterCode',
+  language: 'language',
+  expectedOutput: 'expectedOutput',
+  testCases: 'testCases',
+  hints: 'hints',
+  solution: 'solution',
+  allowSubmission: 'allowSubmission',
+  maxSubmissions: 'maxSubmissions',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.CodingSubmissionScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  submittedAt: 'submittedAt',
+  testsPassed: 'testsPassed',
+  testsTotal: 'testsTotal',
+  passed: 'passed',
+  output: 'output',
+  error: 'error',
+  codingExerciseId: 'codingExerciseId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  instructions: 'instructions',
+  allowedFileTypes: 'allowedFileTypes',
+  maxFileSize: 'maxFileSize',
+  dueDate: 'dueDate',
+  rubric: 'rubric',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.AssignmentSubmissionScalarFieldEnum = {
+  id: 'id',
+  files: 'files',
+  submittedAt: 'submittedAt',
+  grade: 'grade',
+  feedback: 'feedback',
+  status: 'status',
+  assignmentId: 'assignmentId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  complexity: 'complexity',
+  technologies: 'technologies',
+  learningObjectives: 'learningObjectives',
+  milestones: 'milestones',
+  submission: 'submission',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.ResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  type: 'type',
+  fileSize: 'fileSize',
+  fileSizeFormatted: 'fileSizeFormatted',
+  url: 'url',
+  downloadable: 'downloadable',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.FAQScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  helpful: 'helpful',
+  notHelpful: 'notHelpful',
+  createdAt: 'createdAt',
+  courseId: 'courseId'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  title: 'title',
+  content: 'content',
+  helpful: 'helpful',
+  notHelpful: 'notHelpful',
+  createdAt: 'createdAt',
+  courseId: 'courseId',
+  userId: 'userId'
+};
+
+exports.Prisma.PromoVideoScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  duration: 'duration',
+  thumbnail: 'thumbnail',
+  courseId: 'courseId'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  phone: 'phone',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  password: 'password',
+  role: 'role',
+  language: 'language',
+  avatar: 'avatar',
+  verified: 'verified',
+  verificationCode: 'verificationCode',
+  codeExpires: 'codeExpires',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastLoginAt: 'lastLoginAt',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  expires: 'expires',
+  userId: 'userId'
+};
+
+exports.Prisma.SchoolScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  address: 'address',
+  city: 'city',
+  country: 'country',
+  timezone: 'timezone',
+  config: 'config',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GradeScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  score: 'score',
+  maxScore: 'maxScore',
+  percentage: 'percentage',
+  letterGrade: 'letterGrade',
+  academicPeriod: 'academicPeriod',
+  gradedBy: 'gradedBy',
+  gradedAt: 'gradedAt',
+  feedback: 'feedback',
+  assignmentId: 'assignmentId',
+  gradableType: 'gradableType',
+  gradableId: 'gradableId',
+  courseId: 'courseId',
+  classId: 'classId'
+};
+
+exports.Prisma.AcademicPeriodScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.StudentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  gradeLevel: 'gradeLevel',
+  birthDate: 'birthDate',
+  userId: 'userId',
+  config: 'config'
+};
+
+exports.Prisma.InstructorScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  biography: 'biography',
+  rating: 'rating',
+  totalStudents: 'totalStudents',
+  totalCourses: 'totalCourses',
+  website: 'website',
+  social: 'social',
+  userId: 'userId',
+  config: 'config'
+};
+
+exports.Prisma.ParentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  config: 'config'
+};
+
+exports.Prisma.ParentStudentScalarFieldEnum = {
+  id: 'id',
+  relationship: 'relationship',
+  isVerified: 'isVerified',
+  parentId: 'parentId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  permissions: 'permissions',
+  userId: 'userId'
+};
+
+exports.Prisma.ClassScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  degreeLevel: 'degreeLevel',
+  subject: 'subject',
+  schoolId: 'schoolId',
+  academicPeriodId: 'academicPeriodId'
+};
+
+exports.Prisma.ClassEnrollmentScalarFieldEnum = {
+  id: 'id',
+  enrolledAt: 'enrolledAt',
+  classId: 'classId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.CourseEnrollmentScalarFieldEnum = {
+  id: 'id',
+  enrolledAt: 'enrolledAt',
+  lastAccessedAt: 'lastAccessedAt',
+  progressPercentage: 'progressPercentage',
+  completedLectures: 'completedLectures',
+  totalTimeSpent: 'totalTimeSpent',
+  certificateEarned: 'certificateEarned',
+  favorited: 'favorited',
+  archived: 'archived',
+  courseId: 'courseId',
+  userId: 'userId',
+  studentId: 'studentId',
+  currentLectureId: 'currentLectureId'
+};
+
+exports.Prisma.LectureProgressScalarFieldEnum = {
+  id: 'id',
+  completed: 'completed',
+  completedAt: 'completedAt',
+  lastActivityAt: 'lastActivityAt',
+  lastPosition: 'lastPosition',
+  watchedPercentage: 'watchedPercentage',
+  attempts: 'attempts',
+  bestScore: 'bestScore',
+  passed: 'passed',
+  lectureId: 'lectureId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.NoteScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  timestamp: 'timestamp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lectureId: 'lectureId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.OfflineSyncScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  lastSyncAt: 'lastSyncAt',
+  pendingChanges: 'pendingChanges',
+  userId: 'userId'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  data: 'data',
+  read: 'read',
+  readAt: 'readAt',
+  actionUrl: 'actionUrl',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  userId: 'userId'
+};
+
+exports.Prisma.SchoolServerScalarFieldEnum = {
+  id: 'id',
+  serverName: 'serverName',
+  ipAddress: 'ipAddress',
+  macAddress: 'macAddress',
+  storageCapacity: 'storageCapacity',
+  storageUsed: 'storageUsed',
+  status: 'status',
+  lastPingAt: 'lastPingAt',
+  isMainServer: 'isMainServer',
+  canServeContent: 'canServeContent',
+  maxConcurrentUsers: 'maxConcurrentUsers',
+  syncWithCloud: 'syncWithCloud',
+  syncSchedule: 'syncSchedule',
+  lastSyncAt: 'lastSyncAt',
+  nextSyncAt: 'nextSyncAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.ContentCacheScalarFieldEnum = {
+  id: 'id',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  priority: 'priority',
+  sizeInBytes: 'sizeInBytes',
+  version: 'version',
+  checksum: 'checksum',
+  status: 'status',
+  downloadProgress: 'downloadProgress',
+  cachedAt: 'cachedAt',
+  lastAccessedAt: 'lastAccessedAt',
+  accessCount: 'accessCount',
+  expiresAt: 'expiresAt',
+  pinned: 'pinned',
+  serverId: 'serverId'
+};
+
+exports.Prisma.ServerSyncLogScalarFieldEnum = {
+  id: 'id',
+  syncType: 'syncType',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  status: 'status',
+  itemsSynced: 'itemsSynced',
+  itemsFailed: 'itemsFailed',
+  totalSize: 'totalSize',
+  errors: 'errors',
+  serverId: 'serverId'
+};
+
+exports.Prisma.ContentVariantScalarFieldEnum = {
+  id: 'id',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  quality: 'quality',
+  resolution: 'resolution',
+  bitrate: 'bitrate',
+  codec: 'codec',
+  format: 'format',
+  url: 'url',
+  sizeInBytes: 'sizeInBytes',
+  sizeFormatted: 'sizeFormatted',
+  duration: 'duration',
+  isDefault: 'isDefault',
+  recommendedFor: 'recommendedFor',
+  createdAt: 'createdAt',
+  videoId: 'videoId'
+};
+
+exports.Prisma.DownloadQueueScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  variantQuality: 'variantQuality',
+  priority: 'priority',
+  status: 'status',
+  progress: 'progress',
+  wifiOnly: 'wifiOnly',
+  scheduledFor: 'scheduledFor',
+  estimatedSize: 'estimatedSize',
+  downloadedSize: 'downloadedSize',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  retryCount: 'retryCount',
+  maxRetries: 'maxRetries',
+  lastError: 'lastError',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OfflineContentScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  variantQuality: 'variantQuality',
+  localPath: 'localPath',
+  sizeInBytes: 'sizeInBytes',
+  downloadedAt: 'downloadedAt',
+  lastAccessedAt: 'lastAccessedAt',
+  accessCount: 'accessCount',
+  expiresAt: 'expiresAt',
+  pinned: 'pinned',
+  autoDelete: 'autoDelete',
+  needsUpdate: 'needsUpdate',
+  cloudVersion: 'cloudVersion',
+  localVersion: 'localVersion',
+  userId: 'userId'
+};
+
+exports.Prisma.NetworkUsageScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  date: 'date',
+  dataDownloaded: 'dataDownloaded',
+  dataUploaded: 'dataUploaded',
+  videoData: 'videoData',
+  documentData: 'documentData',
+  imageData: 'imageData',
+  otherData: 'otherData',
+  connectionType: 'connectionType',
+  userId: 'userId'
+};
+
+exports.Prisma.UserNetworkPreferenceScalarFieldEnum = {
+  id: 'id',
+  autoDownload: 'autoDownload',
+  wifiOnlyDownload: 'wifiOnlyDownload',
+  maxDailyData: 'maxDailyData',
+  wifiQuality: 'wifiQuality',
+  cellularQuality: 'cellularQuality',
+  prioritizeVideos: 'prioritizeVideos',
+  prioritizeQuizzes: 'prioritizeQuizzes',
+  prioritizeArticles: 'prioritizeArticles',
+  syncSchedule: 'syncSchedule',
+  syncWindowStart: 'syncWindowStart',
+  syncWindowEnd: 'syncWindowEnd',
+  autoDeleteWatched: 'autoDeleteWatched',
+  keepDuration: 'keepDuration',
+  maxStorageGB: 'maxStorageGB',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  isGroup: 'isGroup',
+  creatorId: 'creatorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  contextType: 'contextType',
+  courseId: 'courseId',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.ConversationParticipantScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  conversationId: 'conversationId',
+  joinedAt: 'joinedAt',
+  isAdmin: 'isAdmin'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MessageReadStatusScalarFieldEnum = {
+  id: 'id',
+  messageId: 'messageId',
+  userId: 'userId',
+  readAt: 'readAt'
+};
+
+exports.Prisma.ClassToInstructorScalarFieldEnum = {
+  A: 'A',
+  B: 'B'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -502,13 +873,14 @@ exports.Prisma.NullableJsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.JsonNullValueInput = {
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 exports.Prisma.JsonNullValueFilter = {
@@ -516,11 +888,98 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
+exports.InvitationCodeRole = exports.$Enums.InvitationCodeRole = {
+  TEACHER: 'TEACHER',
+  PARENT: 'PARENT'
 };
+
+exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+exports.CourseLevel = exports.$Enums.CourseLevel = {
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED',
+  ALL_LEVELS: 'ALL_LEVELS'
+};
+
+exports.CourseType = exports.$Enums.CourseType = {
+  LECTURE: 'LECTURE',
+  ONLINE: 'ONLINE',
+  HYBRID: 'HYBRID'
+};
+
+exports.CourseStatus = exports.$Enums.CourseStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED',
+  UNPUBLISHED: 'UNPUBLISHED'
+};
+
+exports.ValidationStatus = exports.$Enums.ValidationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
+  REJECTED: 'REJECTED'
+};
+
+exports.LectureType = exports.$Enums.LectureType = {
+  VIDEO: 'VIDEO',
+  ARTICLE: 'ARTICLE',
+  QUIZ: 'QUIZ',
+  CODING_EXERCISE: 'CODING_EXERCISE',
+  ASSIGNMENT: 'ASSIGNMENT',
+  PROJECT: 'PROJECT'
+};
+
+exports.VideoStatus = exports.$Enums.VideoStatus = {
+  UPLOADING: 'UPLOADING',
+  PROCESSING: 'PROCESSING',
+  READY: 'READY',
+  FAILED: 'FAILED'
+};
+
+exports.ContentQuality = exports.$Enums.ContentQuality = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  ULTRA: 'ULTRA'
+};
+
+exports.QuestionType = exports.$Enums.QuestionType = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  MULTIPLE_ANSWER: 'MULTIPLE_ANSWER',
+  TRUE_FALSE: 'TRUE_FALSE',
+  FILL_BLANK: 'FILL_BLANK',
+  ORDERING: 'ORDERING'
+};
+
+exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  NEEDS_REVISION: 'NEEDS_REVISION',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+exports.ResourceType = exports.$Enums.ResourceType = {
+  PDF: 'PDF',
+  DOCUMENT: 'DOCUMENT',
+  PRESENTATION: 'PRESENTATION',
+  SPREADSHEET: 'SPREADSHEET',
+  IMAGE: 'IMAGE',
+  AUDIO: 'AUDIO',
+  VIDEO: 'VIDEO',
+  ARCHIVE: 'ARCHIVE',
+  CODE: 'CODE',
+  EXTERNAL_LINK: 'EXTERNAL_LINK',
+  TEXT: 'TEXT'
+};
+
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
   EDUCATIONAL_MANAGER: 'EDUCATIONAL_MANAGER',
@@ -531,89 +990,38 @@ exports.UserRole = exports.$Enums.UserRole = {
 
 exports.Language = exports.$Enums.Language = {
   FR: 'FR',
-  EN: 'EN',
   MG: 'MG',
-  ES: 'ES'
+  EN: 'EN'
 };
 
-exports.DayOfWeek = exports.$Enums.DayOfWeek = {
-  MONDAY: 'MONDAY',
-  TUESDAY: 'TUESDAY',
-  WEDNESDAY: 'WEDNESDAY',
-  THURSDAY: 'THURSDAY',
-  FRIDAY: 'FRIDAY',
-  SATURDAY: 'SATURDAY',
-  SUNDAY: 'SUNDAY'
+exports.AdminRole = exports.$Enums.AdminRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SCHOOL_ADMIN: 'SCHOOL_ADMIN',
+  CONTENT_MODERATOR: 'CONTENT_MODERATOR'
 };
 
-exports.CourseStatus = exports.$Enums.CourseStatus = {
-  DRAFT: 'DRAFT',
-  UNDER_REVIEW: 'UNDER_REVIEW',
-  APPROVED: 'APPROVED',
-  PUBLISHED: 'PUBLISHED',
-  ARCHIVED: 'ARCHIVED'
-};
-
-exports.ContentType = exports.$Enums.ContentType = {
-  LESSON: 'LESSON',
-  TEXT: 'TEXT',
-  VIDEO: 'VIDEO',
-  PDF: 'PDF',
-  INTERACTIVE: 'INTERACTIVE',
-  QUIZ: 'QUIZ',
-  ASSIGNMENT: 'ASSIGNMENT'
-};
-
-exports.ValidationStatus = exports.$Enums.ValidationStatus = {
-  APPROVED: 'APPROVED',
-  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
-  REJECTED: 'REJECTED'
-};
-
-exports.QuizMode = exports.$Enums.QuizMode = {
-  PRACTICE: 'PRACTICE',
-  EXAM: 'EXAM',
-  TIMED_EXAM: 'TIMED_EXAM'
-};
-
-exports.QuizStatus = exports.$Enums.QuizStatus = {
-  DRAFT: 'DRAFT',
-  PUBLISHED: 'PUBLISHED',
-  ARCHIVED: 'ARCHIVED'
-};
-
-exports.QuestionType = exports.$Enums.QuestionType = {
-  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
-  SHORT_ANSWER: 'SHORT_ANSWER',
-  TRUE_FALSE: 'TRUE_FALSE',
-  ESSAY: 'ESSAY'
-};
-
-exports.QuizAttemptStatus = exports.$Enums.QuizAttemptStatus = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  SUBMITTED: 'SUBMITTED',
-  GRADED: 'GRADED'
-};
-
-exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
-  PENDING: 'PENDING',
-  SUBMITTED: 'SUBMITTED',
-  GRADED: 'GRADED',
-  RESUBMISSION_REQUESTED: 'RESUBMISSION_REQUESTED'
-};
-
-exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
-  PRESENT: 'PRESENT',
-  ABSENT: 'ABSENT',
-  LATE: 'LATE',
-  EXCUSED: 'EXCUSED'
-};
-
-exports.InstructionStatus = exports.$Enums.InstructionStatus = {
-  PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
-  SKIPPED: 'SKIPPED',
-  NEEDS_HELP: 'NEEDS_HELP'
+exports.DegreeLevel = exports.$Enums.DegreeLevel = {
+  PS: 'PS',
+  MS: 'MS',
+  GS: 'GS',
+  CP: 'CP',
+  CE1: 'CE1',
+  CE2: 'CE2',
+  CM1: 'CM1',
+  CM2: 'CM2',
+  SIXIEME: 'SIXIEME',
+  CINQUIEME: 'CINQUIEME',
+  QUATRIEME: 'QUATRIEME',
+  TROISIEME: 'TROISIEME',
+  SECONDE: 'SECONDE',
+  PREMIERE: 'PREMIERE',
+  TERMINALE: 'TERMINALE',
+  L1: 'L1',
+  L2: 'L2',
+  L3: 'L3',
+  M1: 'M1',
+  M2: 'M2',
+  PhD: 'PhD'
 };
 
 exports.NotificationType = exports.$Enums.NotificationType = {
@@ -634,50 +1042,153 @@ exports.NotificationPriority = exports.$Enums.NotificationPriority = {
   URGENT: 'URGENT'
 };
 
-exports.InvitationCodeRole = exports.$Enums.InvitationCodeRole = {
-  TEACHER: 'TEACHER',
-  PARENT: 'PARENT'
+exports.ServerStatus = exports.$Enums.ServerStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  MAINTENANCE: 'MAINTENANCE',
+  ERROR: 'ERROR'
 };
 
-exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
+exports.CachedContentType = exports.$Enums.CachedContentType = {
+  COURSE: 'COURSE',
+  LECTURE: 'LECTURE',
+  VIDEO: 'VIDEO',
+  ARTICLE: 'ARTICLE',
+  QUIZ: 'QUIZ',
+  RESOURCE: 'RESOURCE',
+  IMAGE: 'IMAGE',
+  THUMBNAIL: 'THUMBNAIL'
+};
+
+exports.CachePriority = exports.$Enums.CachePriority = {
+  CRITICAL: 'CRITICAL',
+  HIGH: 'HIGH',
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW'
+};
+
+exports.CacheStatus = exports.$Enums.CacheStatus = {
   PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+  DOWNLOADING: 'DOWNLOADING',
+  CACHED: 'CACHED',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.SyncType = exports.$Enums.SyncType = {
+  FULL: 'FULL',
+  INCREMENTAL: 'INCREMENTAL',
+  PRIORITY: 'PRIORITY',
+  MANUAL: 'MANUAL'
+};
+
+exports.SyncStatus = exports.$Enums.SyncStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.NetworkSpeed = exports.$Enums.NetworkSpeed = {
+  SLOW_2G: 'SLOW_2G',
+  FAST_2G: 'FAST_2G',
+  SLOW_3G: 'SLOW_3G',
+  FAST_3G: 'FAST_3G',
+  SLOW_4G: 'SLOW_4G',
+  FAST_4G: 'FAST_4G',
+  WIFI: 'WIFI'
+};
+
+exports.DownloadPriority = exports.$Enums.DownloadPriority = {
+  URGENT: 'URGENT',
+  HIGH: 'HIGH',
+  NORMAL: 'NORMAL',
+  LOW: 'LOW',
+  BACKGROUND: 'BACKGROUND'
+};
+
+exports.DownloadStatus = exports.$Enums.DownloadStatus = {
+  QUEUED: 'QUEUED',
+  DOWNLOADING: 'DOWNLOADING',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ConnectionType = exports.$Enums.ConnectionType = {
+  WIFI: 'WIFI',
+  CELLULAR_2G: 'CELLULAR_2G',
+  CELLULAR_3G: 'CELLULAR_3G',
+  CELLULAR_4G: 'CELLULAR_4G',
+  CELLULAR_5G: 'CELLULAR_5G',
+  ETHERNET: 'ETHERNET',
+  OFFLINE: 'OFFLINE'
+};
+
+exports.ConversationContext = exports.$Enums.ConversationContext = {
+  COURSE: 'COURSE',
+  LECTURE: 'LECTURE'
 };
 
 exports.Prisma.ModelName = {
+  InvitationCode: 'InvitationCode',
+  TeacherApproval: 'TeacherApproval',
+  ParentChildLink: 'ParentChildLink',
+  Course: 'Course',
+  CourseValidation: 'CourseValidation',
+  Version: 'Version',
+  Category: 'Category',
+  Statistics: 'Statistics',
+  Certificate: 'Certificate',
+  Section: 'Section',
+  Lecture: 'Lecture',
+  Video: 'Video',
+  Article: 'Article',
+  Quiz: 'Quiz',
+  Question: 'Question',
+  QuizAttempt: 'QuizAttempt',
+  CodingExercise: 'CodingExercise',
+  CodingSubmission: 'CodingSubmission',
+  Assignment: 'Assignment',
+  AssignmentSubmission: 'AssignmentSubmission',
+  Project: 'Project',
+  Resource: 'Resource',
+  FAQ: 'FAQ',
+  Review: 'Review',
+  PromoVideo: 'PromoVideo',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
-  VerificationToken: 'VerificationToken',
-  PendingRegistration: 'PendingRegistration',
-  UserRelationship: 'UserRelationship',
   School: 'School',
-  SchoolConfig: 'SchoolConfig',
-  AcademicYear: 'AcademicYear',
-  Subject: 'Subject',
+  Grade: 'Grade',
+  AcademicPeriod: 'AcademicPeriod',
+  Student: 'Student',
+  Instructor: 'Instructor',
+  Parent: 'Parent',
+  ParentStudent: 'ParentStudent',
+  Admin: 'Admin',
   Class: 'Class',
-  ClassSchedule: 'ClassSchedule',
-  Course: 'Course',
-  CourseContent: 'CourseContent',
-  CourseValidation: 'CourseValidation',
-  ContentVersion: 'ContentVersion',
-  CourseAssignment: 'CourseAssignment',
-  Quiz: 'Quiz',
-  Question: 'Question',
-  QuestionResponse: 'QuestionResponse',
-  QuizSubmission: 'QuizSubmission',
-  QuizAssignment: 'QuizAssignment',
-  StudentProgress: 'StudentProgress',
-  Submission: 'Submission',
-  Attendance: 'Attendance',
-  ParentInstruction: 'ParentInstruction',
-  ParentInstructionCompletion: 'ParentInstructionCompletion',
-  Notification: 'Notification',
+  ClassEnrollment: 'ClassEnrollment',
+  CourseEnrollment: 'CourseEnrollment',
+  LectureProgress: 'LectureProgress',
+  Note: 'Note',
+  OfflineSync: 'OfflineSync',
   AuditLog: 'AuditLog',
-  InvitationCode: 'InvitationCode',
-  TeacherApproval: 'TeacherApproval',
-  ParentChildLink: 'ParentChildLink'
+  Notification: 'Notification',
+  SchoolServer: 'SchoolServer',
+  ContentCache: 'ContentCache',
+  ServerSyncLog: 'ServerSyncLog',
+  ContentVariant: 'ContentVariant',
+  DownloadQueue: 'DownloadQueue',
+  OfflineContent: 'OfflineContent',
+  NetworkUsage: 'NetworkUsage',
+  UserNetworkPreference: 'UserNetworkPreference',
+  Conversation: 'Conversation',
+  ConversationParticipant: 'ConversationParticipant',
+  Message: 'Message',
+  MessageReadStatus: 'MessageReadStatus',
+  ClassToInstructor: 'ClassToInstructor'
 };
 
 /**

@@ -93,340 +93,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  phone: 'phone',
-  emailVerified: 'emailVerified',
-  phoneVerified: 'phoneVerified',
-  password: 'password',
-  name: 'name',
-  role: 'role',
-  languagePreference: 'languagePreference',
-  isActive: 'isActive',
-  lastLogin: 'lastLogin',
-  failedLoginAttempts: 'failedLoginAttempts',
-  lockedUntil: 'lockedUntil',
-  schoolId: 'schoolId',
-  settings: 'settings',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.AccountScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  type: 'type',
-  provider: 'provider',
-  providerAccountId: 'providerAccountId',
-  refresh_token: 'refresh_token',
-  access_token: 'access_token',
-  expires_at: 'expires_at',
-  token_type: 'token_type',
-  scope: 'scope',
-  id_token: 'id_token',
-  session_state: 'session_state'
-};
-
-exports.Prisma.SessionScalarFieldEnum = {
-  id: 'id',
-  sessionToken: 'sessionToken',
-  userId: 'userId',
-  expires: 'expires'
-};
-
-exports.Prisma.VerificationTokenScalarFieldEnum = {
-  identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
-};
-
-exports.Prisma.PendingRegistrationScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  name: 'name',
-  passwordHash: 'passwordHash',
-  role: 'role',
-  schoolId: 'schoolId',
-  otpHash: 'otpHash',
-  expires: 'expires',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.UserRelationshipScalarFieldEnum = {
-  id: 'id',
-  parentId: 'parentId',
-  studentId: 'studentId',
-  isVerified: 'isVerified',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.SchoolScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  code: 'code',
-  address: 'address',
-  phone: 'phone',
-  email: 'email',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SchoolConfigScalarFieldEnum = {
-  id: 'id',
-  schoolId: 'schoolId',
-  allowVideoDownload: 'allowVideoDownload',
-  allowPdfDownload: 'allowPdfDownload',
-  allowInteractiveDownload: 'allowInteractiveDownload',
-  syncFrequencyHours: 'syncFrequencyHours',
-  maxDownloadSizeMB: 'maxDownloadSizeMB'
-};
-
-exports.Prisma.AcademicYearScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  schoolId: 'schoolId',
-  isActive: 'isActive'
-};
-
-exports.Prisma.SubjectScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  schoolId: 'schoolId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ClassScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  schoolId: 'schoolId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ClassScheduleScalarFieldEnum = {
-  id: 'id',
-  classId: 'classId',
-  teacherId: 'teacherId',
-  dayOfWeek: 'dayOfWeek',
-  plannedStartTime: 'plannedStartTime',
-  plannedDuration: 'plannedDuration',
-  actualStartTime: 'actualStartTime',
-  actualDuration: 'actualDuration',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CourseScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  teacherId: 'teacherId',
-  schoolId: 'schoolId',
-  subjectId: 'subjectId',
-  status: 'status',
-  language: 'language',
-  requiresOnline: 'requiresOnline',
-  fileSizeBytes: 'fileSizeBytes',
-  thumbnailUrl: 'thumbnailUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  publishedAt: 'publishedAt'
-};
-
-exports.Prisma.CourseContentScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  contentOrder: 'contentOrder',
-  contentType: 'contentType',
-  title: 'title',
-  contentData: 'contentData',
-  appearsAfterSeconds: 'appearsAfterSeconds',
-  disappearsAfterSeconds: 'disappearsAfterSeconds',
-  fileReference: 'fileReference',
-  offlineAvailable: 'offlineAvailable',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CourseValidationScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  reviewerId: 'reviewerId',
-  feedbackText: 'feedbackText',
-  status: 'status',
-  suggestions: 'suggestions',
-  reviewedAt: 'reviewedAt'
-};
-
-exports.Prisma.ContentVersionScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  version: 'version',
-  content: 'content',
-  changes: 'changes',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.CourseAssignmentScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  studentId: 'studentId',
-  classId: 'classId',
-  assignedAt: 'assignedAt',
-  dueDate: 'dueDate'
-};
-
-exports.Prisma.QuizScalarFieldEnum = {
-  id: 'id',
-  courseContentId: 'courseContentId',
-  title: 'title',
-  description: 'description',
-  passingScore: 'passingScore',
-  timeLimit: 'timeLimit',
-  mode: 'mode',
-  showAnswersAfter: 'showAnswersAfter',
-  randomizeQuestions: 'randomizeQuestions',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.QuestionScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  questionType: 'questionType',
-  text: 'text',
-  explanation: 'explanation',
-  order: 'order',
-  points: 'points',
-  options: 'options',
-  correctAnswer: 'correctAnswer',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.QuestionResponseScalarFieldEnum = {
-  id: 'id',
-  questionId: 'questionId',
-  submissionId: 'submissionId',
-  studentAnswer: 'studentAnswer',
-  isCorrect: 'isCorrect',
-  pointsEarned: 'pointsEarned',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.QuizSubmissionScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  studentId: 'studentId',
-  attemptNumber: 'attemptNumber',
-  startedAt: 'startedAt',
-  submittedAt: 'submittedAt',
-  score: 'score',
-  totalPoints: 'totalPoints',
-  timeSpent: 'timeSpent',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.QuizAssignmentScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  classId: 'classId',
-  studentId: 'studentId',
-  assignedAt: 'assignedAt',
-  dueDate: 'dueDate',
-  scheduledDate: 'scheduledDate',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.StudentProgressScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  courseId: 'courseId',
-  completionPercentage: 'completionPercentage',
-  timeSpentMinutes: 'timeSpentMinutes',
-  lastAccessed: 'lastAccessed',
-  currentModule: 'currentModule',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SubmissionScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  courseContentId: 'courseContentId',
-  submittedAt: 'submittedAt',
-  content: 'content',
-  grade: 'grade',
-  gradedById: 'gradedById',
-  gradedAt: 'gradedAt',
-  feedback: 'feedback',
-  status: 'status'
-};
-
-exports.Prisma.AttendanceScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  classId: 'classId',
-  date: 'date',
-  status: 'status',
-  notes: 'notes',
-  recordedById: 'recordedById'
-};
-
-exports.Prisma.ParentInstructionScalarFieldEnum = {
-  id: 'id',
-  teacherId: 'teacherId',
-  studentId: 'studentId',
-  instructionText: 'instructionText',
-  isUrgent: 'isUrgent',
-  createdAt: 'createdAt',
-  expiresAt: 'expiresAt'
-};
-
-exports.Prisma.ParentInstructionCompletionScalarFieldEnum = {
-  id: 'id',
-  instructionId: 'instructionId',
-  parentId: 'parentId',
-  completedAt: 'completedAt',
-  status: 'status',
-  notes: 'notes'
-};
-
-exports.Prisma.NotificationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  type: 'type',
-  title: 'title',
-  message: 'message',
-  data: 'data',
-  read: 'read',
-  readAt: 'readAt',
-  actionUrl: 'actionUrl',
-  priority: 'priority',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.AuditLogScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  action: 'action',
-  entityType: 'entityType',
-  entityId: 'entityId',
-  oldValue: 'oldValue',
-  newValue: 'newValue',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.InvitationCodeScalarFieldEnum = {
   id: 'id',
   code: 'code',
@@ -464,6 +130,711 @@ exports.Prisma.ParentChildLinkScalarFieldEnum = {
   reviewedAt: 'reviewedAt'
 };
 
+exports.Prisma.CourseScalarFieldEnum = {
+  id: 'id',
+  uuid: 'uuid',
+  title: 'title',
+  slug: 'slug',
+  subtitle: 'subtitle',
+  description: 'description',
+  language: 'language',
+  level: 'level',
+  publishedAt: 'publishedAt',
+  lastUpdatedAt: 'lastUpdatedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  categoryId: 'categoryId',
+  instructorId: 'instructorId',
+  schoolId: 'schoolId',
+  contentType: 'contentType',
+  status: 'status',
+  isPublic: 'isPublic',
+  requiresOnline: 'requiresOnline',
+  features: 'features',
+  requirements: 'requirements',
+  targetAudience: 'targetAudience',
+  learningObjectives: 'learningObjectives',
+  tags: 'tags',
+  captions: 'captions',
+  totalSizeBytes: 'totalSizeBytes',
+  offlineAvailable: 'offlineAvailable',
+  downloadPriority: 'downloadPriority',
+  estimatedDataUsage: 'estimatedDataUsage'
+};
+
+exports.Prisma.CourseValidationScalarFieldEnum = {
+  id: 'id',
+  reviewerId: 'reviewerId',
+  status: 'status',
+  feedback: 'feedback',
+  suggestions: 'suggestions',
+  reviewedAt: 'reviewedAt',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VersionScalarFieldEnum = {
+  id: 'id',
+  current: 'current',
+  publishedVersions: 'publishedVersions',
+  courseId: 'courseId'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId'
+};
+
+exports.Prisma.StatisticsScalarFieldEnum = {
+  id: 'id',
+  totalSections: 'totalSections',
+  totalLectures: 'totalLectures',
+  totalQuizzes: 'totalQuizzes',
+  totalAssignments: 'totalAssignments',
+  totalArticles: 'totalArticles',
+  totalDownloadableResources: 'totalDownloadableResources',
+  totalDuration: 'totalDuration',
+  totalDurationFormatted: 'totalDurationFormatted',
+  totalStudents: 'totalStudents',
+  totalReviews: 'totalReviews',
+  averageRating: 'averageRating',
+  ratingDistribution: 'ratingDistribution',
+  completionRate: 'completionRate',
+  lastMonthEnrollments: 'lastMonthEnrollments',
+  courseId: 'courseId'
+};
+
+exports.Prisma.CertificateScalarFieldEnum = {
+  id: 'id',
+  available: 'available',
+  completionPercentage: 'completionPercentage',
+  quizzesRequired: 'quizzesRequired',
+  minimumQuizScore: 'minimumQuizScore',
+  courseId: 'courseId'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  order: 'order',
+  totalLectures: 'totalLectures',
+  totalDuration: 'totalDuration',
+  durationFormatted: 'durationFormatted',
+  courseId: 'courseId'
+};
+
+exports.Prisma.LectureScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  order: 'order',
+  duration: 'duration',
+  durationFormatted: 'durationFormatted',
+  isPreview: 'isPreview',
+  isFree: 'isFree',
+  downloadPriority: 'downloadPriority',
+  sectionId: 'sectionId',
+  sizeBytes: 'sizeBytes',
+  estimatedDataUsage: 'estimatedDataUsage',
+  offlineAvailable: 'offlineAvailable'
+};
+
+exports.Prisma.VideoScalarFieldEnum = {
+  id: 'id',
+  versionId: 'versionId',
+  version: 'version',
+  sources: 'sources',
+  hlsUrl: 'hlsUrl',
+  dashUrl: 'dashUrl',
+  thumbnail: 'thumbnail',
+  thumbnailSprite: 'thumbnailSprite',
+  captions: 'captions',
+  uploadedAt: 'uploadedAt',
+  processedAt: 'processedAt',
+  status: 'status',
+  updateNotes: 'updateNotes',
+  lectureId: 'lectureId',
+  defaultQuality: 'defaultQuality',
+  offlineOptimized: 'offlineOptimized'
+};
+
+exports.Prisma.ArticleScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  contentHtml: 'contentHtml',
+  estimatedReadingTime: 'estimatedReadingTime',
+  wordCount: 'wordCount',
+  images: 'images',
+  updatedAt: 'updatedAt',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.QuizScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  passingScore: 'passingScore',
+  totalPoints: 'totalPoints',
+  timeLimit: 'timeLimit',
+  attemptsAllowed: 'attemptsAllowed',
+  shuffleQuestions: 'shuffleQuestions',
+  shuffleAnswers: 'shuffleAnswers',
+  showCorrectAnswers: 'showCorrectAnswers',
+  showCorrectAnswersAfter: 'showCorrectAnswersAfter',
+  questionCount: 'questionCount',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.QuestionScalarFieldEnum = {
+  id: 'id',
+  order: 'order',
+  type: 'type',
+  question: 'question',
+  points: 'points',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  acceptedAnswers: 'acceptedAnswers',
+  orderingItems: 'orderingItems',
+  explanation: 'explanation',
+  hint: 'hint',
+  partialCredit: 'partialCredit',
+  quizId: 'quizId'
+};
+
+exports.Prisma.QuizAttemptScalarFieldEnum = {
+  id: 'id',
+  attemptNumber: 'attemptNumber',
+  startedAt: 'startedAt',
+  submittedAt: 'submittedAt',
+  score: 'score',
+  pointsEarned: 'pointsEarned',
+  pointsPossible: 'pointsPossible',
+  percentage: 'percentage',
+  passed: 'passed',
+  timeSpent: 'timeSpent',
+  answers: 'answers',
+  quizId: 'quizId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.CodingExerciseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  instructions: 'instructions',
+  starterCode: 'starterCode',
+  language: 'language',
+  expectedOutput: 'expectedOutput',
+  testCases: 'testCases',
+  hints: 'hints',
+  solution: 'solution',
+  allowSubmission: 'allowSubmission',
+  maxSubmissions: 'maxSubmissions',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.CodingSubmissionScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  submittedAt: 'submittedAt',
+  testsPassed: 'testsPassed',
+  testsTotal: 'testsTotal',
+  passed: 'passed',
+  output: 'output',
+  error: 'error',
+  codingExerciseId: 'codingExerciseId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  instructions: 'instructions',
+  allowedFileTypes: 'allowedFileTypes',
+  maxFileSize: 'maxFileSize',
+  dueDate: 'dueDate',
+  rubric: 'rubric',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.AssignmentSubmissionScalarFieldEnum = {
+  id: 'id',
+  files: 'files',
+  submittedAt: 'submittedAt',
+  grade: 'grade',
+  feedback: 'feedback',
+  status: 'status',
+  assignmentId: 'assignmentId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  complexity: 'complexity',
+  technologies: 'technologies',
+  learningObjectives: 'learningObjectives',
+  milestones: 'milestones',
+  submission: 'submission',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.ResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  type: 'type',
+  fileSize: 'fileSize',
+  fileSizeFormatted: 'fileSizeFormatted',
+  url: 'url',
+  downloadable: 'downloadable',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.FAQScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  helpful: 'helpful',
+  notHelpful: 'notHelpful',
+  createdAt: 'createdAt',
+  courseId: 'courseId'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  title: 'title',
+  content: 'content',
+  helpful: 'helpful',
+  notHelpful: 'notHelpful',
+  createdAt: 'createdAt',
+  courseId: 'courseId',
+  userId: 'userId'
+};
+
+exports.Prisma.PromoVideoScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  duration: 'duration',
+  thumbnail: 'thumbnail',
+  courseId: 'courseId'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  phone: 'phone',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  password: 'password',
+  role: 'role',
+  language: 'language',
+  avatar: 'avatar',
+  verified: 'verified',
+  verificationCode: 'verificationCode',
+  codeExpires: 'codeExpires',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastLoginAt: 'lastLoginAt',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  expires: 'expires',
+  userId: 'userId'
+};
+
+exports.Prisma.SchoolScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  address: 'address',
+  city: 'city',
+  country: 'country',
+  timezone: 'timezone',
+  config: 'config',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GradeScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  score: 'score',
+  maxScore: 'maxScore',
+  percentage: 'percentage',
+  letterGrade: 'letterGrade',
+  academicPeriod: 'academicPeriod',
+  gradedBy: 'gradedBy',
+  gradedAt: 'gradedAt',
+  feedback: 'feedback',
+  assignmentId: 'assignmentId',
+  gradableType: 'gradableType',
+  gradableId: 'gradableId',
+  courseId: 'courseId',
+  classId: 'classId'
+};
+
+exports.Prisma.AcademicPeriodScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.StudentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  gradeLevel: 'gradeLevel',
+  birthDate: 'birthDate',
+  userId: 'userId',
+  config: 'config'
+};
+
+exports.Prisma.InstructorScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  biography: 'biography',
+  rating: 'rating',
+  totalStudents: 'totalStudents',
+  totalCourses: 'totalCourses',
+  website: 'website',
+  social: 'social',
+  userId: 'userId',
+  config: 'config'
+};
+
+exports.Prisma.ParentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  config: 'config'
+};
+
+exports.Prisma.ParentStudentScalarFieldEnum = {
+  id: 'id',
+  relationship: 'relationship',
+  isVerified: 'isVerified',
+  parentId: 'parentId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  permissions: 'permissions',
+  userId: 'userId'
+};
+
+exports.Prisma.ClassScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  degreeLevel: 'degreeLevel',
+  subject: 'subject',
+  schoolId: 'schoolId',
+  academicPeriodId: 'academicPeriodId'
+};
+
+exports.Prisma.ClassEnrollmentScalarFieldEnum = {
+  id: 'id',
+  enrolledAt: 'enrolledAt',
+  classId: 'classId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.CourseEnrollmentScalarFieldEnum = {
+  id: 'id',
+  enrolledAt: 'enrolledAt',
+  lastAccessedAt: 'lastAccessedAt',
+  progressPercentage: 'progressPercentage',
+  completedLectures: 'completedLectures',
+  totalTimeSpent: 'totalTimeSpent',
+  certificateEarned: 'certificateEarned',
+  favorited: 'favorited',
+  archived: 'archived',
+  courseId: 'courseId',
+  userId: 'userId',
+  studentId: 'studentId',
+  currentLectureId: 'currentLectureId'
+};
+
+exports.Prisma.LectureProgressScalarFieldEnum = {
+  id: 'id',
+  completed: 'completed',
+  completedAt: 'completedAt',
+  lastActivityAt: 'lastActivityAt',
+  lastPosition: 'lastPosition',
+  watchedPercentage: 'watchedPercentage',
+  attempts: 'attempts',
+  bestScore: 'bestScore',
+  passed: 'passed',
+  lectureId: 'lectureId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.NoteScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  timestamp: 'timestamp',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lectureId: 'lectureId',
+  userId: 'userId',
+  studentId: 'studentId'
+};
+
+exports.Prisma.OfflineSyncScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  lastSyncAt: 'lastSyncAt',
+  pendingChanges: 'pendingChanges',
+  userId: 'userId'
+};
+
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  data: 'data',
+  read: 'read',
+  readAt: 'readAt',
+  actionUrl: 'actionUrl',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  userId: 'userId'
+};
+
+exports.Prisma.SchoolServerScalarFieldEnum = {
+  id: 'id',
+  serverName: 'serverName',
+  ipAddress: 'ipAddress',
+  macAddress: 'macAddress',
+  storageCapacity: 'storageCapacity',
+  storageUsed: 'storageUsed',
+  status: 'status',
+  lastPingAt: 'lastPingAt',
+  isMainServer: 'isMainServer',
+  canServeContent: 'canServeContent',
+  maxConcurrentUsers: 'maxConcurrentUsers',
+  syncWithCloud: 'syncWithCloud',
+  syncSchedule: 'syncSchedule',
+  lastSyncAt: 'lastSyncAt',
+  nextSyncAt: 'nextSyncAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.ContentCacheScalarFieldEnum = {
+  id: 'id',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  priority: 'priority',
+  sizeInBytes: 'sizeInBytes',
+  version: 'version',
+  checksum: 'checksum',
+  status: 'status',
+  downloadProgress: 'downloadProgress',
+  cachedAt: 'cachedAt',
+  lastAccessedAt: 'lastAccessedAt',
+  accessCount: 'accessCount',
+  expiresAt: 'expiresAt',
+  pinned: 'pinned',
+  serverId: 'serverId'
+};
+
+exports.Prisma.ServerSyncLogScalarFieldEnum = {
+  id: 'id',
+  syncType: 'syncType',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  status: 'status',
+  itemsSynced: 'itemsSynced',
+  itemsFailed: 'itemsFailed',
+  totalSize: 'totalSize',
+  errors: 'errors',
+  serverId: 'serverId'
+};
+
+exports.Prisma.ContentVariantScalarFieldEnum = {
+  id: 'id',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  quality: 'quality',
+  resolution: 'resolution',
+  bitrate: 'bitrate',
+  codec: 'codec',
+  format: 'format',
+  url: 'url',
+  sizeInBytes: 'sizeInBytes',
+  sizeFormatted: 'sizeFormatted',
+  duration: 'duration',
+  isDefault: 'isDefault',
+  recommendedFor: 'recommendedFor',
+  createdAt: 'createdAt',
+  videoId: 'videoId'
+};
+
+exports.Prisma.DownloadQueueScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  variantQuality: 'variantQuality',
+  priority: 'priority',
+  status: 'status',
+  progress: 'progress',
+  wifiOnly: 'wifiOnly',
+  scheduledFor: 'scheduledFor',
+  estimatedSize: 'estimatedSize',
+  downloadedSize: 'downloadedSize',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  retryCount: 'retryCount',
+  maxRetries: 'maxRetries',
+  lastError: 'lastError',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OfflineContentScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  contentType: 'contentType',
+  contentId: 'contentId',
+  variantQuality: 'variantQuality',
+  localPath: 'localPath',
+  sizeInBytes: 'sizeInBytes',
+  downloadedAt: 'downloadedAt',
+  lastAccessedAt: 'lastAccessedAt',
+  accessCount: 'accessCount',
+  expiresAt: 'expiresAt',
+  pinned: 'pinned',
+  autoDelete: 'autoDelete',
+  needsUpdate: 'needsUpdate',
+  cloudVersion: 'cloudVersion',
+  localVersion: 'localVersion',
+  userId: 'userId'
+};
+
+exports.Prisma.NetworkUsageScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  date: 'date',
+  dataDownloaded: 'dataDownloaded',
+  dataUploaded: 'dataUploaded',
+  videoData: 'videoData',
+  documentData: 'documentData',
+  imageData: 'imageData',
+  otherData: 'otherData',
+  connectionType: 'connectionType',
+  userId: 'userId'
+};
+
+exports.Prisma.UserNetworkPreferenceScalarFieldEnum = {
+  id: 'id',
+  autoDownload: 'autoDownload',
+  wifiOnlyDownload: 'wifiOnlyDownload',
+  maxDailyData: 'maxDailyData',
+  wifiQuality: 'wifiQuality',
+  cellularQuality: 'cellularQuality',
+  prioritizeVideos: 'prioritizeVideos',
+  prioritizeQuizzes: 'prioritizeQuizzes',
+  prioritizeArticles: 'prioritizeArticles',
+  syncSchedule: 'syncSchedule',
+  syncWindowStart: 'syncWindowStart',
+  syncWindowEnd: 'syncWindowEnd',
+  autoDeleteWatched: 'autoDeleteWatched',
+  keepDuration: 'keepDuration',
+  maxStorageGB: 'maxStorageGB',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  isGroup: 'isGroup',
+  creatorId: 'creatorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  contextType: 'contextType',
+  courseId: 'courseId',
+  lectureId: 'lectureId'
+};
+
+exports.Prisma.ConversationParticipantScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  conversationId: 'conversationId',
+  joinedAt: 'joinedAt',
+  isAdmin: 'isAdmin'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MessageReadStatusScalarFieldEnum = {
+  id: 'id',
+  messageId: 'messageId',
+  userId: 'userId',
+  readAt: 'readAt'
+};
+
+exports.Prisma.ClassToInstructorScalarFieldEnum = {
+  A: 'A',
+  B: 'B'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -474,13 +845,14 @@ exports.Prisma.NullableJsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.JsonNullValueInput = {
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 exports.Prisma.JsonNullValueFilter = {
@@ -488,11 +860,212 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
+exports.InvitationCodeRole = exports.$Enums.InvitationCodeRole = {
+  TEACHER: 'TEACHER',
+  PARENT: 'PARENT'
 };
+
+exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+exports.DegreeLevel = exports.$Enums.DegreeLevel = {
+  PS: 'PS',
+  MS: 'MS',
+  GS: 'GS',
+  CP: 'CP',
+  CE1: 'CE1',
+  CE2: 'CE2',
+  CM1: 'CM1',
+  CM2: 'CM2',
+  SIXIEME: 'SIXIEME',
+  CINQUIEME: 'CINQUIEME',
+  QUATRIEME: 'QUATRIEME',
+  TROISIEME: 'TROISIEME',
+  SECONDE: 'SECONDE',
+  PREMIERE: 'PREMIERE',
+  TERMINALE: 'TERMINALE',
+  L1: 'L1',
+  L2: 'L2',
+  L3: 'L3',
+  M1: 'M1',
+  M2: 'M2',
+  PhD: 'PhD'
+};
+
+exports.Language = exports.$Enums.Language = {
+  FR: 'FR',
+  MG: 'MG',
+  EN: 'EN'
+};
+
+exports.CourseLevel = exports.$Enums.CourseLevel = {
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED',
+  ALL_LEVELS: 'ALL_LEVELS'
+};
+
+exports.CourseStatus = exports.$Enums.CourseStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED',
+  UNPUBLISHED: 'UNPUBLISHED'
+};
+
+exports.LectureType = exports.$Enums.LectureType = {
+  VIDEO: 'VIDEO',
+  ARTICLE: 'ARTICLE',
+  QUIZ: 'QUIZ',
+  CODING_EXERCISE: 'CODING_EXERCISE',
+  ASSIGNMENT: 'ASSIGNMENT',
+  PROJECT: 'PROJECT'
+};
+
+exports.QuestionType = exports.$Enums.QuestionType = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  MULTIPLE_ANSWER: 'MULTIPLE_ANSWER',
+  TRUE_FALSE: 'TRUE_FALSE',
+  FILL_BLANK: 'FILL_BLANK',
+  ORDERING: 'ORDERING'
+};
+
+exports.VideoStatus = exports.$Enums.VideoStatus = {
+  UPLOADING: 'UPLOADING',
+  PROCESSING: 'PROCESSING',
+  READY: 'READY',
+  FAILED: 'FAILED'
+};
+
+exports.ResourceType = exports.$Enums.ResourceType = {
+  PDF: 'PDF',
+  DOCUMENT: 'DOCUMENT',
+  PRESENTATION: 'PRESENTATION',
+  SPREADSHEET: 'SPREADSHEET',
+  IMAGE: 'IMAGE',
+  AUDIO: 'AUDIO',
+  VIDEO: 'VIDEO',
+  ARCHIVE: 'ARCHIVE',
+  CODE: 'CODE',
+  EXTERNAL_LINK: 'EXTERNAL_LINK',
+  TEXT: 'TEXT'
+};
+
+exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
+  DRAFT: 'DRAFT',
+  SUBMITTED: 'SUBMITTED',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  NEEDS_REVISION: 'NEEDS_REVISION',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+exports.CourseType = exports.$Enums.CourseType = {
+  LECTURE: 'LECTURE',
+  ONLINE: 'ONLINE',
+  HYBRID: 'HYBRID'
+};
+
+exports.ValidationStatus = exports.$Enums.ValidationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
+  REJECTED: 'REJECTED'
+};
+
+exports.ServerStatus = exports.$Enums.ServerStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  MAINTENANCE: 'MAINTENANCE',
+  ERROR: 'ERROR'
+};
+
+exports.CachedContentType = exports.$Enums.CachedContentType = {
+  COURSE: 'COURSE',
+  LECTURE: 'LECTURE',
+  VIDEO: 'VIDEO',
+  ARTICLE: 'ARTICLE',
+  QUIZ: 'QUIZ',
+  RESOURCE: 'RESOURCE',
+  IMAGE: 'IMAGE',
+  THUMBNAIL: 'THUMBNAIL'
+};
+
+exports.CachePriority = exports.$Enums.CachePriority = {
+  CRITICAL: 'CRITICAL',
+  HIGH: 'HIGH',
+  MEDIUM: 'MEDIUM',
+  LOW: 'LOW'
+};
+
+exports.CacheStatus = exports.$Enums.CacheStatus = {
+  PENDING: 'PENDING',
+  DOWNLOADING: 'DOWNLOADING',
+  CACHED: 'CACHED',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.SyncType = exports.$Enums.SyncType = {
+  FULL: 'FULL',
+  INCREMENTAL: 'INCREMENTAL',
+  PRIORITY: 'PRIORITY',
+  MANUAL: 'MANUAL'
+};
+
+exports.SyncStatus = exports.$Enums.SyncStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ContentQuality = exports.$Enums.ContentQuality = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  ULTRA: 'ULTRA'
+};
+
+exports.NetworkSpeed = exports.$Enums.NetworkSpeed = {
+  SLOW_2G: 'SLOW_2G',
+  FAST_2G: 'FAST_2G',
+  SLOW_3G: 'SLOW_3G',
+  FAST_3G: 'FAST_3G',
+  SLOW_4G: 'SLOW_4G',
+  FAST_4G: 'FAST_4G',
+  WIFI: 'WIFI'
+};
+
+exports.DownloadPriority = exports.$Enums.DownloadPriority = {
+  URGENT: 'URGENT',
+  HIGH: 'HIGH',
+  NORMAL: 'NORMAL',
+  LOW: 'LOW',
+  BACKGROUND: 'BACKGROUND'
+};
+
+exports.DownloadStatus = exports.$Enums.DownloadStatus = {
+  QUEUED: 'QUEUED',
+  DOWNLOADING: 'DOWNLOADING',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ConnectionType = exports.$Enums.ConnectionType = {
+  WIFI: 'WIFI',
+  CELLULAR_2G: 'CELLULAR_2G',
+  CELLULAR_3G: 'CELLULAR_3G',
+  CELLULAR_4G: 'CELLULAR_4G',
+  CELLULAR_5G: 'CELLULAR_5G',
+  ETHERNET: 'ETHERNET',
+  OFFLINE: 'OFFLINE'
+};
+
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
   EDUCATIONAL_MANAGER: 'EDUCATIONAL_MANAGER',
@@ -501,29 +1074,10 @@ exports.UserRole = exports.$Enums.UserRole = {
   PARENT: 'PARENT'
 };
 
-exports.CourseStatus = exports.$Enums.CourseStatus = {
-  DRAFT: 'DRAFT',
-  UNDER_REVIEW: 'UNDER_REVIEW',
-  APPROVED: 'APPROVED',
-  PUBLISHED: 'PUBLISHED',
-  ARCHIVED: 'ARCHIVED'
-};
-
-exports.ContentType = exports.$Enums.ContentType = {
-  LESSON: 'LESSON',
-  TEXT: 'TEXT',
-  VIDEO: 'VIDEO',
-  PDF: 'PDF',
-  INTERACTIVE: 'INTERACTIVE',
-  QUIZ: 'QUIZ',
-  ASSIGNMENT: 'ASSIGNMENT'
-};
-
-exports.Language = exports.$Enums.Language = {
-  FR: 'FR',
-  EN: 'EN',
-  MG: 'MG',
-  ES: 'ES'
+exports.AdminRole = exports.$Enums.AdminRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SCHOOL_ADMIN: 'SCHOOL_ADMIN',
+  CONTENT_MODERATOR: 'CONTENT_MODERATOR'
 };
 
 exports.NotificationType = exports.$Enums.NotificationType = {
@@ -544,112 +1098,69 @@ exports.NotificationPriority = exports.$Enums.NotificationPriority = {
   URGENT: 'URGENT'
 };
 
-exports.InstructionStatus = exports.$Enums.InstructionStatus = {
-  PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
-  SKIPPED: 'SKIPPED',
-  NEEDS_HELP: 'NEEDS_HELP'
-};
-
-exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
-  PENDING: 'PENDING',
-  SUBMITTED: 'SUBMITTED',
-  GRADED: 'GRADED',
-  RESUBMISSION_REQUESTED: 'RESUBMISSION_REQUESTED'
-};
-
-exports.ValidationStatus = exports.$Enums.ValidationStatus = {
-  APPROVED: 'APPROVED',
-  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
-  REJECTED: 'REJECTED'
-};
-
-exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
-  PRESENT: 'PRESENT',
-  ABSENT: 'ABSENT',
-  LATE: 'LATE',
-  EXCUSED: 'EXCUSED'
-};
-
-exports.DayOfWeek = exports.$Enums.DayOfWeek = {
-  MONDAY: 'MONDAY',
-  TUESDAY: 'TUESDAY',
-  WEDNESDAY: 'WEDNESDAY',
-  THURSDAY: 'THURSDAY',
-  FRIDAY: 'FRIDAY',
-  SATURDAY: 'SATURDAY',
-  SUNDAY: 'SUNDAY'
-};
-
-exports.QuestionType = exports.$Enums.QuestionType = {
-  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
-  SHORT_ANSWER: 'SHORT_ANSWER',
-  TRUE_FALSE: 'TRUE_FALSE',
-  ESSAY: 'ESSAY'
-};
-
-exports.QuizStatus = exports.$Enums.QuizStatus = {
-  DRAFT: 'DRAFT',
-  PUBLISHED: 'PUBLISHED',
-  ARCHIVED: 'ARCHIVED'
-};
-
-exports.QuizAttemptStatus = exports.$Enums.QuizAttemptStatus = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  SUBMITTED: 'SUBMITTED',
-  GRADED: 'GRADED'
-};
-
-exports.QuizMode = exports.$Enums.QuizMode = {
-  PRACTICE: 'PRACTICE',
-  EXAM: 'EXAM',
-  TIMED_EXAM: 'TIMED_EXAM'
-};
-
-exports.InvitationCodeRole = exports.$Enums.InvitationCodeRole = {
-  TEACHER: 'TEACHER',
-  PARENT: 'PARENT'
-};
-
-exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+exports.ConversationContext = exports.$Enums.ConversationContext = {
+  COURSE: 'COURSE',
+  LECTURE: 'LECTURE'
 };
 
 exports.Prisma.ModelName = {
+  InvitationCode: 'InvitationCode',
+  TeacherApproval: 'TeacherApproval',
+  ParentChildLink: 'ParentChildLink',
+  Course: 'Course',
+  CourseValidation: 'CourseValidation',
+  Version: 'Version',
+  Category: 'Category',
+  Statistics: 'Statistics',
+  Certificate: 'Certificate',
+  Section: 'Section',
+  Lecture: 'Lecture',
+  Video: 'Video',
+  Article: 'Article',
+  Quiz: 'Quiz',
+  Question: 'Question',
+  QuizAttempt: 'QuizAttempt',
+  CodingExercise: 'CodingExercise',
+  CodingSubmission: 'CodingSubmission',
+  Assignment: 'Assignment',
+  AssignmentSubmission: 'AssignmentSubmission',
+  Project: 'Project',
+  Resource: 'Resource',
+  FAQ: 'FAQ',
+  Review: 'Review',
+  PromoVideo: 'PromoVideo',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
-  VerificationToken: 'VerificationToken',
-  PendingRegistration: 'PendingRegistration',
-  UserRelationship: 'UserRelationship',
   School: 'School',
-  SchoolConfig: 'SchoolConfig',
-  AcademicYear: 'AcademicYear',
-  Subject: 'Subject',
+  Grade: 'Grade',
+  AcademicPeriod: 'AcademicPeriod',
+  Student: 'Student',
+  Instructor: 'Instructor',
+  Parent: 'Parent',
+  ParentStudent: 'ParentStudent',
+  Admin: 'Admin',
   Class: 'Class',
-  ClassSchedule: 'ClassSchedule',
-  Course: 'Course',
-  CourseContent: 'CourseContent',
-  CourseValidation: 'CourseValidation',
-  ContentVersion: 'ContentVersion',
-  CourseAssignment: 'CourseAssignment',
-  Quiz: 'Quiz',
-  Question: 'Question',
-  QuestionResponse: 'QuestionResponse',
-  QuizSubmission: 'QuizSubmission',
-  QuizAssignment: 'QuizAssignment',
-  StudentProgress: 'StudentProgress',
-  Submission: 'Submission',
-  Attendance: 'Attendance',
-  ParentInstruction: 'ParentInstruction',
-  ParentInstructionCompletion: 'ParentInstructionCompletion',
-  Notification: 'Notification',
+  ClassEnrollment: 'ClassEnrollment',
+  CourseEnrollment: 'CourseEnrollment',
+  LectureProgress: 'LectureProgress',
+  Note: 'Note',
+  OfflineSync: 'OfflineSync',
   AuditLog: 'AuditLog',
-  InvitationCode: 'InvitationCode',
-  TeacherApproval: 'TeacherApproval',
-  ParentChildLink: 'ParentChildLink'
+  Notification: 'Notification',
+  SchoolServer: 'SchoolServer',
+  ContentCache: 'ContentCache',
+  ServerSyncLog: 'ServerSyncLog',
+  ContentVariant: 'ContentVariant',
+  DownloadQueue: 'DownloadQueue',
+  OfflineContent: 'OfflineContent',
+  NetworkUsage: 'NetworkUsage',
+  UserNetworkPreference: 'UserNetworkPreference',
+  Conversation: 'Conversation',
+  ConversationParticipant: 'ConversationParticipant',
+  Message: 'Message',
+  MessageReadStatus: 'MessageReadStatus',
+  ClassToInstructor: 'ClassToInstructor'
 };
 /**
  * Create the Client
@@ -699,13 +1210,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// SchoolBridge Database Schema\n// Offline-first school management platform for Madagascar\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// ===== ENUMS =====\n\nenum UserRole {\n  ADMIN\n  EDUCATIONAL_MANAGER\n  TEACHER\n  STUDENT\n  PARENT\n}\n\nenum CourseStatus {\n  DRAFT\n  UNDER_REVIEW\n  APPROVED\n  PUBLISHED\n  ARCHIVED\n}\n\nenum ContentType {\n  LESSON\n  TEXT\n  VIDEO\n  PDF\n  INTERACTIVE\n  QUIZ\n  ASSIGNMENT\n}\n\nenum Language {\n  FR\n  EN\n  MG\n  ES\n}\n\nenum NotificationType {\n  COURSE_ASSIGNED\n  GRADE_POSTED\n  PARENT_INSTRUCTION\n  COURSE_VALIDATED\n  COURSE_REJECTED\n  ASSIGNMENT_DUE\n  SYSTEM_ALERT\n  MESSAGE_RECEIVED\n}\n\nenum NotificationPriority {\n  LOW\n  NORMAL\n  HIGH\n  URGENT\n}\n\nenum InstructionStatus {\n  PENDING\n  COMPLETED\n  SKIPPED\n  NEEDS_HELP\n}\n\nenum SubmissionStatus {\n  PENDING\n  SUBMITTED\n  GRADED\n  RESUBMISSION_REQUESTED\n}\n\nenum ValidationStatus {\n  APPROVED\n  CHANGES_REQUESTED\n  REJECTED\n}\n\nenum AttendanceStatus {\n  PRESENT\n  ABSENT\n  LATE\n  EXCUSED\n}\n\nenum DayOfWeek {\n  MONDAY\n  TUESDAY\n  WEDNESDAY\n  THURSDAY\n  FRIDAY\n  SATURDAY\n  SUNDAY\n}\n\nenum QuestionType {\n  MULTIPLE_CHOICE\n  SHORT_ANSWER\n  TRUE_FALSE\n  ESSAY\n}\n\nenum QuizStatus {\n  DRAFT\n  PUBLISHED\n  ARCHIVED\n}\n\nenum QuizAttemptStatus {\n  IN_PROGRESS\n  SUBMITTED\n  GRADED\n}\n\nenum QuizMode {\n  PRACTICE // Student gets instant feedback on each question\n  EXAM // Student sees no feedback until submission, then final score and answers\n  TIMED_EXAM // Like EXAM but with strict time limit, auto-submits when time expires\n}\n\n// ===== USER MANAGEMENT =====\n\nmodel User {\n  id                  String    @id @default(uuid())\n  email               String?   @unique\n  phone               String?   @unique\n  emailVerified       DateTime?\n  phoneVerified       DateTime?\n  password            String\n  name                String\n  role                UserRole\n  languagePreference  Language  @default(FR)\n  isActive            Boolean   @default(true)\n  lastLogin           DateTime?\n  failedLoginAttempts Int       @default(0)\n  lockedUntil         DateTime?\n  schoolId            String?\n  settings            Json?     @default(\"{}\")\n  createdAt           DateTime  @default(now())\n  updatedAt           DateTime  @updatedAt\n\n  // Relations\n  school               School?                       @relation(fields: [schoolId], references: [id], onDelete: SetNull)\n  accounts             Account[]\n  sessions             Session[]\n  coursesCreated       Course[]                      @relation(\"CourseCreator\")\n  courseValidations    CourseValidation[]\n  parentRelations      UserRelationship[]            @relation(\"ParentUser\")\n  studentRelations     UserRelationship[]            @relation(\"StudentUser\")\n  studentProgress      StudentProgress[]\n  instructionsGiven    ParentInstruction[]           @relation(\"InstructionCreator\")\n  instructionsReceived ParentInstructionCompletion[]\n  notifications        Notification[]\n  auditLogs            AuditLog[]\n  classes              Class[]                       @relation(\"ClassStudents\")\n  classSchedules       ClassSchedule[]               @relation(\"TeacherSchedules\")\n  submissions          Submission[]\n  submissionsGraded    Submission[]                  @relation(\"SubmissionsGraded\")\n  attendances          Attendance[]\n  attendancesRecorded  Attendance[]                  @relation(\"AttendancesRecorded\")\n  quizSubmissions      QuizSubmission[]\n\n  @@index([email])\n  @@index([phone])\n  @@index([schoolId])\n  @@index([role])\n}\n\nmodel Account {\n  id                String  @id @default(uuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  session_state     String?\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n  @@index([userId])\n}\n\nmodel Session {\n  id           String   @id @default(uuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@index([userId])\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String   @unique\n  expires    DateTime\n\n  @@unique([identifier, token])\n}\n\nmodel PendingRegistration {\n  id           String   @id @default(uuid())\n  email        String   @unique\n  name         String\n  passwordHash String\n  role         UserRole\n  schoolId     String\n  otpHash      String\n  expires      DateTime\n  createdAt    DateTime @default(now())\n\n  @@index([email])\n}\n\nmodel UserRelationship {\n  id         String   @id @default(uuid())\n  parentId   String\n  studentId  String\n  isVerified Boolean  @default(false)\n  createdAt  DateTime @default(now())\n\n  parent  User @relation(\"ParentUser\", fields: [parentId], references: [id], onDelete: Cascade)\n  student User @relation(\"StudentUser\", fields: [studentId], references: [id], onDelete: Cascade)\n\n  @@unique([parentId, studentId])\n  @@index([parentId])\n  @@index([studentId])\n}\n\n// ===== SCHOOL MANAGEMENT =====\n\nmodel School {\n  id        String   @id @default(uuid())\n  name      String\n  code      String   @unique\n  address   String?\n  phone     String?\n  email     String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  users           User[]\n  courses         Course[]\n  config          SchoolConfig?\n  academicYears   AcademicYear[]\n  subjects        Subject[]\n  classes         Class[]\n  invitationCodes InvitationCode[]\n\n  @@index([code])\n}\n\nmodel SchoolConfig {\n  id                       String  @id @default(uuid())\n  schoolId                 String  @unique\n  allowVideoDownload       Boolean @default(true)\n  allowPdfDownload         Boolean @default(true)\n  allowInteractiveDownload Boolean @default(true)\n  syncFrequencyHours       Int     @default(24)\n  maxDownloadSizeMB        Int     @default(100)\n\n  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n}\n\n// ===== ACADEMICS =====\n\nmodel AcademicYear {\n  id        String   @id @default(uuid())\n  name      String // e.g., \"2025-2026\"\n  startDate DateTime\n  endDate   DateTime\n  schoolId  String\n  isActive  Boolean  @default(false)\n\n  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n\n  @@unique([schoolId, name])\n  @@index([schoolId])\n}\n\nmodel Subject {\n  id        String   @id @default(uuid())\n  name      String\n  schoolId  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  school  School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n  courses Course[]\n\n  @@unique([schoolId, name])\n  @@index([schoolId])\n}\n\nmodel Class {\n  id        String   @id @default(uuid())\n  name      String // e.g., \"Grade 5 - Section A\"\n  schoolId  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  school          School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n  students        User[]             @relation(\"ClassStudents\")\n  assignments     CourseAssignment[]\n  attendances     Attendance[]\n  schedules       ClassSchedule[]\n  quizAssignments QuizAssignment[]   @relation(\"QuizAssignments\")\n\n  @@unique([schoolId, name])\n  @@index([schoolId])\n}\n\nmodel ClassSchedule {\n  id               String    @id @default(uuid())\n  classId          String\n  teacherId        String\n  dayOfWeek        DayOfWeek\n  plannedStartTime String // Time format \"HH:MM\" e.g., \"09:00\"\n  plannedDuration  Int // Duration in minutes e.g., 60\n  actualStartTime  String? // Time format \"HH:MM\" e.g., \"09:05\" (when class actually starts)\n  actualDuration   Int? // Actual duration in minutes (null if not yet conducted)\n  createdAt        DateTime  @default(now())\n  updatedAt        DateTime  @updatedAt\n\n  class   Class @relation(fields: [classId], references: [id], onDelete: Cascade)\n  teacher User  @relation(\"TeacherSchedules\", fields: [teacherId], references: [id], onDelete: Cascade)\n\n  @@unique([classId, dayOfWeek])\n  @@index([classId])\n  @@index([teacherId])\n  @@index([dayOfWeek])\n}\n\n// ===== COURSE MANAGEMENT =====\n\nmodel Course {\n  id             String       @id @default(uuid())\n  title          String\n  description    String?\n  teacherId      String\n  schoolId       String\n  subjectId      String\n  status         CourseStatus @default(DRAFT)\n  language       Language     @default(FR)\n  requiresOnline Boolean      @default(false)\n  fileSizeBytes  Int?\n  thumbnailUrl   String?\n  createdAt      DateTime     @default(now())\n  updatedAt      DateTime     @updatedAt\n  publishedAt    DateTime?\n\n  // Relations\n  teacher     User               @relation(\"CourseCreator\", fields: [teacherId], references: [id], onDelete: Restrict)\n  school      School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n  subject     Subject            @relation(fields: [subjectId], references: [id], onDelete: Restrict)\n  content     CourseContent[]\n  validations CourseValidation[]\n  versions    ContentVersion[]\n  assignments CourseAssignment[]\n  progress    StudentProgress[]\n\n  @@index([teacherId])\n  @@index([schoolId])\n  @@index([status])\n  @@index([language])\n  @@index([subjectId])\n}\n\nmodel CourseContent {\n  id                     String      @id @default(uuid())\n  courseId               String\n  contentOrder           Int\n  contentType            ContentType\n  title                  String\n  contentData            Json\n  appearsAfterSeconds    Int?\n  disappearsAfterSeconds Int?\n  fileReference          String?\n  offlineAvailable       Boolean     @default(false)\n  createdAt              DateTime    @default(now())\n  updatedAt              DateTime    @updatedAt\n\n  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)\n  submissions Submission[]\n  quiz        Quiz? // One-to-one relation when contentType = QUIZ\n\n  @@index([courseId, contentOrder])\n}\n\nmodel CourseValidation {\n  id           String           @id @default(uuid())\n  courseId     String\n  reviewerId   String\n  feedbackText String?\n  status       ValidationStatus\n  suggestions  Json?\n  reviewedAt   DateTime         @default(now())\n\n  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)\n  reviewer User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)\n\n  @@index([courseId])\n  @@index([reviewerId])\n}\n\nmodel ContentVersion {\n  id        String   @id @default(uuid())\n  courseId  String\n  version   Int\n  content   Json\n  changes   String?\n  createdBy String\n  createdAt DateTime @default(now())\n\n  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)\n\n  @@unique([courseId, version])\n  @@index([courseId])\n}\n\nmodel CourseAssignment {\n  id         String    @id @default(uuid())\n  courseId   String\n  studentId  String?\n  classId    String?\n  assignedAt DateTime  @default(now())\n  dueDate    DateTime?\n\n  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)\n  class  Class? @relation(fields: [classId], references: [id], onDelete: Cascade)\n\n  @@index([courseId])\n  @@index([studentId])\n  @@index([classId])\n}\n\n// ===== QUIZ SYSTEM =====\n\nmodel Quiz {\n  id                 String     @id @default(uuid())\n  courseContentId    String     @unique // Link to CourseContent when contentType = QUIZ\n  title              String\n  description        String?\n  passingScore       Float      @default(70) // Percentage required to pass\n  timeLimit          Int? // Minutes allowed to complete quiz (null = unlimited)\n  mode               QuizMode   @default(PRACTICE) // PRACTICE: instant feedback, EXAM: no feedback until end, TIMED_EXAM: exam with strict time limit\n  showAnswersAfter   Boolean    @default(true) // Show correct answers after submission (auto-set based on mode)\n  randomizeQuestions Boolean    @default(false) // Randomize question order for each student\n  status             QuizStatus @default(DRAFT)\n  createdAt          DateTime   @default(now())\n  updatedAt          DateTime   @updatedAt\n\n  questions     Question[]\n  assignments   QuizAssignment[]\n  submissions   QuizSubmission[]\n  courseContent CourseContent    @relation(fields: [courseContentId], references: [id], onDelete: Cascade)\n\n  @@index([status])\n}\n\nmodel Question {\n  id            String       @id @default(uuid())\n  quizId        String\n  questionType  QuestionType\n  text          String // Question text\n  explanation   String? // Optional explanation shown after answer\n  order         Int // Question order in quiz\n  points        Float        @default(1) // Points for correct answer\n  options       Json // For MULTIPLE_CHOICE: [{ id, text }, ...], For TRUE_FALSE: [{ id: \"true\", text: \"True\" }, { id: \"false\", text: \"False\" }]\n  correctAnswer Json // Correct answer(s): { type: \"single\"|\"multiple\", value: string|string[] }\n  createdAt     DateTime     @default(now())\n  updatedAt     DateTime     @updatedAt\n\n  quiz      Quiz               @relation(fields: [quizId], references: [id], onDelete: Cascade)\n  responses QuestionResponse[]\n\n  @@index([quizId, order])\n}\n\nmodel QuestionResponse {\n  id            String   @id @default(uuid())\n  questionId    String\n  submissionId  String\n  studentAnswer Json // Student's answer to this question\n  isCorrect     Boolean? // null if not yet graded (for essay/short answer)\n  pointsEarned  Float    @default(0)\n  createdAt     DateTime @default(now())\n\n  question   Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)\n  submission QuizSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)\n\n  @@unique([questionId, submissionId])\n  @@index([questionId, submissionId])\n}\n\nmodel QuizSubmission {\n  id            String            @id @default(uuid())\n  quizId        String\n  studentId     String\n  attemptNumber Int               @default(1) // Track multiple attempts\n  startedAt     DateTime          @default(now())\n  submittedAt   DateTime? // null if still in progress\n  score         Float? // Percentage score\n  totalPoints   Float? // Total possible points for reference\n  timeSpent     Int? // Seconds spent on quiz\n  status        QuizAttemptStatus @default(IN_PROGRESS)\n  createdAt     DateTime          @default(now())\n  updatedAt     DateTime          @updatedAt\n\n  quiz      Quiz               @relation(fields: [quizId], references: [id], onDelete: Cascade)\n  student   User               @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  responses QuestionResponse[]\n\n  @@unique([quizId, studentId, attemptNumber])\n  @@index([quizId])\n  @@index([studentId])\n  @@index([status])\n}\n\nmodel QuizAssignment {\n  id            String    @id @default(uuid())\n  quizId        String\n  classId       String?\n  studentId     String?\n  assignedAt    DateTime  @default(now())\n  dueDate       DateTime?\n  scheduledDate DateTime? // When the quiz is scheduled to be taken\n  createdAt     DateTime  @default(now())\n\n  quiz  Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)\n  class Class? @relation(\"QuizAssignments\", fields: [classId], references: [id], onDelete: Cascade)\n\n  @@index([quizId])\n  @@index([classId])\n  @@index([studentId])\n}\n\n// ===== PROGRESS TRACKING & ASSESSMENT =====\n\nmodel StudentProgress {\n  id                   String   @id @default(uuid())\n  studentId            String\n  courseId             String\n  completionPercentage Float    @default(0)\n  timeSpentMinutes     Int      @default(0)\n  lastAccessed         DateTime @default(now())\n  currentModule        String?\n  updatedAt            DateTime @updatedAt\n\n  student User   @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  course  Course @relation(fields: [courseId], references: [id], onDelete: Cascade)\n\n  @@unique([studentId, courseId])\n  @@index([studentId])\n  @@index([courseId])\n}\n\nmodel Submission {\n  id              String           @id @default(uuid())\n  studentId       String\n  courseContentId String\n  submittedAt     DateTime         @default(now())\n  content         Json? // The student's answers\n  grade           Float?\n  gradedById      String?\n  gradedAt        DateTime?\n  feedback        String?\n  status          SubmissionStatus @default(PENDING)\n\n  student       User          @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  courseContent CourseContent @relation(fields: [courseContentId], references: [id], onDelete: Cascade)\n  gradedBy      User?         @relation(\"SubmissionsGraded\", fields: [gradedById], references: [id], onDelete: SetNull)\n\n  @@unique([studentId, courseContentId])\n  @@index([studentId])\n  @@index([courseContentId])\n  @@index([gradedById])\n}\n\n// ===== OPERATIONS & COMMUNICATION =====\n\nmodel Attendance {\n  id           String           @id @default(uuid())\n  studentId    String\n  classId      String\n  date         DateTime         @db.Date\n  status       AttendanceStatus @default(ABSENT)\n  notes        String?\n  recordedById String\n\n  student    User  @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  class      Class @relation(fields: [classId], references: [id], onDelete: Cascade)\n  recordedBy User  @relation(\"AttendancesRecorded\", fields: [recordedById], references: [id], onDelete: Restrict)\n\n  @@unique([studentId, classId, date])\n  @@index([studentId])\n  @@index([classId])\n  @@index([recordedById])\n}\n\nmodel ParentInstruction {\n  id              String    @id @default(uuid())\n  teacherId       String\n  studentId       String\n  instructionText String\n  isUrgent        Boolean   @default(false)\n  createdAt       DateTime  @default(now())\n  expiresAt       DateTime?\n\n  teacher     User                          @relation(\"InstructionCreator\", fields: [teacherId], references: [id], onDelete: Cascade)\n  completions ParentInstructionCompletion[]\n\n  @@index([teacherId])\n  @@index([studentId])\n  @@index([createdAt])\n}\n\nmodel ParentInstructionCompletion {\n  id            String            @id @default(uuid())\n  instructionId String\n  parentId      String\n  completedAt   DateTime          @default(now())\n  status        InstructionStatus @default(COMPLETED)\n  notes         String?\n\n  instruction ParentInstruction @relation(fields: [instructionId], references: [id], onDelete: Cascade)\n  parent      User              @relation(fields: [parentId], references: [id], onDelete: Cascade)\n\n  @@unique([instructionId, parentId])\n  @@index([instructionId])\n  @@index([parentId])\n}\n\n// ===== SYSTEM =====\n\nmodel Notification {\n  id        String               @id @default(uuid())\n  userId    String\n  type      NotificationType\n  title     String\n  message   String\n  data      Json?\n  read      Boolean              @default(false)\n  readAt    DateTime?\n  actionUrl String?\n  priority  NotificationPriority @default(NORMAL)\n  createdAt DateTime             @default(now())\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@index([userId, read, createdAt])\n  @@index([type])\n}\n\nmodel AuditLog {\n  id         String   @id @default(uuid())\n  userId     String?\n  action     String\n  entityType String\n  entityId   String\n  oldValue   Json?\n  newValue   Json?\n  ipAddress  String?\n  userAgent  String?\n  metadata   Json?\n  createdAt  DateTime @default(now())\n\n  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)\n\n  @@index([userId, createdAt])\n  @@index([entityType, entityId])\n  @@index([action, createdAt])\n}\n\n// ===== INVITATION & APPROVAL SYSTEM =====\n\nenum InvitationCodeRole {\n  TEACHER\n  PARENT\n}\n\nenum ApprovalStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\nmodel InvitationCode {\n  id        String             @id @default(uuid())\n  code      String             @unique\n  role      InvitationCodeRole\n  schoolId  String\n  createdBy String\n  usedBy    String?            @unique\n  isActive  Boolean            @default(true)\n  expiresAt DateTime?\n  createdAt DateTime           @default(now())\n  usedAt    DateTime?\n\n  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n\n  @@index([code])\n  @@index([schoolId])\n  @@index([isActive])\n}\n\nmodel TeacherApproval {\n  id          String         @id @default(uuid())\n  userId      String         @unique\n  schoolId    String\n  status      ApprovalStatus @default(PENDING)\n  approvedBy  String?\n  rejectedBy  String?\n  reason      String?\n  requestedAt DateTime       @default(now())\n  reviewedAt  DateTime?\n\n  @@index([userId])\n  @@index([schoolId])\n  @@index([status])\n}\n\nmodel ParentChildLink {\n  id          String         @id @default(uuid())\n  parentId    String\n  studentId   String\n  status      ApprovalStatus @default(PENDING)\n  approvedBy  String?\n  rejectedBy  String?\n  reason      String?\n  requestedAt DateTime       @default(now())\n  reviewedAt  DateTime?\n\n  @@unique([parentId, studentId])\n  @@index([parentId])\n  @@index([studentId])\n  @@index([status])\n}\n",
-  "inlineSchemaHash": "5ae0675fba743a9a4cf0e68b622be01be38252b7429c842576aa29ff918b7140",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// ===== INVITATION & APPROVAL SYSTEM =====\n\nenum InvitationCodeRole {\n  TEACHER\n  PARENT\n}\n\nenum ApprovalStatus {\n  PENDING\n  APPROVED\n  REJECTED\n}\n\nmodel InvitationCode {\n  id        String             @id @default(uuid())\n  code      String             @unique\n  role      InvitationCodeRole\n  schoolId  String\n  createdBy String\n  usedBy    String?            @unique\n  isActive  Boolean            @default(true)\n  expiresAt DateTime?\n  createdAt DateTime           @default(now())\n  usedAt    DateTime?\n\n  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)\n\n  @@index([code])\n  @@index([schoolId])\n  @@index([isActive])\n}\n\nmodel TeacherApproval {\n  id          String         @id @default(uuid())\n  userId      String         @unique\n  schoolId    String\n  status      ApprovalStatus @default(PENDING)\n  approvedBy  String?\n  rejectedBy  String?\n  reason      String?\n  requestedAt DateTime       @default(now())\n  reviewedAt  DateTime?\n\n  @@index([userId])\n  @@index([schoolId])\n  @@index([status])\n}\n\nmodel ParentChildLink {\n  id          String         @id @default(uuid())\n  parentId    String\n  studentId   String\n  status      ApprovalStatus @default(PENDING)\n  approvedBy  String?\n  rejectedBy  String?\n  reason      String?\n  requestedAt DateTime       @default(now())\n  reviewedAt  DateTime?\n\n  @@unique([parentId, studentId])\n  @@index([parentId])\n  @@index([studentId])\n  @@index([status])\n}\n\nmodel Course {\n  id                 String             @id @default(cuid())\n  uuid               String             @unique\n  title              String\n  slug               String             @unique\n  subtitle           String?\n  description        String?\n  language           String\n  level              CourseLevel\n  publishedAt        DateTime?\n  lastUpdatedAt      DateTime\n  createdAt          DateTime           @default(now())\n  updatedAt          DateTime           @updatedAt\n  categoryId         String\n  instructorId       String\n  schoolId           String?\n  contentType        CourseType         @default(HYBRID)\n  status             CourseStatus       @default(DRAFT)\n  isPublic           Boolean            @default(false)\n  requiresOnline     Boolean            @default(false)\n  features           String[]\n  requirements       String[]\n  targetAudience     String[]\n  learningObjectives String[]\n  tags               String[]\n  captions           Json?\n  totalSizeBytes     BigInt?\n  offlineAvailable   Boolean            @default(true)\n  downloadPriority   Int                @default(5)\n  estimatedDataUsage String?\n  certificates       Certificate?\n  conversations      Conversation[]     @relation(\"CourseConversations\")\n  category           Category           @relation(fields: [categoryId], references: [id])\n  instructor         Instructor         @relation(fields: [instructorId], references: [id])\n  school             School?            @relation(fields: [schoolId], references: [id])\n  enrollments        CourseEnrollment[]\n  faqs               FAQ[]\n  promoVideo         PromoVideo?\n  reviews            Review[]\n  sections           Section[]\n  statistics         Statistics?\n  version            Version?\n  validations        CourseValidation[]\n  grades             Grade[]\n  assignments        Assignment[]       @relation(\"AssignmentToCourse\")\n\n  @@index([slug])\n  @@index([status])\n  @@index([publishedAt])\n  @@index([instructorId])\n}\n\nmodel CourseValidation {\n  id          String           @id @default(uuid())\n  reviewerId  String\n  status      ValidationStatus @default(PENDING)\n  feedback    String?\n  suggestions Json?\n  reviewedAt  DateTime?\n  courseId    String\n  createdAt   DateTime         @default(now())\n  course      Course           @relation(fields: [courseId], references: [id])\n  reviewer    User             @relation(fields: [reviewerId], references: [id])\n\n  @@unique([courseId, reviewerId])\n  @@map(\"course_validations\")\n}\n\nmodel Version {\n  id                String   @id @default(cuid())\n  current           String\n  publishedVersions String[]\n  courseId          String   @unique\n  course            Course   @relation(fields: [courseId], references: [id])\n}\n\nmodel Category {\n  id            String     @id @default(cuid())\n  name          String\n  description   String?\n  parentId      String?\n  parent        Category?  @relation(\"CategoryToSubcategory\", fields: [parentId], references: [id])\n  subcategories Category[] @relation(\"CategoryToSubcategory\")\n  courses       Course[]\n\n  @@unique([name, parentId])\n}\n\nmodel Statistics {\n  id                         String  @id @default(cuid())\n  totalSections              Int     @default(0)\n  totalLectures              Int     @default(0)\n  totalQuizzes               Int     @default(0)\n  totalAssignments           Int     @default(0)\n  totalArticles              Int     @default(0)\n  totalDownloadableResources Int     @default(0)\n  totalDuration              Int     @default(0)\n  totalDurationFormatted     String?\n  totalStudents              Int     @default(0)\n  totalReviews               Int     @default(0)\n  averageRating              Float?  @default(0)\n  ratingDistribution         Json?\n  completionRate             Float?  @default(0)\n  lastMonthEnrollments       Int     @default(0)\n  courseId                   String  @unique\n  course                     Course  @relation(fields: [courseId], references: [id])\n}\n\nmodel Certificate {\n  id                   String  @id @default(cuid())\n  available            Boolean @default(false)\n  completionPercentage Int?    @default(100)\n  quizzesRequired      Boolean @default(true)\n  minimumQuizScore     Int?    @default(70)\n  courseId             String  @unique\n  course               Course  @relation(fields: [courseId], references: [id])\n}\n\nmodel Section {\n  id                String    @id @default(cuid())\n  title             String\n  description       String?\n  order             Int\n  totalLectures     Int       @default(0)\n  totalDuration     Int       @default(0)\n  durationFormatted String?\n  courseId          String\n  lectures          Lecture[]\n  course            Course    @relation(fields: [courseId], references: [id])\n\n  @@index([courseId, order])\n}\n\nmodel Lecture {\n  id                 String             @id @default(cuid())\n  title              String\n  description        String?\n  type               LectureType\n  order              Int\n  duration           Int?\n  durationFormatted  String?\n  isPreview          Boolean            @default(false)\n  isFree             Boolean            @default(false)\n  downloadPriority   Int?\n  sectionId          String\n  sizeBytes          BigInt?\n  estimatedDataUsage String?\n  offlineAvailable   Boolean            @default(true)\n  article            Article?\n  assignment         Assignment?\n  codingExercise     CodingExercise?\n  conversations      Conversation[]     @relation(\"LectureConversations\")\n  courseEnrollments  CourseEnrollment[] @relation(\"CourseEnrollmentToCurrentLecture\")\n  section            Section            @relation(fields: [sectionId], references: [id])\n  progress           LectureProgress[]\n  notes              Note[]\n  project            Project?\n  quiz               Quiz?\n  resources          Resource[]\n  video              Video?\n\n  @@index([sectionId, order])\n  @@index([type])\n}\n\nmodel Video {\n  id               String           @id @default(cuid())\n  versionId        String?\n  version          Int?             @default(1)\n  sources          Json?\n  hlsUrl           String?\n  dashUrl          String?\n  thumbnail        String?\n  thumbnailSprite  String?\n  captions         Json?\n  uploadedAt       DateTime?\n  processedAt      DateTime?\n  status           VideoStatus      @default(PROCESSING)\n  updateNotes      String?\n  lectureId        String           @unique\n  defaultQuality   ContentQuality   @default(MEDIUM)\n  offlineOptimized Boolean          @default(false)\n  lecture          Lecture          @relation(fields: [lectureId], references: [id])\n  variants         ContentVariant[]\n}\n\nmodel Article {\n  id                   String   @id @default(cuid())\n  content              String?\n  contentHtml          String?\n  estimatedReadingTime Int?\n  wordCount            Int?\n  images               Json?\n  updatedAt            DateTime @updatedAt\n  lectureId            String   @unique\n  lecture              Lecture  @relation(fields: [lectureId], references: [id])\n}\n\nmodel Quiz {\n  id                      String        @id @default(cuid())\n  title                   String?\n  description             String?\n  passingScore            Int?          @default(70)\n  totalPoints             Int?          @default(100)\n  timeLimit               Int?\n  attemptsAllowed         Int?          @default(3)\n  shuffleQuestions        Boolean       @default(false)\n  shuffleAnswers          Boolean       @default(false)\n  showCorrectAnswers      Boolean       @default(true)\n  showCorrectAnswersAfter String?       @default(\"submission\")\n  questionCount           Int?          @default(0)\n  lectureId               String        @unique\n  questions               Question[]\n  lecture                 Lecture       @relation(fields: [lectureId], references: [id])\n  attempts                QuizAttempt[]\n}\n\nmodel Question {\n  id              String       @id @default(cuid())\n  order           Int\n  type            QuestionType\n  question        String\n  points          Int          @default(20)\n  options         Json?\n  correctAnswer   Boolean?\n  acceptedAnswers String[]\n  orderingItems   Json?\n  explanation     String?\n  hint            String?\n  partialCredit   Boolean      @default(false)\n  quizId          String\n  quiz            Quiz         @relation(fields: [quizId], references: [id])\n\n  @@index([quizId, order])\n}\n\nmodel QuizAttempt {\n  id             String    @id @default(cuid())\n  attemptNumber  Int\n  startedAt      DateTime?\n  submittedAt    DateTime?\n  score          Float?\n  pointsEarned   Int?\n  pointsPossible Int?\n  percentage     Float?\n  passed         Boolean?\n  timeSpent      Int?\n  answers        Json?\n  quizId         String\n  userId         String\n  studentId      String?\n  quiz           Quiz      @relation(fields: [quizId], references: [id])\n  student        Student?  @relation(fields: [studentId], references: [id])\n  user           User      @relation(fields: [userId], references: [id])\n\n  @@index([quizId, userId])\n  @@index([submittedAt])\n}\n\nmodel CodingExercise {\n  id              String             @id @default(cuid())\n  title           String?\n  instructions    String?\n  starterCode     String?\n  language        String?\n  expectedOutput  String?\n  testCases       Json?\n  hints           String[]\n  solution        String?\n  allowSubmission Boolean            @default(true)\n  maxSubmissions  Int?\n  lectureId       String             @unique\n  lecture         Lecture            @relation(fields: [lectureId], references: [id])\n  submissions     CodingSubmission[]\n}\n\nmodel CodingSubmission {\n  id               String         @id @default(cuid())\n  code             String\n  submittedAt      DateTime       @default(now())\n  testsPassed      Int            @default(0)\n  testsTotal       Int            @default(0)\n  passed           Boolean        @default(false)\n  output           String?\n  error            String?\n  codingExerciseId String\n  userId           String\n  studentId        String?\n  codingExercise   CodingExercise @relation(fields: [codingExerciseId], references: [id])\n  student          Student?       @relation(fields: [studentId], references: [id])\n  user             User           @relation(fields: [userId], references: [id])\n\n  @@index([codingExerciseId, userId])\n  @@index([submittedAt])\n}\n\nmodel Assignment {\n  id               String                 @id @default(cuid())\n  title            String?\n  description      String?\n  instructions     String?\n  allowedFileTypes String[]\n  maxFileSize      Int?\n  dueDate          DateTime?\n  rubric           Json?\n  lectureId        String                 @unique\n  lecture          Lecture                @relation(fields: [lectureId], references: [id])\n  submissions      AssignmentSubmission[]\n  grades           Grade[]\n  classes          Class[]                @relation(\"AssignmentToClass\")\n  courses          Course[]               @relation(\"AssignmentToCourse\")\n}\n\nmodel AssignmentSubmission {\n  id           String           @id @default(cuid())\n  files        Json?\n  submittedAt  DateTime         @default(now())\n  grade        Float?\n  feedback     String?\n  status       SubmissionStatus @default(SUBMITTED)\n  assignmentId String\n  userId       String\n  studentId    String?\n  assignment   Assignment       @relation(fields: [assignmentId], references: [id])\n  student      Student?         @relation(fields: [studentId], references: [id])\n  user         User             @relation(fields: [userId], references: [id])\n\n  @@index([assignmentId, userId])\n}\n\nmodel Project {\n  id                 String   @id @default(cuid())\n  title              String?\n  description        String?\n  complexity         String?\n  technologies       String[]\n  learningObjectives String[]\n  milestones         Json?\n  submission         Json?\n  lectureId          String   @unique\n  lecture            Lecture  @relation(fields: [lectureId], references: [id])\n}\n\nmodel Resource {\n  id                String       @id @default(cuid())\n  title             String\n  type              ResourceType\n  fileSize          Int?\n  fileSizeFormatted String?\n  url               String\n  downloadable      Boolean      @default(true)\n  lectureId         String\n  lecture           Lecture      @relation(fields: [lectureId], references: [id])\n\n  @@index([lectureId])\n}\n\nmodel FAQ {\n  id         String   @id @default(cuid())\n  question   String\n  answer     String\n  helpful    Int      @default(0)\n  notHelpful Int      @default(0)\n  createdAt  DateTime @default(now())\n  courseId   String\n  course     Course   @relation(fields: [courseId], references: [id])\n\n  @@index([courseId])\n}\n\nmodel Review {\n  id         String   @id @default(cuid())\n  rating     Int\n  title      String?\n  content    String?\n  helpful    Int      @default(0)\n  notHelpful Int      @default(0)\n  createdAt  DateTime @default(now())\n  courseId   String\n  userId     String\n  course     Course   @relation(fields: [courseId], references: [id])\n  user       User     @relation(fields: [userId], references: [id])\n\n  @@unique([courseId, userId])\n  @@index([courseId, rating])\n}\n\nmodel PromoVideo {\n  id        String  @id @default(cuid())\n  url       String\n  duration  Int?\n  thumbnail String?\n  courseId  String  @unique\n  course    Course  @relation(fields: [courseId], references: [id])\n}\n\nmodel User {\n  id                       String                    @id @default(uuid())\n  email                    String                    @unique\n  phone                    String?\n  firstName                String\n  lastName                 String\n  password                 String?\n  role                     UserRole\n  language                 Language                  @default(FR)\n  avatar                   String?\n  verified                 Boolean                   @default(false)\n  verificationCode         String?\n  codeExpires              DateTime?\n  createdAt                DateTime                  @default(now())\n  updatedAt                DateTime                  @updatedAt\n  lastLoginAt              DateTime?\n  schoolId                 String?\n  accounts                 Account[]\n  administratorProfile     Admin?\n  assignmentSubmissions    AssignmentSubmission[]\n  codingSubmissions        CodingSubmission[]\n  createdConversations     Conversation[]            @relation(\"CreatedConversations\")\n  conversationParticipants ConversationParticipant[]\n  courseEnrollments        CourseEnrollment[]\n  instructorProfile        Instructor?\n  lectureProgress          LectureProgress[]\n  sentMessages             Message[]                 @relation(\"SentMessages\")\n  messageReadStatuses      MessageReadStatus[]\n  notes                    Note[]\n  quizAttempts             QuizAttempt[]\n  reviews                  Review[]\n  school                   School?                   @relation(fields: [schoolId], references: [id])\n  auditLogs                AuditLog[]\n  courseValidations        CourseValidation[]\n  downloadQueues           DownloadQueue[]\n  networkUsages            NetworkUsage[]\n  notifications            Notification[]\n  offlineContents          OfflineContent[]\n  offlineSyncs             OfflineSync[]\n  parentProfile            Parent?\n  sessions                 Session[]\n  studentProfile           Student?\n  networkPreference        UserNetworkPreference?\n}\n\nmodel Account {\n  id                String  @id @default(uuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  session_state     String?\n  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n  @@index([userId])\n}\n\nmodel Session {\n  id           String   @id @default(uuid())\n  sessionToken String   @unique\n  expires      DateTime\n  userId       String\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"sessions\")\n}\n\nmodel School {\n  id              String           @id @default(uuid())\n  name            String\n  code            String           @unique\n  address         String?\n  city            String?\n  country         String           @default(\"Madagascar\")\n  timezone        String           @default(\"Indian/Antananarivo\")\n  config          Json?\n  createdAt       DateTime         @default(now())\n  updatedAt       DateTime         @updatedAt\n  academicPeriods AcademicPeriod[]\n  courses         Course[]\n  users           User[]\n  classes         Class[]\n  servers         SchoolServer[]\n  invitationCodes InvitationCode[]\n\n  @@map(\"schools\")\n}\n\nmodel Grade {\n  id             String      @id @default(uuid())\n  studentId      String\n  score          Decimal\n  maxScore       Decimal\n  percentage     Float?\n  letterGrade    String?\n  academicPeriod String?\n  gradedBy       String?\n  gradedAt       DateTime    @default(now())\n  feedback       String?\n  assignmentId   String?\n  gradableType   String?\n  gradableId     String?\n  courseId       String?\n  classId        String?\n  assignment     Assignment? @relation(fields: [assignmentId], references: [id])\n  class          Class?      @relation(fields: [classId], references: [id])\n  course         Course?     @relation(fields: [courseId], references: [id])\n  student        Student     @relation(fields: [studentId], references: [id])\n\n  @@index([studentId])\n  @@index([gradableType, gradableId])\n  @@index([courseId])\n  @@index([classId])\n  @@map(\"grades\")\n}\n\nmodel AcademicPeriod {\n  id        String   @id @default(uuid())\n  name      String\n  startDate DateTime\n  endDate   DateTime\n  schoolId  String\n  school    School   @relation(fields: [schoolId], references: [id])\n  classes   Class[]\n}\n\nmodel Student {\n  id                    String                 @id @default(uuid())\n  studentId             String?                @unique\n  gradeLevel            String?\n  birthDate             DateTime?\n  userId                String                 @unique\n  config                Json?\n  assignmentSubmissions AssignmentSubmission[]\n  codingSubmissions     CodingSubmission[]\n  enrollments           CourseEnrollment[]\n  progress              LectureProgress[]\n  notes                 Note[]\n  quizAttempts          QuizAttempt[]\n  classEnrollments      ClassEnrollment[]\n  grades                Grade[]\n  parents               ParentStudent[]\n  user                  User                   @relation(fields: [userId], references: [id])\n\n  @@map(\"students\")\n}\n\nmodel Instructor {\n  id                String              @id @default(cuid())\n  title             String?\n  biography         String?\n  rating            Float?\n  totalStudents     Int?                @default(0)\n  totalCourses      Int?                @default(0)\n  website           String?\n  social            Json?\n  userId            String              @unique\n  config            Json?\n  courses           Course[]\n  user              User                @relation(fields: [userId], references: [id])\n  ClassToInstructor ClassToInstructor[]\n}\n\nmodel Parent {\n  id       String          @id @default(uuid())\n  userId   String          @unique\n  config   Json?\n  children ParentStudent[]\n  user     User            @relation(fields: [userId], references: [id])\n\n  @@map(\"parents\")\n}\n\nmodel ParentStudent {\n  id           String  @id @default(uuid())\n  relationship String  @default(\"parent\")\n  isVerified   Boolean @default(false)\n  parentId     String\n  studentId    String\n  parent       Parent  @relation(fields: [parentId], references: [id])\n  student      Student @relation(fields: [studentId], references: [id])\n\n  @@unique([parentId, studentId])\n  @@map(\"parent_students\")\n}\n\nmodel Admin {\n  id          String    @id @default(uuid())\n  role        AdminRole\n  permissions Json?\n  userId      String    @unique\n  user        User      @relation(fields: [userId], references: [id])\n}\n\nmodel Class {\n  id                String              @id @default(uuid())\n  name              String\n  degreeLevel       DegreeLevel\n  subject           String?\n  schoolId          String?\n  academicPeriodId  String\n  ClassToInstructor ClassToInstructor[]\n  enrollments       ClassEnrollment[]\n  academicPeriod    AcademicPeriod      @relation(fields: [academicPeriodId], references: [id])\n  school            School?             @relation(fields: [schoolId], references: [id])\n  grades            Grade[]\n  assignments       Assignment[]        @relation(\"AssignmentToClass\")\n\n  @@map(\"classes\")\n}\n\nmodel ClassEnrollment {\n  id         String   @id @default(uuid())\n  enrolledAt DateTime @default(now())\n  classId    String\n  studentId  String\n  class      Class    @relation(fields: [classId], references: [id])\n  student    Student  @relation(fields: [studentId], references: [id])\n\n  @@unique([classId, studentId])\n  @@map(\"class_enrollments\")\n}\n\nmodel CourseEnrollment {\n  id                 String    @id @default(cuid())\n  enrolledAt         DateTime  @default(now())\n  lastAccessedAt     DateTime?\n  progressPercentage Float     @default(0)\n  completedLectures  Int       @default(0)\n  totalTimeSpent     Int       @default(0)\n  certificateEarned  Boolean   @default(false)\n  favorited          Boolean   @default(false)\n  archived           Boolean   @default(false)\n  courseId           String\n  userId             String\n  studentId          String?\n  currentLectureId   String?\n  course             Course    @relation(fields: [courseId], references: [id])\n  currentLecture     Lecture?  @relation(\"CourseEnrollmentToCurrentLecture\", fields: [currentLectureId], references: [id])\n  student            Student?  @relation(fields: [studentId], references: [id])\n  user               User      @relation(fields: [userId], references: [id])\n\n  @@unique([courseId, userId])\n  @@index([userId])\n  @@index([courseId])\n}\n\nmodel LectureProgress {\n  id                String    @id @default(cuid())\n  completed         Boolean   @default(false)\n  completedAt       DateTime?\n  lastActivityAt    DateTime?\n  lastPosition      Int?      @default(0)\n  watchedPercentage Float?    @default(0)\n  attempts          Int?      @default(0)\n  bestScore         Float?    @default(0)\n  passed            Boolean?  @default(false)\n  lectureId         String\n  userId            String\n  studentId         String?\n  lecture           Lecture   @relation(fields: [lectureId], references: [id])\n  student           Student?  @relation(fields: [studentId], references: [id])\n  user              User      @relation(fields: [userId], references: [id])\n\n  @@unique([lectureId, userId])\n  @@index([userId])\n  @@index([lectureId])\n}\n\nmodel Note {\n  id        String   @id @default(cuid())\n  content   String\n  timestamp Int?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  lectureId String\n  userId    String\n  studentId String?\n  lecture   Lecture  @relation(fields: [lectureId], references: [id])\n  student   Student? @relation(fields: [studentId], references: [id])\n  user      User     @relation(fields: [userId], references: [id])\n\n  @@index([lectureId, userId])\n  @@index([userId])\n}\n\nmodel OfflineSync {\n  id             String   @id @default(uuid())\n  deviceId       String\n  lastSyncAt     DateTime\n  pendingChanges Json?\n  userId         String\n  user           User     @relation(fields: [userId], references: [id])\n\n  @@unique([userId, deviceId])\n  @@map(\"offline_syncs\")\n}\n\nmodel AuditLog {\n  id         String   @id @default(uuid())\n  action     String\n  entityType String\n  entityId   String\n  oldValue   Json?\n  newValue   Json?\n  ipAddress  String?\n  userAgent  String?\n  metadata   Json?\n  createdAt  DateTime @default(now())\n  userId     String?\n  user       User?    @relation(fields: [userId], references: [id])\n\n  @@index([userId, createdAt])\n  @@index([entityType, entityId])\n  @@index([action, createdAt])\n  @@map(\"audit_logs\")\n}\n\nmodel Notification {\n  id        String               @id @default(uuid())\n  type      NotificationType\n  title     String\n  message   String\n  data      Json?\n  read      Boolean              @default(false)\n  readAt    DateTime?\n  actionUrl String?\n  priority  NotificationPriority @default(NORMAL)\n  createdAt DateTime             @default(now())\n  expiresAt DateTime?\n  userId    String\n  user      User                 @relation(fields: [userId], references: [id])\n\n  @@index([userId, read, createdAt])\n  @@index([type, createdAt])\n  @@map(\"notifications\")\n}\n\nmodel SchoolServer {\n  id                 String          @id @default(uuid())\n  serverName         String\n  ipAddress          String?\n  macAddress         String?\n  storageCapacity    Int\n  storageUsed        Int             @default(0)\n  status             ServerStatus    @default(ACTIVE)\n  lastPingAt         DateTime?\n  isMainServer       Boolean         @default(false)\n  canServeContent    Boolean         @default(true)\n  maxConcurrentUsers Int             @default(100)\n  syncWithCloud      Boolean         @default(true)\n  syncSchedule       String?\n  lastSyncAt         DateTime?\n  nextSyncAt         DateTime?\n  createdAt          DateTime        @default(now())\n  updatedAt          DateTime        @updatedAt\n  schoolId           String\n  cachedContent      ContentCache[]\n  school             School          @relation(fields: [schoolId], references: [id])\n  syncLogs           ServerSyncLog[]\n\n  @@index([schoolId])\n  @@index([status])\n  @@map(\"school_servers\")\n}\n\nmodel ContentCache {\n  id               String            @id @default(uuid())\n  contentType      CachedContentType\n  contentId        String\n  priority         CachePriority     @default(MEDIUM)\n  sizeInBytes      BigInt\n  version          String\n  checksum         String?\n  status           CacheStatus       @default(PENDING)\n  downloadProgress Float             @default(0)\n  cachedAt         DateTime?\n  lastAccessedAt   DateTime?\n  accessCount      Int               @default(0)\n  expiresAt        DateTime?\n  pinned           Boolean           @default(false)\n  serverId         String\n  server           SchoolServer      @relation(fields: [serverId], references: [id])\n\n  @@unique([serverId, contentType, contentId])\n  @@index([serverId, status])\n  @@index([contentType, contentId])\n  @@index([lastAccessedAt])\n  @@map(\"content_cache\")\n}\n\nmodel ServerSyncLog {\n  id          String       @id @default(uuid())\n  syncType    SyncType\n  startedAt   DateTime     @default(now())\n  completedAt DateTime?\n  status      SyncStatus   @default(IN_PROGRESS)\n  itemsSynced Int          @default(0)\n  itemsFailed Int          @default(0)\n  totalSize   BigInt       @default(0)\n  errors      Json?\n  serverId    String\n  server      SchoolServer @relation(fields: [serverId], references: [id])\n\n  @@index([serverId, startedAt])\n  @@index([status])\n  @@map(\"server_sync_logs\")\n}\n\nmodel ContentVariant {\n  id             String         @id @default(uuid())\n  contentType    String\n  contentId      String\n  quality        ContentQuality\n  resolution     String?\n  bitrate        Int?\n  codec          String?\n  format         String?\n  url            String\n  sizeInBytes    BigInt\n  sizeFormatted  String\n  duration       Int?\n  isDefault      Boolean        @default(false)\n  recommendedFor NetworkSpeed[]\n  createdAt      DateTime       @default(now())\n  videoId        String?\n  video          Video?         @relation(fields: [videoId], references: [id])\n\n  @@unique([contentType, contentId, quality])\n  @@index([contentType, contentId])\n  @@map(\"content_variants\")\n}\n\nmodel DownloadQueue {\n  id             String           @id @default(uuid())\n  deviceId       String\n  contentType    String\n  contentId      String\n  variantQuality ContentQuality   @default(MEDIUM)\n  priority       DownloadPriority @default(NORMAL)\n  status         DownloadStatus   @default(QUEUED)\n  progress       Float            @default(0)\n  wifiOnly       Boolean          @default(true)\n  scheduledFor   DateTime?\n  estimatedSize  BigInt?\n  downloadedSize BigInt           @default(0)\n  startedAt      DateTime?\n  completedAt    DateTime?\n  retryCount     Int              @default(0)\n  maxRetries     Int              @default(3)\n  lastError      String?\n  userId         String\n  createdAt      DateTime         @default(now())\n  updatedAt      DateTime         @updatedAt\n  user           User             @relation(fields: [userId], references: [id])\n\n  @@index([userId, status])\n  @@index([status, priority])\n  @@index([scheduledFor])\n  @@map(\"download_queue\")\n}\n\nmodel OfflineContent {\n  id             String          @id @default(uuid())\n  deviceId       String\n  contentType    String\n  contentId      String\n  variantQuality ContentQuality?\n  localPath      String?\n  sizeInBytes    BigInt\n  downloadedAt   DateTime\n  lastAccessedAt DateTime\n  accessCount    Int             @default(0)\n  expiresAt      DateTime?\n  pinned         Boolean         @default(false)\n  autoDelete     Boolean         @default(true)\n  needsUpdate    Boolean         @default(false)\n  cloudVersion   String?\n  localVersion   String?\n  userId         String\n  user           User            @relation(fields: [userId], references: [id])\n\n  @@unique([userId, deviceId, contentType, contentId])\n  @@index([userId, deviceId])\n  @@index([expiresAt])\n  @@index([lastAccessedAt])\n  @@map(\"offline_content\")\n}\n\nmodel NetworkUsage {\n  id             String         @id @default(uuid())\n  deviceId       String\n  date           DateTime       @default(now()) @db.Date\n  dataDownloaded BigInt         @default(0)\n  dataUploaded   BigInt         @default(0)\n  videoData      BigInt         @default(0)\n  documentData   BigInt         @default(0)\n  imageData      BigInt         @default(0)\n  otherData      BigInt         @default(0)\n  connectionType ConnectionType\n  userId         String\n  user           User           @relation(fields: [userId], references: [id])\n\n  @@unique([userId, deviceId, date, connectionType])\n  @@index([userId, date])\n  @@map(\"network_usage\")\n}\n\nmodel UserNetworkPreference {\n  id                 String         @id @default(uuid())\n  autoDownload       Boolean        @default(false)\n  wifiOnlyDownload   Boolean        @default(true)\n  maxDailyData       Int?\n  wifiQuality        ContentQuality @default(HIGH)\n  cellularQuality    ContentQuality @default(LOW)\n  prioritizeVideos   Boolean        @default(true)\n  prioritizeQuizzes  Boolean        @default(true)\n  prioritizeArticles Boolean        @default(true)\n  syncSchedule       String?\n  syncWindowStart    Int?\n  syncWindowEnd      Int?\n  autoDeleteWatched  Boolean        @default(false)\n  keepDuration       Int?           @default(30)\n  maxStorageGB       Int?\n  userId             String         @unique\n  createdAt          DateTime       @default(now())\n  updatedAt          DateTime       @updatedAt\n  user               User           @relation(fields: [userId], references: [id])\n\n  @@map(\"user_network_preferences\")\n}\n\nmodel Conversation {\n  id           String                    @id @default(uuid())\n  name         String?\n  isGroup      Boolean                   @default(false)\n  creatorId    String?\n  createdAt    DateTime                  @default(now())\n  updatedAt    DateTime                  @updatedAt\n  contextType  ConversationContext?\n  courseId     String?\n  lectureId    String?\n  course       Course?                   @relation(\"CourseConversations\", fields: [courseId], references: [id])\n  creator      User?                     @relation(\"CreatedConversations\", fields: [creatorId], references: [id])\n  lecture      Lecture?                  @relation(\"LectureConversations\", fields: [lectureId], references: [id])\n  participants ConversationParticipant[]\n  messages     Message[]\n\n  @@index([creatorId])\n  @@index([courseId])\n  @@index([lectureId])\n}\n\nmodel ConversationParticipant {\n  id             String       @id @default(uuid())\n  userId         String\n  conversationId String\n  joinedAt       DateTime     @default(now())\n  isAdmin        Boolean      @default(false)\n  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)\n  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, conversationId])\n  @@index([userId])\n  @@index([conversationId])\n}\n\nmodel Message {\n  id             String              @id @default(uuid())\n  conversationId String\n  senderId       String\n  content        String\n  createdAt      DateTime            @default(now())\n  conversation   Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)\n  sender         User                @relation(\"SentMessages\", fields: [senderId], references: [id], onDelete: Cascade)\n  readStatus     MessageReadStatus[]\n\n  @@index([conversationId])\n  @@index([senderId])\n}\n\nmodel MessageReadStatus {\n  id        String   @id @default(uuid())\n  messageId String\n  userId    String\n  readAt    DateTime @default(now())\n  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([messageId, userId])\n  @@index([messageId])\n  @@index([userId])\n}\n\nmodel ClassToInstructor {\n  A          String\n  B          String\n  classes    Class      @relation(fields: [A], references: [id], onDelete: Cascade)\n  Instructor Instructor @relation(fields: [B], references: [id], onDelete: Cascade)\n\n  @@id([A, B], map: \"_ClassToInstructor_AB_pkey\")\n  @@index([B], map: \"_ClassToInstructor_B_index\")\n  @@map(\"_ClassToInstructor\")\n}\n\nenum DegreeLevel {\n  /// ~3 years old (Preschool - Petite Section)\n  PS\n  /// ~4 years old (Preschool - Moyenne Section)\n  MS\n  /// ~5 years old (Preschool - Grande Section)\n  GS\n  /// ~6 years old (1st grade - Cours Préparatoire)\n  CP\n  /// ~7 years old (2nd grade - Cours Élémentaire 1)\n  CE1\n  /// ~8 years old (3rd grade - Cours Élémentaire 2)\n  CE2\n  /// ~9 years old (4th grade - Cours Moyen 1)\n  CM1\n  /// ~10 years old (5th grade - Cours Moyen 2)\n  CM2\n  /// ~11 years old (6th grade)\n  SIXIEME\n  /// ~12 years old (7th grade)\n  CINQUIEME\n  /// ~13 years old (8th grade)\n  QUATRIEME\n  /// ~14 years old (9th grade)\n  TROISIEME\n  /// ~15 years old (10th grade)\n  SECONDE\n  /// ~16 years old (11th grade - General track)\n  PREMIERE\n  /// ~17 years old (12th grade - General track)\n  TERMINALE\n  /// Bachelor's Degree (first year)\n  L1\n  /// Bachelor's Degree (second year)  \n  L2\n  /// Bachelor's Degree (third year)  \n  L3\n  /// Master's Degree (1)\n  M1\n  /// Master's Degree (2)\n  M2\n  /// PhD\n  PhD\n}\n\nenum Language {\n  FR\n  MG\n  EN\n}\n\nenum CourseLevel {\n  BEGINNER\n  INTERMEDIATE\n  ADVANCED\n  ALL_LEVELS\n}\n\nenum CourseStatus {\n  DRAFT\n  PUBLISHED\n  ARCHIVED\n  UNPUBLISHED\n}\n\nenum LectureType {\n  VIDEO\n  ARTICLE\n  QUIZ\n  CODING_EXERCISE\n  ASSIGNMENT\n  PROJECT\n}\n\nenum QuestionType {\n  MULTIPLE_CHOICE\n  MULTIPLE_ANSWER\n  TRUE_FALSE\n  FILL_BLANK\n  ORDERING\n}\n\nenum VideoStatus {\n  UPLOADING\n  PROCESSING\n  READY\n  FAILED\n}\n\nenum ResourceType {\n  PDF\n  DOCUMENT\n  PRESENTATION\n  SPREADSHEET\n  IMAGE\n  AUDIO\n  VIDEO\n  ARCHIVE\n  CODE\n  EXTERNAL_LINK\n  TEXT\n}\n\nenum SubmissionStatus {\n  DRAFT\n  SUBMITTED\n  UNDER_REVIEW\n  NEEDS_REVISION\n  APPROVED\n  REJECTED\n}\n\nenum CourseType {\n  LECTURE\n  ONLINE\n  HYBRID\n}\n\nenum ValidationStatus {\n  PENDING\n  APPROVED\n  CHANGES_REQUESTED\n  REJECTED\n}\n\nenum ServerStatus {\n  ACTIVE\n  INACTIVE\n  MAINTENANCE\n  ERROR\n}\n\nenum CachedContentType {\n  COURSE\n  LECTURE\n  VIDEO\n  ARTICLE\n  QUIZ\n  RESOURCE\n  IMAGE\n  THUMBNAIL\n}\n\nenum CachePriority {\n  CRITICAL\n  HIGH\n  MEDIUM\n  LOW\n}\n\nenum CacheStatus {\n  PENDING\n  DOWNLOADING\n  CACHED\n  FAILED\n  EXPIRED\n}\n\nenum SyncType {\n  FULL\n  INCREMENTAL\n  PRIORITY\n  MANUAL\n}\n\nenum SyncStatus {\n  IN_PROGRESS\n  COMPLETED\n  FAILED\n  CANCELLED\n}\n\nenum ContentQuality {\n  LOW\n  MEDIUM\n  HIGH\n  ULTRA\n}\n\nenum NetworkSpeed {\n  SLOW_2G\n  FAST_2G\n  SLOW_3G\n  FAST_3G\n  SLOW_4G\n  FAST_4G\n  WIFI\n}\n\nenum DownloadPriority {\n  URGENT\n  HIGH\n  NORMAL\n  LOW\n  BACKGROUND\n}\n\nenum DownloadStatus {\n  QUEUED\n  DOWNLOADING\n  PAUSED\n  COMPLETED\n  FAILED\n  CANCELLED\n}\n\nenum ConnectionType {\n  WIFI\n  CELLULAR_2G\n  CELLULAR_3G\n  CELLULAR_4G\n  CELLULAR_5G\n  ETHERNET\n  OFFLINE\n}\n\nenum UserRole {\n  ADMIN\n  EDUCATIONAL_MANAGER\n  TEACHER\n  STUDENT\n  PARENT\n}\n\nenum AdminRole {\n  SUPER_ADMIN\n  SCHOOL_ADMIN\n  CONTENT_MODERATOR\n}\n\nenum NotificationType {\n  COURSE_ASSIGNED\n  GRADE_POSTED\n  PARENT_INSTRUCTION\n  COURSE_VALIDATED\n  COURSE_REJECTED\n  ASSIGNMENT_DUE\n  SYSTEM_ALERT\n  MESSAGE_RECEIVED\n}\n\nenum NotificationPriority {\n  LOW\n  NORMAL\n  HIGH\n  URGENT\n}\n\nenum ConversationContext {\n  COURSE\n  LECTURE\n}\n",
+  "inlineSchemaHash": "e753632098a00c6a4be4f52a78da651aeb90a5df6fa9e91e25964b5715715356",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"phoneVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"languagePreference\",\"kind\":\"enum\",\"type\":\"Language\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastLogin\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"failedLoginAttempts\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lockedUntil\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"settings\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"SchoolToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"coursesCreated\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseCreator\"},{\"name\":\"courseValidations\",\"kind\":\"object\",\"type\":\"CourseValidation\",\"relationName\":\"CourseValidationToUser\"},{\"name\":\"parentRelations\",\"kind\":\"object\",\"type\":\"UserRelationship\",\"relationName\":\"ParentUser\"},{\"name\":\"studentRelations\",\"kind\":\"object\",\"type\":\"UserRelationship\",\"relationName\":\"StudentUser\"},{\"name\":\"studentProgress\",\"kind\":\"object\",\"type\":\"StudentProgress\",\"relationName\":\"StudentProgressToUser\"},{\"name\":\"instructionsGiven\",\"kind\":\"object\",\"type\":\"ParentInstruction\",\"relationName\":\"InstructionCreator\"},{\"name\":\"instructionsReceived\",\"kind\":\"object\",\"type\":\"ParentInstructionCompletion\",\"relationName\":\"ParentInstructionCompletionToUser\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToUser\"},{\"name\":\"auditLogs\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassStudents\"},{\"name\":\"classSchedules\",\"kind\":\"object\",\"type\":\"ClassSchedule\",\"relationName\":\"TeacherSchedules\"},{\"name\":\"submissions\",\"kind\":\"object\",\"type\":\"Submission\",\"relationName\":\"SubmissionToUser\"},{\"name\":\"submissionsGraded\",\"kind\":\"object\",\"type\":\"Submission\",\"relationName\":\"SubmissionsGraded\"},{\"name\":\"attendances\",\"kind\":\"object\",\"type\":\"Attendance\",\"relationName\":\"AttendanceToUser\"},{\"name\":\"attendancesRecorded\",\"kind\":\"object\",\"type\":\"Attendance\",\"relationName\":\"AttendancesRecorded\"},{\"name\":\"quizSubmissions\",\"kind\":\"object\",\"type\":\"QuizSubmission\",\"relationName\":\"QuizSubmissionToUser\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"VerificationToken\":{\"fields\":[{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"PendingRegistration\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otpHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"UserRelationship\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentUser\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"StudentUser\"}],\"dbName\":null},\"School\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SchoolToUser\"},{\"name\":\"courses\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToSchool\"},{\"name\":\"config\",\"kind\":\"object\",\"type\":\"SchoolConfig\",\"relationName\":\"SchoolToSchoolConfig\"},{\"name\":\"academicYears\",\"kind\":\"object\",\"type\":\"AcademicYear\",\"relationName\":\"AcademicYearToSchool\"},{\"name\":\"subjects\",\"kind\":\"object\",\"type\":\"Subject\",\"relationName\":\"SchoolToSubject\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToSchool\"},{\"name\":\"invitationCodes\",\"kind\":\"object\",\"type\":\"InvitationCode\",\"relationName\":\"InvitationCodeToSchool\"}],\"dbName\":null},\"SchoolConfig\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"allowVideoDownload\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"allowPdfDownload\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"allowInteractiveDownload\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"syncFrequencyHours\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"maxDownloadSizeMB\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"SchoolToSchoolConfig\"}],\"dbName\":null},\"AcademicYear\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"AcademicYearToSchool\"}],\"dbName\":null},\"Subject\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"SchoolToSubject\"},{\"name\":\"courses\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToSubject\"}],\"dbName\":null},\"Class\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"ClassToSchool\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ClassStudents\"},{\"name\":\"assignments\",\"kind\":\"object\",\"type\":\"CourseAssignment\",\"relationName\":\"ClassToCourseAssignment\"},{\"name\":\"attendances\",\"kind\":\"object\",\"type\":\"Attendance\",\"relationName\":\"AttendanceToClass\"},{\"name\":\"schedules\",\"kind\":\"object\",\"type\":\"ClassSchedule\",\"relationName\":\"ClassToClassSchedule\"},{\"name\":\"quizAssignments\",\"kind\":\"object\",\"type\":\"QuizAssignment\",\"relationName\":\"QuizAssignments\"}],\"dbName\":null},\"ClassSchedule\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"teacherId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dayOfWeek\",\"kind\":\"enum\",\"type\":\"DayOfWeek\"},{\"name\":\"plannedStartTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"plannedDuration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"actualStartTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"actualDuration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToClassSchedule\"},{\"name\":\"teacher\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"TeacherSchedules\"}],\"dbName\":null},\"Course\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"teacherId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subjectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CourseStatus\"},{\"name\":\"language\",\"kind\":\"enum\",\"type\":\"Language\"},{\"name\":\"requiresOnline\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"fileSizeBytes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"thumbnailUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"teacher\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CourseCreator\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"CourseToSchool\"},{\"name\":\"subject\",\"kind\":\"object\",\"type\":\"Subject\",\"relationName\":\"CourseToSubject\"},{\"name\":\"content\",\"kind\":\"object\",\"type\":\"CourseContent\",\"relationName\":\"CourseToCourseContent\"},{\"name\":\"validations\",\"kind\":\"object\",\"type\":\"CourseValidation\",\"relationName\":\"CourseToCourseValidation\"},{\"name\":\"versions\",\"kind\":\"object\",\"type\":\"ContentVersion\",\"relationName\":\"ContentVersionToCourse\"},{\"name\":\"assignments\",\"kind\":\"object\",\"type\":\"CourseAssignment\",\"relationName\":\"CourseToCourseAssignment\"},{\"name\":\"progress\",\"kind\":\"object\",\"type\":\"StudentProgress\",\"relationName\":\"CourseToStudentProgress\"}],\"dbName\":null},\"CourseContent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"contentType\",\"kind\":\"enum\",\"type\":\"ContentType\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentData\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"appearsAfterSeconds\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"disappearsAfterSeconds\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fileReference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"offlineAvailable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToCourseContent\"},{\"name\":\"submissions\",\"kind\":\"object\",\"type\":\"Submission\",\"relationName\":\"CourseContentToSubmission\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"CourseContentToQuiz\"}],\"dbName\":null},\"CourseValidation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reviewerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"feedbackText\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ValidationStatus\"},{\"name\":\"suggestions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"reviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToCourseValidation\"},{\"name\":\"reviewer\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CourseValidationToUser\"}],\"dbName\":null},\"ContentVersion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"version\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"changes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"ContentVersionToCourse\"}],\"dbName\":null},\"CourseAssignment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assignedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToCourseAssignment\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToCourseAssignment\"}],\"dbName\":null},\"Quiz\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseContentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passingScore\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"timeLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"mode\",\"kind\":\"enum\",\"type\":\"QuizMode\"},{\"name\":\"showAnswersAfter\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"randomizeQuestions\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"QuizStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"questions\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToQuiz\"},{\"name\":\"assignments\",\"kind\":\"object\",\"type\":\"QuizAssignment\",\"relationName\":\"QuizToQuizAssignment\"},{\"name\":\"submissions\",\"kind\":\"object\",\"type\":\"QuizSubmission\",\"relationName\":\"QuizToQuizSubmission\"},{\"name\":\"courseContent\",\"kind\":\"object\",\"type\":\"CourseContent\",\"relationName\":\"CourseContentToQuiz\"}],\"dbName\":null},\"Question\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quizId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"questionType\",\"kind\":\"enum\",\"type\":\"QuestionType\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"explanation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"options\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"correctAnswer\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuestionToQuiz\"},{\"name\":\"responses\",\"kind\":\"object\",\"type\":\"QuestionResponse\",\"relationName\":\"QuestionToQuestionResponse\"}],\"dbName\":null},\"QuestionResponse\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"questionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"submissionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentAnswer\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"isCorrect\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"pointsEarned\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"question\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToQuestionResponse\"},{\"name\":\"submission\",\"kind\":\"object\",\"type\":\"QuizSubmission\",\"relationName\":\"QuestionResponseToQuizSubmission\"}],\"dbName\":null},\"QuizSubmission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quizId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"attemptNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"startedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"submittedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"score\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"totalPoints\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"timeSpent\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"QuizAttemptStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuizToQuizSubmission\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"QuizSubmissionToUser\"},{\"name\":\"responses\",\"kind\":\"object\",\"type\":\"QuestionResponse\",\"relationName\":\"QuestionResponseToQuizSubmission\"}],\"dbName\":null},\"QuizAssignment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quizId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assignedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"scheduledDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuizToQuizAssignment\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"QuizAssignments\"}],\"dbName\":null},\"StudentProgress\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"completionPercentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"timeSpentMinutes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastAccessed\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"currentModule\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"StudentProgressToUser\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToStudentProgress\"}],\"dbName\":null},\"Submission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseContentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"submittedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"grade\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"gradedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gradedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"feedback\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SubmissionStatus\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SubmissionToUser\"},{\"name\":\"courseContent\",\"kind\":\"object\",\"type\":\"CourseContent\",\"relationName\":\"CourseContentToSubmission\"},{\"name\":\"gradedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SubmissionsGraded\"}],\"dbName\":null},\"Attendance\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"AttendanceStatus\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"recordedById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AttendanceToUser\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"AttendanceToClass\"},{\"name\":\"recordedBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AttendancesRecorded\"}],\"dbName\":null},\"ParentInstruction\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"teacherId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instructionText\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isUrgent\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"teacher\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InstructionCreator\"},{\"name\":\"completions\",\"kind\":\"object\",\"type\":\"ParentInstructionCompletion\",\"relationName\":\"ParentInstructionToParentInstructionCompletion\"}],\"dbName\":null},\"ParentInstructionCompletion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instructionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"InstructionStatus\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instruction\",\"kind\":\"object\",\"type\":\"ParentInstruction\",\"relationName\":\"ParentInstructionToParentInstructionCompletion\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentInstructionCompletionToUser\"}],\"dbName\":null},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"NotificationType\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"read\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"actionUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"NotificationPriority\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationToUser\"}],\"dbName\":null},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"newValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"}],\"dbName\":null},\"InvitationCode\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"InvitationCodeRole\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"usedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"InvitationCodeToSchool\"}],\"dbName\":null},\"TeacherApproval\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ApprovalStatus\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rejectedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ParentChildLink\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ApprovalStatus\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rejectedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"InvitationCode\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"InvitationCodeRole\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"usedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"InvitationCodeToSchool\"}],\"dbName\":null},\"TeacherApproval\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ApprovalStatus\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rejectedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ParentChildLink\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ApprovalStatus\"},{\"name\":\"approvedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rejectedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Course\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"uuid\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subtitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"level\",\"kind\":\"enum\",\"type\":\"CourseLevel\"},{\"name\":\"publishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastUpdatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instructorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentType\",\"kind\":\"enum\",\"type\":\"CourseType\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CourseStatus\"},{\"name\":\"isPublic\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"requiresOnline\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"features\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requirements\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"targetAudience\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"learningObjectives\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"captions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"totalSizeBytes\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"offlineAvailable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"downloadPriority\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"estimatedDataUsage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"certificates\",\"kind\":\"object\",\"type\":\"Certificate\",\"relationName\":\"CertificateToCourse\"},{\"name\":\"conversations\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"CourseConversations\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToCourse\"},{\"name\":\"instructor\",\"kind\":\"object\",\"type\":\"Instructor\",\"relationName\":\"CourseToInstructor\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"CourseToSchool\"},{\"name\":\"enrollments\",\"kind\":\"object\",\"type\":\"CourseEnrollment\",\"relationName\":\"CourseToCourseEnrollment\"},{\"name\":\"faqs\",\"kind\":\"object\",\"type\":\"FAQ\",\"relationName\":\"CourseToFAQ\"},{\"name\":\"promoVideo\",\"kind\":\"object\",\"type\":\"PromoVideo\",\"relationName\":\"CourseToPromoVideo\"},{\"name\":\"reviews\",\"kind\":\"object\",\"type\":\"Review\",\"relationName\":\"CourseToReview\"},{\"name\":\"sections\",\"kind\":\"object\",\"type\":\"Section\",\"relationName\":\"CourseToSection\"},{\"name\":\"statistics\",\"kind\":\"object\",\"type\":\"Statistics\",\"relationName\":\"CourseToStatistics\"},{\"name\":\"version\",\"kind\":\"object\",\"type\":\"Version\",\"relationName\":\"CourseToVersion\"},{\"name\":\"validations\",\"kind\":\"object\",\"type\":\"CourseValidation\",\"relationName\":\"CourseToCourseValidation\"},{\"name\":\"grades\",\"kind\":\"object\",\"type\":\"Grade\",\"relationName\":\"CourseToGrade\"},{\"name\":\"assignments\",\"kind\":\"object\",\"type\":\"Assignment\",\"relationName\":\"AssignmentToCourse\"}],\"dbName\":null},\"CourseValidation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reviewerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ValidationStatus\"},{\"name\":\"feedback\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"suggestions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"reviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToCourseValidation\"},{\"name\":\"reviewer\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CourseValidationToUser\"}],\"dbName\":\"course_validations\"},\"Version\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"current\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publishedVersions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToVersion\"}],\"dbName\":null},\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToSubcategory\"},{\"name\":\"subcategories\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToSubcategory\"},{\"name\":\"courses\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CategoryToCourse\"}],\"dbName\":null},\"Statistics\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalSections\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalLectures\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalQuizzes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalAssignments\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalArticles\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalDownloadableResources\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalDuration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalDurationFormatted\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalStudents\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalReviews\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"averageRating\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"ratingDistribution\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"completionRate\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"lastMonthEnrollments\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToStatistics\"}],\"dbName\":null},\"Certificate\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"available\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"completionPercentage\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"quizzesRequired\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"minimumQuizScore\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CertificateToCourse\"}],\"dbName\":null},\"Section\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalLectures\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalDuration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"durationFormatted\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lectures\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToSection\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToSection\"}],\"dbName\":null},\"Lecture\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"LectureType\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"durationFormatted\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isPreview\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isFree\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"downloadPriority\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"sectionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sizeBytes\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"estimatedDataUsage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"offlineAvailable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"Article\",\"relationName\":\"ArticleToLecture\"},{\"name\":\"assignment\",\"kind\":\"object\",\"type\":\"Assignment\",\"relationName\":\"AssignmentToLecture\"},{\"name\":\"codingExercise\",\"kind\":\"object\",\"type\":\"CodingExercise\",\"relationName\":\"CodingExerciseToLecture\"},{\"name\":\"conversations\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"LectureConversations\"},{\"name\":\"courseEnrollments\",\"kind\":\"object\",\"type\":\"CourseEnrollment\",\"relationName\":\"CourseEnrollmentToCurrentLecture\"},{\"name\":\"section\",\"kind\":\"object\",\"type\":\"Section\",\"relationName\":\"LectureToSection\"},{\"name\":\"progress\",\"kind\":\"object\",\"type\":\"LectureProgress\",\"relationName\":\"LectureToLectureProgress\"},{\"name\":\"notes\",\"kind\":\"object\",\"type\":\"Note\",\"relationName\":\"LectureToNote\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"LectureToProject\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"LectureToQuiz\"},{\"name\":\"resources\",\"kind\":\"object\",\"type\":\"Resource\",\"relationName\":\"LectureToResource\"},{\"name\":\"video\",\"kind\":\"object\",\"type\":\"Video\",\"relationName\":\"LectureToVideo\"}],\"dbName\":null},\"Video\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"versionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"version\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"sources\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"hlsUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dashUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"thumbnail\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"thumbnailSprite\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"captions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"uploadedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"processedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"VideoStatus\"},{\"name\":\"updateNotes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"defaultQuality\",\"kind\":\"enum\",\"type\":\"ContentQuality\"},{\"name\":\"offlineOptimized\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToVideo\"},{\"name\":\"variants\",\"kind\":\"object\",\"type\":\"ContentVariant\",\"relationName\":\"ContentVariantToVideo\"}],\"dbName\":null},\"Article\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentHtml\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"estimatedReadingTime\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"wordCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"ArticleToLecture\"}],\"dbName\":null},\"Quiz\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passingScore\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalPoints\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"timeLimit\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"attemptsAllowed\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"shuffleQuestions\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"shuffleAnswers\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"showCorrectAnswers\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"showCorrectAnswersAfter\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"questionCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"questions\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToQuiz\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToQuiz\"},{\"name\":\"attempts\",\"kind\":\"object\",\"type\":\"QuizAttempt\",\"relationName\":\"QuizToQuizAttempt\"}],\"dbName\":null},\"Question\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"QuestionType\"},{\"name\":\"question\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"options\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"correctAnswer\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"acceptedAnswers\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"orderingItems\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"explanation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hint\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"partialCredit\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"quizId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuestionToQuiz\"}],\"dbName\":null},\"QuizAttempt\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"attemptNumber\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"startedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"submittedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"score\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"pointsEarned\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"pointsPossible\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"percentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"passed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"timeSpent\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"answers\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"quizId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quiz\",\"kind\":\"object\",\"type\":\"Quiz\",\"relationName\":\"QuizToQuizAttempt\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"QuizAttemptToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"QuizAttemptToUser\"}],\"dbName\":null},\"CodingExercise\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instructions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"starterCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expectedOutput\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"testCases\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"hints\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"solution\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"allowSubmission\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"maxSubmissions\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"CodingExerciseToLecture\"},{\"name\":\"submissions\",\"kind\":\"object\",\"type\":\"CodingSubmission\",\"relationName\":\"CodingExerciseToCodingSubmission\"}],\"dbName\":null},\"CodingSubmission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"submittedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"testsPassed\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"testsTotal\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"passed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"output\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"error\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"codingExerciseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"codingExercise\",\"kind\":\"object\",\"type\":\"CodingExercise\",\"relationName\":\"CodingExerciseToCodingSubmission\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"CodingSubmissionToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CodingSubmissionToUser\"}],\"dbName\":null},\"Assignment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"instructions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"allowedFileTypes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"maxFileSize\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"rubric\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"AssignmentToLecture\"},{\"name\":\"submissions\",\"kind\":\"object\",\"type\":\"AssignmentSubmission\",\"relationName\":\"AssignmentToAssignmentSubmission\"},{\"name\":\"grades\",\"kind\":\"object\",\"type\":\"Grade\",\"relationName\":\"AssignmentToGrade\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"AssignmentToClass\"},{\"name\":\"courses\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"AssignmentToCourse\"}],\"dbName\":null},\"AssignmentSubmission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"files\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"submittedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"grade\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"feedback\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SubmissionStatus\"},{\"name\":\"assignmentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assignment\",\"kind\":\"object\",\"type\":\"Assignment\",\"relationName\":\"AssignmentToAssignmentSubmission\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"AssignmentSubmissionToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AssignmentSubmissionToUser\"}],\"dbName\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"complexity\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"technologies\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"learningObjectives\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"milestones\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"submission\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToProject\"}],\"dbName\":null},\"Resource\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"ResourceType\"},{\"name\":\"fileSize\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fileSizeFormatted\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"downloadable\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToResource\"}],\"dbName\":null},\"FAQ\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"question\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"answer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"helpful\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"notHelpful\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToFAQ\"}],\"dbName\":null},\"Review\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rating\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"helpful\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"notHelpful\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToReview\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ReviewToUser\"}],\"dbName\":null},\"PromoVideo\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"thumbnail\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToPromoVideo\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"language\",\"kind\":\"enum\",\"type\":\"Language\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"verificationCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"codeExpires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"administratorProfile\",\"kind\":\"object\",\"type\":\"Admin\",\"relationName\":\"AdminToUser\"},{\"name\":\"assignmentSubmissions\",\"kind\":\"object\",\"type\":\"AssignmentSubmission\",\"relationName\":\"AssignmentSubmissionToUser\"},{\"name\":\"codingSubmissions\",\"kind\":\"object\",\"type\":\"CodingSubmission\",\"relationName\":\"CodingSubmissionToUser\"},{\"name\":\"createdConversations\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"CreatedConversations\"},{\"name\":\"conversationParticipants\",\"kind\":\"object\",\"type\":\"ConversationParticipant\",\"relationName\":\"ConversationParticipantToUser\"},{\"name\":\"courseEnrollments\",\"kind\":\"object\",\"type\":\"CourseEnrollment\",\"relationName\":\"CourseEnrollmentToUser\"},{\"name\":\"instructorProfile\",\"kind\":\"object\",\"type\":\"Instructor\",\"relationName\":\"InstructorToUser\"},{\"name\":\"lectureProgress\",\"kind\":\"object\",\"type\":\"LectureProgress\",\"relationName\":\"LectureProgressToUser\"},{\"name\":\"sentMessages\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"SentMessages\"},{\"name\":\"messageReadStatuses\",\"kind\":\"object\",\"type\":\"MessageReadStatus\",\"relationName\":\"MessageReadStatusToUser\"},{\"name\":\"notes\",\"kind\":\"object\",\"type\":\"Note\",\"relationName\":\"NoteToUser\"},{\"name\":\"quizAttempts\",\"kind\":\"object\",\"type\":\"QuizAttempt\",\"relationName\":\"QuizAttemptToUser\"},{\"name\":\"reviews\",\"kind\":\"object\",\"type\":\"Review\",\"relationName\":\"ReviewToUser\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"SchoolToUser\"},{\"name\":\"auditLogs\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"courseValidations\",\"kind\":\"object\",\"type\":\"CourseValidation\",\"relationName\":\"CourseValidationToUser\"},{\"name\":\"downloadQueues\",\"kind\":\"object\",\"type\":\"DownloadQueue\",\"relationName\":\"DownloadQueueToUser\"},{\"name\":\"networkUsages\",\"kind\":\"object\",\"type\":\"NetworkUsage\",\"relationName\":\"NetworkUsageToUser\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToUser\"},{\"name\":\"offlineContents\",\"kind\":\"object\",\"type\":\"OfflineContent\",\"relationName\":\"OfflineContentToUser\"},{\"name\":\"offlineSyncs\",\"kind\":\"object\",\"type\":\"OfflineSync\",\"relationName\":\"OfflineSyncToUser\"},{\"name\":\"parentProfile\",\"kind\":\"object\",\"type\":\"Parent\",\"relationName\":\"ParentToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"studentProfile\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"StudentToUser\"},{\"name\":\"networkPreference\",\"kind\":\"object\",\"type\":\"UserNetworkPreference\",\"relationName\":\"UserToUserNetworkPreference\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":\"sessions\"},\"School\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"country\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timezone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"config\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"academicPeriods\",\"kind\":\"object\",\"type\":\"AcademicPeriod\",\"relationName\":\"AcademicPeriodToSchool\"},{\"name\":\"courses\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToSchool\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SchoolToUser\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToSchool\"},{\"name\":\"servers\",\"kind\":\"object\",\"type\":\"SchoolServer\",\"relationName\":\"SchoolToSchoolServer\"},{\"name\":\"invitationCodes\",\"kind\":\"object\",\"type\":\"InvitationCode\",\"relationName\":\"InvitationCodeToSchool\"}],\"dbName\":\"schools\"},\"Grade\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"score\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"maxScore\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"percentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"letterGrade\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"academicPeriod\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gradedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gradedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"feedback\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assignmentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gradableType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gradableId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"assignment\",\"kind\":\"object\",\"type\":\"Assignment\",\"relationName\":\"AssignmentToGrade\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToGrade\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToGrade\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"GradeToStudent\"}],\"dbName\":\"grades\"},\"AcademicPeriod\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"AcademicPeriodToSchool\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"AcademicPeriodToClass\"}],\"dbName\":null},\"Student\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gradeLevel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"birthDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"config\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"assignmentSubmissions\",\"kind\":\"object\",\"type\":\"AssignmentSubmission\",\"relationName\":\"AssignmentSubmissionToStudent\"},{\"name\":\"codingSubmissions\",\"kind\":\"object\",\"type\":\"CodingSubmission\",\"relationName\":\"CodingSubmissionToStudent\"},{\"name\":\"enrollments\",\"kind\":\"object\",\"type\":\"CourseEnrollment\",\"relationName\":\"CourseEnrollmentToStudent\"},{\"name\":\"progress\",\"kind\":\"object\",\"type\":\"LectureProgress\",\"relationName\":\"LectureProgressToStudent\"},{\"name\":\"notes\",\"kind\":\"object\",\"type\":\"Note\",\"relationName\":\"NoteToStudent\"},{\"name\":\"quizAttempts\",\"kind\":\"object\",\"type\":\"QuizAttempt\",\"relationName\":\"QuizAttemptToStudent\"},{\"name\":\"classEnrollments\",\"kind\":\"object\",\"type\":\"ClassEnrollment\",\"relationName\":\"ClassEnrollmentToStudent\"},{\"name\":\"grades\",\"kind\":\"object\",\"type\":\"Grade\",\"relationName\":\"GradeToStudent\"},{\"name\":\"parents\",\"kind\":\"object\",\"type\":\"ParentStudent\",\"relationName\":\"ParentStudentToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"StudentToUser\"}],\"dbName\":\"students\"},\"Instructor\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"biography\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rating\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"totalStudents\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalCourses\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"website\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"social\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"config\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"courses\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToInstructor\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"InstructorToUser\"},{\"name\":\"ClassToInstructor\",\"kind\":\"object\",\"type\":\"ClassToInstructor\",\"relationName\":\"ClassToInstructorToInstructor\"}],\"dbName\":null},\"Parent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"config\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"ParentStudent\",\"relationName\":\"ParentToParentStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ParentToUser\"}],\"dbName\":\"parents\"},\"ParentStudent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"relationship\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Parent\",\"relationName\":\"ParentToParentStudent\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"ParentStudentToStudent\"}],\"dbName\":\"parent_students\"},\"Admin\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"AdminRole\"},{\"name\":\"permissions\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AdminToUser\"}],\"dbName\":null},\"Class\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"degreeLevel\",\"kind\":\"enum\",\"type\":\"DegreeLevel\"},{\"name\":\"subject\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"academicPeriodId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ClassToInstructor\",\"kind\":\"object\",\"type\":\"ClassToInstructor\",\"relationName\":\"ClassToClassToInstructor\"},{\"name\":\"enrollments\",\"kind\":\"object\",\"type\":\"ClassEnrollment\",\"relationName\":\"ClassToClassEnrollment\"},{\"name\":\"academicPeriod\",\"kind\":\"object\",\"type\":\"AcademicPeriod\",\"relationName\":\"AcademicPeriodToClass\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"ClassToSchool\"},{\"name\":\"grades\",\"kind\":\"object\",\"type\":\"Grade\",\"relationName\":\"ClassToGrade\"},{\"name\":\"assignments\",\"kind\":\"object\",\"type\":\"Assignment\",\"relationName\":\"AssignmentToClass\"}],\"dbName\":\"classes\"},\"ClassEnrollment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"enrolledAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"classId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"class\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToClassEnrollment\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"ClassEnrollmentToStudent\"}],\"dbName\":\"class_enrollments\"},\"CourseEnrollment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"enrolledAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastAccessedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"progressPercentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"completedLectures\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalTimeSpent\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"certificateEarned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"favorited\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"archived\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"currentLectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseToCourseEnrollment\"},{\"name\":\"currentLecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"CourseEnrollmentToCurrentLecture\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"CourseEnrollmentToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CourseEnrollmentToUser\"}],\"dbName\":null},\"LectureProgress\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"completed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastActivityAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastPosition\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"watchedPercentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"attempts\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bestScore\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"passed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToLectureProgress\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"LectureProgressToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"LectureProgressToUser\"}],\"dbName\":null},\"Note\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"timestamp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureToNote\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"NoteToStudent\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NoteToUser\"}],\"dbName\":null},\"OfflineSync\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastSyncAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"pendingChanges\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OfflineSyncToUser\"}],\"dbName\":\"offline_syncs\"},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"entityId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"newValue\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"}],\"dbName\":\"audit_logs\"},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"NotificationType\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"data\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"read\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"actionUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"NotificationPriority\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationToUser\"}],\"dbName\":\"notifications\"},\"SchoolServer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"serverName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"macAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"storageCapacity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"storageUsed\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ServerStatus\"},{\"name\":\"lastPingAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isMainServer\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"canServeContent\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"maxConcurrentUsers\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"syncWithCloud\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"syncSchedule\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastSyncAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"nextSyncAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"schoolId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cachedContent\",\"kind\":\"object\",\"type\":\"ContentCache\",\"relationName\":\"ContentCacheToSchoolServer\"},{\"name\":\"school\",\"kind\":\"object\",\"type\":\"School\",\"relationName\":\"SchoolToSchoolServer\"},{\"name\":\"syncLogs\",\"kind\":\"object\",\"type\":\"ServerSyncLog\",\"relationName\":\"SchoolServerToServerSyncLog\"}],\"dbName\":\"school_servers\"},\"ContentCache\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentType\",\"kind\":\"enum\",\"type\":\"CachedContentType\"},{\"name\":\"contentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"CachePriority\"},{\"name\":\"sizeInBytes\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"version\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"checksum\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CacheStatus\"},{\"name\":\"downloadProgress\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"cachedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastAccessedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"accessCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"pinned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"serverId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"server\",\"kind\":\"object\",\"type\":\"SchoolServer\",\"relationName\":\"ContentCacheToSchoolServer\"}],\"dbName\":\"content_cache\"},\"ServerSyncLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"syncType\",\"kind\":\"enum\",\"type\":\"SyncType\"},{\"name\":\"startedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SyncStatus\"},{\"name\":\"itemsSynced\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"itemsFailed\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"totalSize\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"errors\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"serverId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"server\",\"kind\":\"object\",\"type\":\"SchoolServer\",\"relationName\":\"SchoolServerToServerSyncLog\"}],\"dbName\":\"server_sync_logs\"},\"ContentVariant\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quality\",\"kind\":\"enum\",\"type\":\"ContentQuality\"},{\"name\":\"resolution\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bitrate\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"codec\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"format\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sizeInBytes\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"sizeFormatted\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"duration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isDefault\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"recommendedFor\",\"kind\":\"enum\",\"type\":\"NetworkSpeed\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"videoId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"video\",\"kind\":\"object\",\"type\":\"Video\",\"relationName\":\"ContentVariantToVideo\"}],\"dbName\":\"content_variants\"},\"DownloadQueue\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"variantQuality\",\"kind\":\"enum\",\"type\":\"ContentQuality\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"DownloadPriority\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"DownloadStatus\"},{\"name\":\"progress\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"wifiOnly\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"scheduledFor\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"estimatedSize\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"downloadedSize\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"startedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"retryCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"maxRetries\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastError\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"DownloadQueueToUser\"}],\"dbName\":\"download_queue\"},\"OfflineContent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"variantQuality\",\"kind\":\"enum\",\"type\":\"ContentQuality\"},{\"name\":\"localPath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sizeInBytes\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"downloadedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastAccessedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"accessCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"pinned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"autoDelete\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"needsUpdate\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"cloudVersion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"localVersion\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OfflineContentToUser\"}],\"dbName\":\"offline_content\"},\"NetworkUsage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deviceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dataDownloaded\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"dataUploaded\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"videoData\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"documentData\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"imageData\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"otherData\",\"kind\":\"scalar\",\"type\":\"BigInt\"},{\"name\":\"connectionType\",\"kind\":\"enum\",\"type\":\"ConnectionType\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NetworkUsageToUser\"}],\"dbName\":\"network_usage\"},\"UserNetworkPreference\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"autoDownload\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"wifiOnlyDownload\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"maxDailyData\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"wifiQuality\",\"kind\":\"enum\",\"type\":\"ContentQuality\"},{\"name\":\"cellularQuality\",\"kind\":\"enum\",\"type\":\"ContentQuality\"},{\"name\":\"prioritizeVideos\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"prioritizeQuizzes\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"prioritizeArticles\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"syncSchedule\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"syncWindowStart\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"syncWindowEnd\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"autoDeleteWatched\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"keepDuration\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"maxStorageGB\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserNetworkPreference\"}],\"dbName\":\"user_network_preferences\"},\"Conversation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isGroup\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"creatorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"contextType\",\"kind\":\"enum\",\"type\":\"ConversationContext\"},{\"name\":\"courseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lectureId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"course\",\"kind\":\"object\",\"type\":\"Course\",\"relationName\":\"CourseConversations\"},{\"name\":\"creator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CreatedConversations\"},{\"name\":\"lecture\",\"kind\":\"object\",\"type\":\"Lecture\",\"relationName\":\"LectureConversations\"},{\"name\":\"participants\",\"kind\":\"object\",\"type\":\"ConversationParticipant\",\"relationName\":\"ConversationToConversationParticipant\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"ConversationToMessage\"}],\"dbName\":null},\"ConversationParticipant\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"conversationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"joinedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isAdmin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"conversation\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"ConversationToConversationParticipant\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ConversationParticipantToUser\"}],\"dbName\":null},\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"conversationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"conversation\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"ConversationToMessage\"},{\"name\":\"sender\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SentMessages\"},{\"name\":\"readStatus\",\"kind\":\"object\",\"type\":\"MessageReadStatus\",\"relationName\":\"MessageToMessageReadStatus\"}],\"dbName\":null},\"MessageReadStatus\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"readAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"message\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"MessageToMessageReadStatus\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MessageReadStatusToUser\"}],\"dbName\":null},\"ClassToInstructor\":{\"fields\":[{\"name\":\"A\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"B\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"classes\",\"kind\":\"object\",\"type\":\"Class\",\"relationName\":\"ClassToClassToInstructor\"},{\"name\":\"Instructor\",\"kind\":\"object\",\"type\":\"Instructor\",\"relationName\":\"ClassToInstructorToInstructor\"}],\"dbName\":\"_ClassToInstructor\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
