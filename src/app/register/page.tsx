@@ -34,6 +34,8 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     schoolId: "",
+    role: UserRole.STUDENT,
+    invitationCode: "",
   });
   const [schools, setSchools] = useState<School[]>([]);
   const [loading, setLoading] = useState(false);
