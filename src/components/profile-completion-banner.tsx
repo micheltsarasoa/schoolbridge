@@ -19,14 +19,14 @@ export default function ProfileCompletionBanner({ userRole }: ProfileCompletionB
   const getSettingsPath = () => {
     switch (userRole) {
       case 'STUDENT':
-        return '/student/settings';
+        return '/dashboard/student/settings';
       case 'TEACHER':
-        return '/teacher/settings';
+        return '/dashboard/teacher/settings';
       case 'PARENT':
-        return '/parent/settings';
+        return '/dashboard/parent/settings';
       case 'ADMIN':
       case 'EDUCATIONAL_MANAGER':
-        return '/admin/settings';
+        return '/dashboard/admin/settings';
       default:
         return '/profile';
     }
