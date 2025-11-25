@@ -158,6 +158,21 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  * 
  */
 export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
+/**
+ * Model InvitationCode
+ * 
+ */
+export type InvitationCode = $Result.DefaultSelection<Prisma.$InvitationCodePayload>
+/**
+ * Model TeacherApproval
+ * 
+ */
+export type TeacherApproval = $Result.DefaultSelection<Prisma.$TeacherApprovalPayload>
+/**
+ * Model ParentChildLink
+ * 
+ */
+export type ParentChildLink = $Result.DefaultSelection<Prisma.$ParentChildLinkPayload>
 
 /**
  * Enums
@@ -320,6 +335,23 @@ export const QuizMode: {
 
 export type QuizMode = (typeof QuizMode)[keyof typeof QuizMode]
 
+
+export const InvitationCodeRole: {
+  TEACHER: 'TEACHER',
+  PARENT: 'PARENT'
+};
+
+export type InvitationCodeRole = (typeof InvitationCodeRole)[keyof typeof InvitationCodeRole]
+
+
+export const ApprovalStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -381,6 +413,14 @@ export const QuizAttemptStatus: typeof $Enums.QuizAttemptStatus
 export type QuizMode = $Enums.QuizMode
 
 export const QuizMode: typeof $Enums.QuizMode
+
+export type InvitationCodeRole = $Enums.InvitationCodeRole
+
+export const InvitationCodeRole: typeof $Enums.InvitationCodeRole
+
+export type ApprovalStatus = $Enums.ApprovalStatus
+
+export const ApprovalStatus: typeof $Enums.ApprovalStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -789,6 +829,36 @@ export class PrismaClient<
     * ```
     */
   get auditLog(): Prisma.AuditLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invitationCode`: Exposes CRUD operations for the **InvitationCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InvitationCodes
+    * const invitationCodes = await prisma.invitationCode.findMany()
+    * ```
+    */
+  get invitationCode(): Prisma.InvitationCodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.teacherApproval`: Exposes CRUD operations for the **TeacherApproval** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TeacherApprovals
+    * const teacherApprovals = await prisma.teacherApproval.findMany()
+    * ```
+    */
+  get teacherApproval(): Prisma.TeacherApprovalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.parentChildLink`: Exposes CRUD operations for the **ParentChildLink** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ParentChildLinks
+    * const parentChildLinks = await prisma.parentChildLink.findMany()
+    * ```
+    */
+  get parentChildLink(): Prisma.ParentChildLinkDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -847,8 +917,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.18.0
-   * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
+   * Prisma Client JS version: 6.19.0
+   * Query Engine version: 2ba551f319ab1df4bc874a89965d8b3641056773
    */
   export type PrismaVersion = {
     client: string
@@ -1258,7 +1328,10 @@ export namespace Prisma {
     ParentInstruction: 'ParentInstruction',
     ParentInstructionCompletion: 'ParentInstructionCompletion',
     Notification: 'Notification',
-    AuditLog: 'AuditLog'
+    AuditLog: 'AuditLog',
+    InvitationCode: 'InvitationCode',
+    TeacherApproval: 'TeacherApproval',
+    ParentChildLink: 'ParentChildLink'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1277,7 +1350,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "pendingRegistration" | "userRelationship" | "school" | "schoolConfig" | "academicYear" | "subject" | "class" | "classSchedule" | "course" | "courseContent" | "courseValidation" | "contentVersion" | "courseAssignment" | "quiz" | "question" | "questionResponse" | "quizSubmission" | "quizAssignment" | "studentProgress" | "submission" | "attendance" | "parentInstruction" | "parentInstructionCompletion" | "notification" | "auditLog"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "pendingRegistration" | "userRelationship" | "school" | "schoolConfig" | "academicYear" | "subject" | "class" | "classSchedule" | "course" | "courseContent" | "courseValidation" | "contentVersion" | "courseAssignment" | "quiz" | "question" | "questionResponse" | "quizSubmission" | "quizAssignment" | "studentProgress" | "submission" | "attendance" | "parentInstruction" | "parentInstructionCompletion" | "notification" | "auditLog" | "invitationCode" | "teacherApproval" | "parentChildLink"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3427,6 +3500,228 @@ export namespace Prisma {
           }
         }
       }
+      InvitationCode: {
+        payload: Prisma.$InvitationCodePayload<ExtArgs>
+        fields: Prisma.InvitationCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvitationCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvitationCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>
+          }
+          findFirst: {
+            args: Prisma.InvitationCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvitationCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>
+          }
+          findMany: {
+            args: Prisma.InvitationCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>[]
+          }
+          create: {
+            args: Prisma.InvitationCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>
+          }
+          createMany: {
+            args: Prisma.InvitationCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvitationCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>[]
+          }
+          delete: {
+            args: Prisma.InvitationCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>
+          }
+          update: {
+            args: Prisma.InvitationCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvitationCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvitationCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvitationCodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>[]
+          }
+          upsert: {
+            args: Prisma.InvitationCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationCodePayload>
+          }
+          aggregate: {
+            args: Prisma.InvitationCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvitationCode>
+          }
+          groupBy: {
+            args: Prisma.InvitationCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvitationCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvitationCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<InvitationCodeCountAggregateOutputType> | number
+          }
+        }
+      }
+      TeacherApproval: {
+        payload: Prisma.$TeacherApprovalPayload<ExtArgs>
+        fields: Prisma.TeacherApprovalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeacherApprovalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeacherApprovalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>
+          }
+          findFirst: {
+            args: Prisma.TeacherApprovalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeacherApprovalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>
+          }
+          findMany: {
+            args: Prisma.TeacherApprovalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>[]
+          }
+          create: {
+            args: Prisma.TeacherApprovalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>
+          }
+          createMany: {
+            args: Prisma.TeacherApprovalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeacherApprovalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>[]
+          }
+          delete: {
+            args: Prisma.TeacherApprovalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>
+          }
+          update: {
+            args: Prisma.TeacherApprovalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeacherApprovalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeacherApprovalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeacherApprovalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeacherApprovalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeacherApprovalPayload>
+          }
+          aggregate: {
+            args: Prisma.TeacherApprovalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeacherApproval>
+          }
+          groupBy: {
+            args: Prisma.TeacherApprovalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeacherApprovalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeacherApprovalCountArgs<ExtArgs>
+            result: $Utils.Optional<TeacherApprovalCountAggregateOutputType> | number
+          }
+        }
+      }
+      ParentChildLink: {
+        payload: Prisma.$ParentChildLinkPayload<ExtArgs>
+        fields: Prisma.ParentChildLinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ParentChildLinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ParentChildLinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>
+          }
+          findFirst: {
+            args: Prisma.ParentChildLinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ParentChildLinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>
+          }
+          findMany: {
+            args: Prisma.ParentChildLinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>[]
+          }
+          create: {
+            args: Prisma.ParentChildLinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>
+          }
+          createMany: {
+            args: Prisma.ParentChildLinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ParentChildLinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>[]
+          }
+          delete: {
+            args: Prisma.ParentChildLinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>
+          }
+          update: {
+            args: Prisma.ParentChildLinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.ParentChildLinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ParentChildLinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ParentChildLinkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>[]
+          }
+          upsert: {
+            args: Prisma.ParentChildLinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParentChildLinkPayload>
+          }
+          aggregate: {
+            args: Prisma.ParentChildLinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateParentChildLink>
+          }
+          groupBy: {
+            args: Prisma.ParentChildLinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ParentChildLinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ParentChildLinkCountArgs<ExtArgs>
+            result: $Utils.Optional<ParentChildLinkCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3552,6 +3847,9 @@ export namespace Prisma {
     parentInstructionCompletion?: ParentInstructionCompletionOmit
     notification?: NotificationOmit
     auditLog?: AuditLogOmit
+    invitationCode?: InvitationCodeOmit
+    teacherApproval?: TeacherApprovalOmit
+    parentChildLink?: ParentChildLinkOmit
   }
 
   /* Types for Logging */
@@ -3821,6 +4119,7 @@ export namespace Prisma {
     academicYears: number
     subjects: number
     classes: number
+    invitationCodes: number
   }
 
   export type SchoolCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3829,6 +4128,7 @@ export namespace Prisma {
     academicYears?: boolean | SchoolCountOutputTypeCountAcademicYearsArgs
     subjects?: boolean | SchoolCountOutputTypeCountSubjectsArgs
     classes?: boolean | SchoolCountOutputTypeCountClassesArgs
+    invitationCodes?: boolean | SchoolCountOutputTypeCountInvitationCodesArgs
   }
 
   // Custom InputTypes
@@ -3875,6 +4175,13 @@ export namespace Prisma {
    */
   export type SchoolCountOutputTypeCountClassesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ClassWhereInput
+  }
+
+  /**
+   * SchoolCountOutputType without action
+   */
+  export type SchoolCountOutputTypeCountInvitationCodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvitationCodeWhereInput
   }
 
 
@@ -11493,6 +11800,7 @@ export namespace Prisma {
     academicYears?: boolean | School$academicYearsArgs<ExtArgs>
     subjects?: boolean | School$subjectsArgs<ExtArgs>
     classes?: boolean | School$classesArgs<ExtArgs>
+    invitationCodes?: boolean | School$invitationCodesArgs<ExtArgs>
     _count?: boolean | SchoolCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["school"]>
 
@@ -11537,6 +11845,7 @@ export namespace Prisma {
     academicYears?: boolean | School$academicYearsArgs<ExtArgs>
     subjects?: boolean | School$subjectsArgs<ExtArgs>
     classes?: boolean | School$classesArgs<ExtArgs>
+    invitationCodes?: boolean | School$invitationCodesArgs<ExtArgs>
     _count?: boolean | SchoolCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SchoolIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11551,6 +11860,7 @@ export namespace Prisma {
       academicYears: Prisma.$AcademicYearPayload<ExtArgs>[]
       subjects: Prisma.$SubjectPayload<ExtArgs>[]
       classes: Prisma.$ClassPayload<ExtArgs>[]
+      invitationCodes: Prisma.$InvitationCodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11961,6 +12271,7 @@ export namespace Prisma {
     academicYears<T extends School$academicYearsArgs<ExtArgs> = {}>(args?: Subset<T, School$academicYearsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     subjects<T extends School$subjectsArgs<ExtArgs> = {}>(args?: Subset<T, School$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     classes<T extends School$classesArgs<ExtArgs> = {}>(args?: Subset<T, School$classesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invitationCodes<T extends School$invitationCodesArgs<ExtArgs> = {}>(args?: Subset<T, School$invitationCodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12522,6 +12833,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ClassScalarFieldEnum | ClassScalarFieldEnum[]
+  }
+
+  /**
+   * School.invitationCodes
+   */
+  export type School$invitationCodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    where?: InvitationCodeWhereInput
+    orderBy?: InvitationCodeOrderByWithRelationInput | InvitationCodeOrderByWithRelationInput[]
+    cursor?: InvitationCodeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvitationCodeScalarFieldEnum | InvitationCodeScalarFieldEnum[]
   }
 
   /**
@@ -37948,6 +38283,3223 @@ export namespace Prisma {
 
 
   /**
+   * Model InvitationCode
+   */
+
+  export type AggregateInvitationCode = {
+    _count: InvitationCodeCountAggregateOutputType | null
+    _min: InvitationCodeMinAggregateOutputType | null
+    _max: InvitationCodeMaxAggregateOutputType | null
+  }
+
+  export type InvitationCodeMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    role: $Enums.InvitationCodeRole | null
+    schoolId: string | null
+    createdBy: string | null
+    usedBy: string | null
+    isActive: boolean | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    usedAt: Date | null
+  }
+
+  export type InvitationCodeMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    role: $Enums.InvitationCodeRole | null
+    schoolId: string | null
+    createdBy: string | null
+    usedBy: string | null
+    isActive: boolean | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    usedAt: Date | null
+  }
+
+  export type InvitationCodeCountAggregateOutputType = {
+    id: number
+    code: number
+    role: number
+    schoolId: number
+    createdBy: number
+    usedBy: number
+    isActive: number
+    expiresAt: number
+    createdAt: number
+    usedAt: number
+    _all: number
+  }
+
+
+  export type InvitationCodeMinAggregateInputType = {
+    id?: true
+    code?: true
+    role?: true
+    schoolId?: true
+    createdBy?: true
+    usedBy?: true
+    isActive?: true
+    expiresAt?: true
+    createdAt?: true
+    usedAt?: true
+  }
+
+  export type InvitationCodeMaxAggregateInputType = {
+    id?: true
+    code?: true
+    role?: true
+    schoolId?: true
+    createdBy?: true
+    usedBy?: true
+    isActive?: true
+    expiresAt?: true
+    createdAt?: true
+    usedAt?: true
+  }
+
+  export type InvitationCodeCountAggregateInputType = {
+    id?: true
+    code?: true
+    role?: true
+    schoolId?: true
+    createdBy?: true
+    usedBy?: true
+    isActive?: true
+    expiresAt?: true
+    createdAt?: true
+    usedAt?: true
+    _all?: true
+  }
+
+  export type InvitationCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvitationCode to aggregate.
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvitationCodes to fetch.
+     */
+    orderBy?: InvitationCodeOrderByWithRelationInput | InvitationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvitationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvitationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvitationCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InvitationCodes
+    **/
+    _count?: true | InvitationCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvitationCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvitationCodeMaxAggregateInputType
+  }
+
+  export type GetInvitationCodeAggregateType<T extends InvitationCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvitationCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvitationCode[P]>
+      : GetScalarType<T[P], AggregateInvitationCode[P]>
+  }
+
+
+
+
+  export type InvitationCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvitationCodeWhereInput
+    orderBy?: InvitationCodeOrderByWithAggregationInput | InvitationCodeOrderByWithAggregationInput[]
+    by: InvitationCodeScalarFieldEnum[] | InvitationCodeScalarFieldEnum
+    having?: InvitationCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvitationCodeCountAggregateInputType | true
+    _min?: InvitationCodeMinAggregateInputType
+    _max?: InvitationCodeMaxAggregateInputType
+  }
+
+  export type InvitationCodeGroupByOutputType = {
+    id: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    schoolId: string
+    createdBy: string
+    usedBy: string | null
+    isActive: boolean
+    expiresAt: Date | null
+    createdAt: Date
+    usedAt: Date | null
+    _count: InvitationCodeCountAggregateOutputType | null
+    _min: InvitationCodeMinAggregateOutputType | null
+    _max: InvitationCodeMaxAggregateOutputType | null
+  }
+
+  type GetInvitationCodeGroupByPayload<T extends InvitationCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvitationCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvitationCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvitationCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], InvitationCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvitationCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    role?: boolean
+    schoolId?: boolean
+    createdBy?: boolean
+    usedBy?: boolean
+    isActive?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+    school?: boolean | SchoolDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invitationCode"]>
+
+  export type InvitationCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    role?: boolean
+    schoolId?: boolean
+    createdBy?: boolean
+    usedBy?: boolean
+    isActive?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+    school?: boolean | SchoolDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invitationCode"]>
+
+  export type InvitationCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    role?: boolean
+    schoolId?: boolean
+    createdBy?: boolean
+    usedBy?: boolean
+    isActive?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+    school?: boolean | SchoolDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invitationCode"]>
+
+  export type InvitationCodeSelectScalar = {
+    id?: boolean
+    code?: boolean
+    role?: boolean
+    schoolId?: boolean
+    createdBy?: boolean
+    usedBy?: boolean
+    isActive?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    usedAt?: boolean
+  }
+
+  export type InvitationCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "role" | "schoolId" | "createdBy" | "usedBy" | "isActive" | "expiresAt" | "createdAt" | "usedAt", ExtArgs["result"]["invitationCode"]>
+  export type InvitationCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    school?: boolean | SchoolDefaultArgs<ExtArgs>
+  }
+  export type InvitationCodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    school?: boolean | SchoolDefaultArgs<ExtArgs>
+  }
+  export type InvitationCodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    school?: boolean | SchoolDefaultArgs<ExtArgs>
+  }
+
+  export type $InvitationCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InvitationCode"
+    objects: {
+      school: Prisma.$SchoolPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      role: $Enums.InvitationCodeRole
+      schoolId: string
+      createdBy: string
+      usedBy: string | null
+      isActive: boolean
+      expiresAt: Date | null
+      createdAt: Date
+      usedAt: Date | null
+    }, ExtArgs["result"]["invitationCode"]>
+    composites: {}
+  }
+
+  type InvitationCodeGetPayload<S extends boolean | null | undefined | InvitationCodeDefaultArgs> = $Result.GetResult<Prisma.$InvitationCodePayload, S>
+
+  type InvitationCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvitationCodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvitationCodeCountAggregateInputType | true
+    }
+
+  export interface InvitationCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvitationCode'], meta: { name: 'InvitationCode' } }
+    /**
+     * Find zero or one InvitationCode that matches the filter.
+     * @param {InvitationCodeFindUniqueArgs} args - Arguments to find a InvitationCode
+     * @example
+     * // Get one InvitationCode
+     * const invitationCode = await prisma.invitationCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvitationCodeFindUniqueArgs>(args: SelectSubset<T, InvitationCodeFindUniqueArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InvitationCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvitationCodeFindUniqueOrThrowArgs} args - Arguments to find a InvitationCode
+     * @example
+     * // Get one InvitationCode
+     * const invitationCode = await prisma.invitationCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvitationCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, InvitationCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvitationCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeFindFirstArgs} args - Arguments to find a InvitationCode
+     * @example
+     * // Get one InvitationCode
+     * const invitationCode = await prisma.invitationCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvitationCodeFindFirstArgs>(args?: SelectSubset<T, InvitationCodeFindFirstArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvitationCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeFindFirstOrThrowArgs} args - Arguments to find a InvitationCode
+     * @example
+     * // Get one InvitationCode
+     * const invitationCode = await prisma.invitationCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvitationCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, InvitationCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InvitationCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InvitationCodes
+     * const invitationCodes = await prisma.invitationCode.findMany()
+     * 
+     * // Get first 10 InvitationCodes
+     * const invitationCodes = await prisma.invitationCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invitationCodeWithIdOnly = await prisma.invitationCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvitationCodeFindManyArgs>(args?: SelectSubset<T, InvitationCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InvitationCode.
+     * @param {InvitationCodeCreateArgs} args - Arguments to create a InvitationCode.
+     * @example
+     * // Create one InvitationCode
+     * const InvitationCode = await prisma.invitationCode.create({
+     *   data: {
+     *     // ... data to create a InvitationCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvitationCodeCreateArgs>(args: SelectSubset<T, InvitationCodeCreateArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InvitationCodes.
+     * @param {InvitationCodeCreateManyArgs} args - Arguments to create many InvitationCodes.
+     * @example
+     * // Create many InvitationCodes
+     * const invitationCode = await prisma.invitationCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvitationCodeCreateManyArgs>(args?: SelectSubset<T, InvitationCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InvitationCodes and returns the data saved in the database.
+     * @param {InvitationCodeCreateManyAndReturnArgs} args - Arguments to create many InvitationCodes.
+     * @example
+     * // Create many InvitationCodes
+     * const invitationCode = await prisma.invitationCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InvitationCodes and only return the `id`
+     * const invitationCodeWithIdOnly = await prisma.invitationCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvitationCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, InvitationCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InvitationCode.
+     * @param {InvitationCodeDeleteArgs} args - Arguments to delete one InvitationCode.
+     * @example
+     * // Delete one InvitationCode
+     * const InvitationCode = await prisma.invitationCode.delete({
+     *   where: {
+     *     // ... filter to delete one InvitationCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvitationCodeDeleteArgs>(args: SelectSubset<T, InvitationCodeDeleteArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InvitationCode.
+     * @param {InvitationCodeUpdateArgs} args - Arguments to update one InvitationCode.
+     * @example
+     * // Update one InvitationCode
+     * const invitationCode = await prisma.invitationCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvitationCodeUpdateArgs>(args: SelectSubset<T, InvitationCodeUpdateArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InvitationCodes.
+     * @param {InvitationCodeDeleteManyArgs} args - Arguments to filter InvitationCodes to delete.
+     * @example
+     * // Delete a few InvitationCodes
+     * const { count } = await prisma.invitationCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvitationCodeDeleteManyArgs>(args?: SelectSubset<T, InvitationCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvitationCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InvitationCodes
+     * const invitationCode = await prisma.invitationCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvitationCodeUpdateManyArgs>(args: SelectSubset<T, InvitationCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvitationCodes and returns the data updated in the database.
+     * @param {InvitationCodeUpdateManyAndReturnArgs} args - Arguments to update many InvitationCodes.
+     * @example
+     * // Update many InvitationCodes
+     * const invitationCode = await prisma.invitationCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InvitationCodes and only return the `id`
+     * const invitationCodeWithIdOnly = await prisma.invitationCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvitationCodeUpdateManyAndReturnArgs>(args: SelectSubset<T, InvitationCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InvitationCode.
+     * @param {InvitationCodeUpsertArgs} args - Arguments to update or create a InvitationCode.
+     * @example
+     * // Update or create a InvitationCode
+     * const invitationCode = await prisma.invitationCode.upsert({
+     *   create: {
+     *     // ... data to create a InvitationCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InvitationCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvitationCodeUpsertArgs>(args: SelectSubset<T, InvitationCodeUpsertArgs<ExtArgs>>): Prisma__InvitationCodeClient<$Result.GetResult<Prisma.$InvitationCodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InvitationCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeCountArgs} args - Arguments to filter InvitationCodes to count.
+     * @example
+     * // Count the number of InvitationCodes
+     * const count = await prisma.invitationCode.count({
+     *   where: {
+     *     // ... the filter for the InvitationCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvitationCodeCountArgs>(
+      args?: Subset<T, InvitationCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvitationCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InvitationCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvitationCodeAggregateArgs>(args: Subset<T, InvitationCodeAggregateArgs>): Prisma.PrismaPromise<GetInvitationCodeAggregateType<T>>
+
+    /**
+     * Group by InvitationCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvitationCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvitationCodeGroupByArgs['orderBy'] }
+        : { orderBy?: InvitationCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvitationCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvitationCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InvitationCode model
+   */
+  readonly fields: InvitationCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InvitationCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvitationCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    school<T extends SchoolDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SchoolDefaultArgs<ExtArgs>>): Prisma__SchoolClient<$Result.GetResult<Prisma.$SchoolPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InvitationCode model
+   */
+  interface InvitationCodeFieldRefs {
+    readonly id: FieldRef<"InvitationCode", 'String'>
+    readonly code: FieldRef<"InvitationCode", 'String'>
+    readonly role: FieldRef<"InvitationCode", 'InvitationCodeRole'>
+    readonly schoolId: FieldRef<"InvitationCode", 'String'>
+    readonly createdBy: FieldRef<"InvitationCode", 'String'>
+    readonly usedBy: FieldRef<"InvitationCode", 'String'>
+    readonly isActive: FieldRef<"InvitationCode", 'Boolean'>
+    readonly expiresAt: FieldRef<"InvitationCode", 'DateTime'>
+    readonly createdAt: FieldRef<"InvitationCode", 'DateTime'>
+    readonly usedAt: FieldRef<"InvitationCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InvitationCode findUnique
+   */
+  export type InvitationCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which InvitationCode to fetch.
+     */
+    where: InvitationCodeWhereUniqueInput
+  }
+
+  /**
+   * InvitationCode findUniqueOrThrow
+   */
+  export type InvitationCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which InvitationCode to fetch.
+     */
+    where: InvitationCodeWhereUniqueInput
+  }
+
+  /**
+   * InvitationCode findFirst
+   */
+  export type InvitationCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which InvitationCode to fetch.
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvitationCodes to fetch.
+     */
+    orderBy?: InvitationCodeOrderByWithRelationInput | InvitationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvitationCodes.
+     */
+    cursor?: InvitationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvitationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvitationCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvitationCodes.
+     */
+    distinct?: InvitationCodeScalarFieldEnum | InvitationCodeScalarFieldEnum[]
+  }
+
+  /**
+   * InvitationCode findFirstOrThrow
+   */
+  export type InvitationCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which InvitationCode to fetch.
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvitationCodes to fetch.
+     */
+    orderBy?: InvitationCodeOrderByWithRelationInput | InvitationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvitationCodes.
+     */
+    cursor?: InvitationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvitationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvitationCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvitationCodes.
+     */
+    distinct?: InvitationCodeScalarFieldEnum | InvitationCodeScalarFieldEnum[]
+  }
+
+  /**
+   * InvitationCode findMany
+   */
+  export type InvitationCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which InvitationCodes to fetch.
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvitationCodes to fetch.
+     */
+    orderBy?: InvitationCodeOrderByWithRelationInput | InvitationCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InvitationCodes.
+     */
+    cursor?: InvitationCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvitationCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvitationCodes.
+     */
+    skip?: number
+    distinct?: InvitationCodeScalarFieldEnum | InvitationCodeScalarFieldEnum[]
+  }
+
+  /**
+   * InvitationCode create
+   */
+  export type InvitationCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InvitationCode.
+     */
+    data: XOR<InvitationCodeCreateInput, InvitationCodeUncheckedCreateInput>
+  }
+
+  /**
+   * InvitationCode createMany
+   */
+  export type InvitationCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InvitationCodes.
+     */
+    data: InvitationCodeCreateManyInput | InvitationCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvitationCode createManyAndReturn
+   */
+  export type InvitationCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many InvitationCodes.
+     */
+    data: InvitationCodeCreateManyInput | InvitationCodeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InvitationCode update
+   */
+  export type InvitationCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InvitationCode.
+     */
+    data: XOR<InvitationCodeUpdateInput, InvitationCodeUncheckedUpdateInput>
+    /**
+     * Choose, which InvitationCode to update.
+     */
+    where: InvitationCodeWhereUniqueInput
+  }
+
+  /**
+   * InvitationCode updateMany
+   */
+  export type InvitationCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InvitationCodes.
+     */
+    data: XOR<InvitationCodeUpdateManyMutationInput, InvitationCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which InvitationCodes to update
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * Limit how many InvitationCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvitationCode updateManyAndReturn
+   */
+  export type InvitationCodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * The data used to update InvitationCodes.
+     */
+    data: XOR<InvitationCodeUpdateManyMutationInput, InvitationCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which InvitationCodes to update
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * Limit how many InvitationCodes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InvitationCode upsert
+   */
+  export type InvitationCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InvitationCode to update in case it exists.
+     */
+    where: InvitationCodeWhereUniqueInput
+    /**
+     * In case the InvitationCode found by the `where` argument doesn't exist, create a new InvitationCode with this data.
+     */
+    create: XOR<InvitationCodeCreateInput, InvitationCodeUncheckedCreateInput>
+    /**
+     * In case the InvitationCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvitationCodeUpdateInput, InvitationCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * InvitationCode delete
+   */
+  export type InvitationCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+    /**
+     * Filter which InvitationCode to delete.
+     */
+    where: InvitationCodeWhereUniqueInput
+  }
+
+  /**
+   * InvitationCode deleteMany
+   */
+  export type InvitationCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvitationCodes to delete
+     */
+    where?: InvitationCodeWhereInput
+    /**
+     * Limit how many InvitationCodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvitationCode without action
+   */
+  export type InvitationCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvitationCode
+     */
+    select?: InvitationCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvitationCode
+     */
+    omit?: InvitationCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationCodeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TeacherApproval
+   */
+
+  export type AggregateTeacherApproval = {
+    _count: TeacherApprovalCountAggregateOutputType | null
+    _min: TeacherApprovalMinAggregateOutputType | null
+    _max: TeacherApprovalMaxAggregateOutputType | null
+  }
+
+  export type TeacherApprovalMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    schoolId: string | null
+    status: $Enums.ApprovalStatus | null
+    approvedBy: string | null
+    rejectedBy: string | null
+    reason: string | null
+    requestedAt: Date | null
+    reviewedAt: Date | null
+  }
+
+  export type TeacherApprovalMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    schoolId: string | null
+    status: $Enums.ApprovalStatus | null
+    approvedBy: string | null
+    rejectedBy: string | null
+    reason: string | null
+    requestedAt: Date | null
+    reviewedAt: Date | null
+  }
+
+  export type TeacherApprovalCountAggregateOutputType = {
+    id: number
+    userId: number
+    schoolId: number
+    status: number
+    approvedBy: number
+    rejectedBy: number
+    reason: number
+    requestedAt: number
+    reviewedAt: number
+    _all: number
+  }
+
+
+  export type TeacherApprovalMinAggregateInputType = {
+    id?: true
+    userId?: true
+    schoolId?: true
+    status?: true
+    approvedBy?: true
+    rejectedBy?: true
+    reason?: true
+    requestedAt?: true
+    reviewedAt?: true
+  }
+
+  export type TeacherApprovalMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    schoolId?: true
+    status?: true
+    approvedBy?: true
+    rejectedBy?: true
+    reason?: true
+    requestedAt?: true
+    reviewedAt?: true
+  }
+
+  export type TeacherApprovalCountAggregateInputType = {
+    id?: true
+    userId?: true
+    schoolId?: true
+    status?: true
+    approvedBy?: true
+    rejectedBy?: true
+    reason?: true
+    requestedAt?: true
+    reviewedAt?: true
+    _all?: true
+  }
+
+  export type TeacherApprovalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeacherApproval to aggregate.
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherApprovals to fetch.
+     */
+    orderBy?: TeacherApprovalOrderByWithRelationInput | TeacherApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeacherApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TeacherApprovals
+    **/
+    _count?: true | TeacherApprovalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeacherApprovalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeacherApprovalMaxAggregateInputType
+  }
+
+  export type GetTeacherApprovalAggregateType<T extends TeacherApprovalAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeacherApproval]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeacherApproval[P]>
+      : GetScalarType<T[P], AggregateTeacherApproval[P]>
+  }
+
+
+
+
+  export type TeacherApprovalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeacherApprovalWhereInput
+    orderBy?: TeacherApprovalOrderByWithAggregationInput | TeacherApprovalOrderByWithAggregationInput[]
+    by: TeacherApprovalScalarFieldEnum[] | TeacherApprovalScalarFieldEnum
+    having?: TeacherApprovalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeacherApprovalCountAggregateInputType | true
+    _min?: TeacherApprovalMinAggregateInputType
+    _max?: TeacherApprovalMaxAggregateInputType
+  }
+
+  export type TeacherApprovalGroupByOutputType = {
+    id: string
+    userId: string
+    schoolId: string
+    status: $Enums.ApprovalStatus
+    approvedBy: string | null
+    rejectedBy: string | null
+    reason: string | null
+    requestedAt: Date
+    reviewedAt: Date | null
+    _count: TeacherApprovalCountAggregateOutputType | null
+    _min: TeacherApprovalMinAggregateOutputType | null
+    _max: TeacherApprovalMaxAggregateOutputType | null
+  }
+
+  type GetTeacherApprovalGroupByPayload<T extends TeacherApprovalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeacherApprovalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeacherApprovalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeacherApprovalGroupByOutputType[P]>
+            : GetScalarType<T[P], TeacherApprovalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeacherApprovalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    schoolId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }, ExtArgs["result"]["teacherApproval"]>
+
+  export type TeacherApprovalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    schoolId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }, ExtArgs["result"]["teacherApproval"]>
+
+  export type TeacherApprovalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    schoolId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }, ExtArgs["result"]["teacherApproval"]>
+
+  export type TeacherApprovalSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    schoolId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }
+
+  export type TeacherApprovalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "schoolId" | "status" | "approvedBy" | "rejectedBy" | "reason" | "requestedAt" | "reviewedAt", ExtArgs["result"]["teacherApproval"]>
+
+  export type $TeacherApprovalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TeacherApproval"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      schoolId: string
+      status: $Enums.ApprovalStatus
+      approvedBy: string | null
+      rejectedBy: string | null
+      reason: string | null
+      requestedAt: Date
+      reviewedAt: Date | null
+    }, ExtArgs["result"]["teacherApproval"]>
+    composites: {}
+  }
+
+  type TeacherApprovalGetPayload<S extends boolean | null | undefined | TeacherApprovalDefaultArgs> = $Result.GetResult<Prisma.$TeacherApprovalPayload, S>
+
+  type TeacherApprovalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeacherApprovalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeacherApprovalCountAggregateInputType | true
+    }
+
+  export interface TeacherApprovalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeacherApproval'], meta: { name: 'TeacherApproval' } }
+    /**
+     * Find zero or one TeacherApproval that matches the filter.
+     * @param {TeacherApprovalFindUniqueArgs} args - Arguments to find a TeacherApproval
+     * @example
+     * // Get one TeacherApproval
+     * const teacherApproval = await prisma.teacherApproval.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeacherApprovalFindUniqueArgs>(args: SelectSubset<T, TeacherApprovalFindUniqueArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TeacherApproval that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeacherApprovalFindUniqueOrThrowArgs} args - Arguments to find a TeacherApproval
+     * @example
+     * // Get one TeacherApproval
+     * const teacherApproval = await prisma.teacherApproval.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeacherApprovalFindUniqueOrThrowArgs>(args: SelectSubset<T, TeacherApprovalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeacherApproval that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalFindFirstArgs} args - Arguments to find a TeacherApproval
+     * @example
+     * // Get one TeacherApproval
+     * const teacherApproval = await prisma.teacherApproval.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeacherApprovalFindFirstArgs>(args?: SelectSubset<T, TeacherApprovalFindFirstArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeacherApproval that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalFindFirstOrThrowArgs} args - Arguments to find a TeacherApproval
+     * @example
+     * // Get one TeacherApproval
+     * const teacherApproval = await prisma.teacherApproval.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeacherApprovalFindFirstOrThrowArgs>(args?: SelectSubset<T, TeacherApprovalFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TeacherApprovals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TeacherApprovals
+     * const teacherApprovals = await prisma.teacherApproval.findMany()
+     * 
+     * // Get first 10 TeacherApprovals
+     * const teacherApprovals = await prisma.teacherApproval.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teacherApprovalWithIdOnly = await prisma.teacherApproval.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeacherApprovalFindManyArgs>(args?: SelectSubset<T, TeacherApprovalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TeacherApproval.
+     * @param {TeacherApprovalCreateArgs} args - Arguments to create a TeacherApproval.
+     * @example
+     * // Create one TeacherApproval
+     * const TeacherApproval = await prisma.teacherApproval.create({
+     *   data: {
+     *     // ... data to create a TeacherApproval
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeacherApprovalCreateArgs>(args: SelectSubset<T, TeacherApprovalCreateArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TeacherApprovals.
+     * @param {TeacherApprovalCreateManyArgs} args - Arguments to create many TeacherApprovals.
+     * @example
+     * // Create many TeacherApprovals
+     * const teacherApproval = await prisma.teacherApproval.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeacherApprovalCreateManyArgs>(args?: SelectSubset<T, TeacherApprovalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TeacherApprovals and returns the data saved in the database.
+     * @param {TeacherApprovalCreateManyAndReturnArgs} args - Arguments to create many TeacherApprovals.
+     * @example
+     * // Create many TeacherApprovals
+     * const teacherApproval = await prisma.teacherApproval.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TeacherApprovals and only return the `id`
+     * const teacherApprovalWithIdOnly = await prisma.teacherApproval.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeacherApprovalCreateManyAndReturnArgs>(args?: SelectSubset<T, TeacherApprovalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TeacherApproval.
+     * @param {TeacherApprovalDeleteArgs} args - Arguments to delete one TeacherApproval.
+     * @example
+     * // Delete one TeacherApproval
+     * const TeacherApproval = await prisma.teacherApproval.delete({
+     *   where: {
+     *     // ... filter to delete one TeacherApproval
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeacherApprovalDeleteArgs>(args: SelectSubset<T, TeacherApprovalDeleteArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TeacherApproval.
+     * @param {TeacherApprovalUpdateArgs} args - Arguments to update one TeacherApproval.
+     * @example
+     * // Update one TeacherApproval
+     * const teacherApproval = await prisma.teacherApproval.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeacherApprovalUpdateArgs>(args: SelectSubset<T, TeacherApprovalUpdateArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TeacherApprovals.
+     * @param {TeacherApprovalDeleteManyArgs} args - Arguments to filter TeacherApprovals to delete.
+     * @example
+     * // Delete a few TeacherApprovals
+     * const { count } = await prisma.teacherApproval.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeacherApprovalDeleteManyArgs>(args?: SelectSubset<T, TeacherApprovalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeacherApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TeacherApprovals
+     * const teacherApproval = await prisma.teacherApproval.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeacherApprovalUpdateManyArgs>(args: SelectSubset<T, TeacherApprovalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeacherApprovals and returns the data updated in the database.
+     * @param {TeacherApprovalUpdateManyAndReturnArgs} args - Arguments to update many TeacherApprovals.
+     * @example
+     * // Update many TeacherApprovals
+     * const teacherApproval = await prisma.teacherApproval.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TeacherApprovals and only return the `id`
+     * const teacherApprovalWithIdOnly = await prisma.teacherApproval.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeacherApprovalUpdateManyAndReturnArgs>(args: SelectSubset<T, TeacherApprovalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TeacherApproval.
+     * @param {TeacherApprovalUpsertArgs} args - Arguments to update or create a TeacherApproval.
+     * @example
+     * // Update or create a TeacherApproval
+     * const teacherApproval = await prisma.teacherApproval.upsert({
+     *   create: {
+     *     // ... data to create a TeacherApproval
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TeacherApproval we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeacherApprovalUpsertArgs>(args: SelectSubset<T, TeacherApprovalUpsertArgs<ExtArgs>>): Prisma__TeacherApprovalClient<$Result.GetResult<Prisma.$TeacherApprovalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TeacherApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalCountArgs} args - Arguments to filter TeacherApprovals to count.
+     * @example
+     * // Count the number of TeacherApprovals
+     * const count = await prisma.teacherApproval.count({
+     *   where: {
+     *     // ... the filter for the TeacherApprovals we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeacherApprovalCountArgs>(
+      args?: Subset<T, TeacherApprovalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeacherApprovalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TeacherApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeacherApprovalAggregateArgs>(args: Subset<T, TeacherApprovalAggregateArgs>): Prisma.PrismaPromise<GetTeacherApprovalAggregateType<T>>
+
+    /**
+     * Group by TeacherApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeacherApprovalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeacherApprovalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeacherApprovalGroupByArgs['orderBy'] }
+        : { orderBy?: TeacherApprovalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeacherApprovalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeacherApprovalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TeacherApproval model
+   */
+  readonly fields: TeacherApprovalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TeacherApproval.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeacherApprovalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TeacherApproval model
+   */
+  interface TeacherApprovalFieldRefs {
+    readonly id: FieldRef<"TeacherApproval", 'String'>
+    readonly userId: FieldRef<"TeacherApproval", 'String'>
+    readonly schoolId: FieldRef<"TeacherApproval", 'String'>
+    readonly status: FieldRef<"TeacherApproval", 'ApprovalStatus'>
+    readonly approvedBy: FieldRef<"TeacherApproval", 'String'>
+    readonly rejectedBy: FieldRef<"TeacherApproval", 'String'>
+    readonly reason: FieldRef<"TeacherApproval", 'String'>
+    readonly requestedAt: FieldRef<"TeacherApproval", 'DateTime'>
+    readonly reviewedAt: FieldRef<"TeacherApproval", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TeacherApproval findUnique
+   */
+  export type TeacherApprovalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * Filter, which TeacherApproval to fetch.
+     */
+    where: TeacherApprovalWhereUniqueInput
+  }
+
+  /**
+   * TeacherApproval findUniqueOrThrow
+   */
+  export type TeacherApprovalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * Filter, which TeacherApproval to fetch.
+     */
+    where: TeacherApprovalWhereUniqueInput
+  }
+
+  /**
+   * TeacherApproval findFirst
+   */
+  export type TeacherApprovalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * Filter, which TeacherApproval to fetch.
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherApprovals to fetch.
+     */
+    orderBy?: TeacherApprovalOrderByWithRelationInput | TeacherApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeacherApprovals.
+     */
+    cursor?: TeacherApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeacherApprovals.
+     */
+    distinct?: TeacherApprovalScalarFieldEnum | TeacherApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * TeacherApproval findFirstOrThrow
+   */
+  export type TeacherApprovalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * Filter, which TeacherApproval to fetch.
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherApprovals to fetch.
+     */
+    orderBy?: TeacherApprovalOrderByWithRelationInput | TeacherApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeacherApprovals.
+     */
+    cursor?: TeacherApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeacherApprovals.
+     */
+    distinct?: TeacherApprovalScalarFieldEnum | TeacherApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * TeacherApproval findMany
+   */
+  export type TeacherApprovalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * Filter, which TeacherApprovals to fetch.
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeacherApprovals to fetch.
+     */
+    orderBy?: TeacherApprovalOrderByWithRelationInput | TeacherApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TeacherApprovals.
+     */
+    cursor?: TeacherApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeacherApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeacherApprovals.
+     */
+    skip?: number
+    distinct?: TeacherApprovalScalarFieldEnum | TeacherApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * TeacherApproval create
+   */
+  export type TeacherApprovalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * The data needed to create a TeacherApproval.
+     */
+    data: XOR<TeacherApprovalCreateInput, TeacherApprovalUncheckedCreateInput>
+  }
+
+  /**
+   * TeacherApproval createMany
+   */
+  export type TeacherApprovalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TeacherApprovals.
+     */
+    data: TeacherApprovalCreateManyInput | TeacherApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeacherApproval createManyAndReturn
+   */
+  export type TeacherApprovalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to create many TeacherApprovals.
+     */
+    data: TeacherApprovalCreateManyInput | TeacherApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeacherApproval update
+   */
+  export type TeacherApprovalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * The data needed to update a TeacherApproval.
+     */
+    data: XOR<TeacherApprovalUpdateInput, TeacherApprovalUncheckedUpdateInput>
+    /**
+     * Choose, which TeacherApproval to update.
+     */
+    where: TeacherApprovalWhereUniqueInput
+  }
+
+  /**
+   * TeacherApproval updateMany
+   */
+  export type TeacherApprovalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TeacherApprovals.
+     */
+    data: XOR<TeacherApprovalUpdateManyMutationInput, TeacherApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which TeacherApprovals to update
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * Limit how many TeacherApprovals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeacherApproval updateManyAndReturn
+   */
+  export type TeacherApprovalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to update TeacherApprovals.
+     */
+    data: XOR<TeacherApprovalUpdateManyMutationInput, TeacherApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which TeacherApprovals to update
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * Limit how many TeacherApprovals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeacherApproval upsert
+   */
+  export type TeacherApprovalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * The filter to search for the TeacherApproval to update in case it exists.
+     */
+    where: TeacherApprovalWhereUniqueInput
+    /**
+     * In case the TeacherApproval found by the `where` argument doesn't exist, create a new TeacherApproval with this data.
+     */
+    create: XOR<TeacherApprovalCreateInput, TeacherApprovalUncheckedCreateInput>
+    /**
+     * In case the TeacherApproval was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeacherApprovalUpdateInput, TeacherApprovalUncheckedUpdateInput>
+  }
+
+  /**
+   * TeacherApproval delete
+   */
+  export type TeacherApprovalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+    /**
+     * Filter which TeacherApproval to delete.
+     */
+    where: TeacherApprovalWhereUniqueInput
+  }
+
+  /**
+   * TeacherApproval deleteMany
+   */
+  export type TeacherApprovalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeacherApprovals to delete
+     */
+    where?: TeacherApprovalWhereInput
+    /**
+     * Limit how many TeacherApprovals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeacherApproval without action
+   */
+  export type TeacherApprovalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeacherApproval
+     */
+    select?: TeacherApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeacherApproval
+     */
+    omit?: TeacherApprovalOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ParentChildLink
+   */
+
+  export type AggregateParentChildLink = {
+    _count: ParentChildLinkCountAggregateOutputType | null
+    _min: ParentChildLinkMinAggregateOutputType | null
+    _max: ParentChildLinkMaxAggregateOutputType | null
+  }
+
+  export type ParentChildLinkMinAggregateOutputType = {
+    id: string | null
+    parentId: string | null
+    studentId: string | null
+    status: $Enums.ApprovalStatus | null
+    approvedBy: string | null
+    rejectedBy: string | null
+    reason: string | null
+    requestedAt: Date | null
+    reviewedAt: Date | null
+  }
+
+  export type ParentChildLinkMaxAggregateOutputType = {
+    id: string | null
+    parentId: string | null
+    studentId: string | null
+    status: $Enums.ApprovalStatus | null
+    approvedBy: string | null
+    rejectedBy: string | null
+    reason: string | null
+    requestedAt: Date | null
+    reviewedAt: Date | null
+  }
+
+  export type ParentChildLinkCountAggregateOutputType = {
+    id: number
+    parentId: number
+    studentId: number
+    status: number
+    approvedBy: number
+    rejectedBy: number
+    reason: number
+    requestedAt: number
+    reviewedAt: number
+    _all: number
+  }
+
+
+  export type ParentChildLinkMinAggregateInputType = {
+    id?: true
+    parentId?: true
+    studentId?: true
+    status?: true
+    approvedBy?: true
+    rejectedBy?: true
+    reason?: true
+    requestedAt?: true
+    reviewedAt?: true
+  }
+
+  export type ParentChildLinkMaxAggregateInputType = {
+    id?: true
+    parentId?: true
+    studentId?: true
+    status?: true
+    approvedBy?: true
+    rejectedBy?: true
+    reason?: true
+    requestedAt?: true
+    reviewedAt?: true
+  }
+
+  export type ParentChildLinkCountAggregateInputType = {
+    id?: true
+    parentId?: true
+    studentId?: true
+    status?: true
+    approvedBy?: true
+    rejectedBy?: true
+    reason?: true
+    requestedAt?: true
+    reviewedAt?: true
+    _all?: true
+  }
+
+  export type ParentChildLinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ParentChildLink to aggregate.
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParentChildLinks to fetch.
+     */
+    orderBy?: ParentChildLinkOrderByWithRelationInput | ParentChildLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ParentChildLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParentChildLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParentChildLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ParentChildLinks
+    **/
+    _count?: true | ParentChildLinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ParentChildLinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ParentChildLinkMaxAggregateInputType
+  }
+
+  export type GetParentChildLinkAggregateType<T extends ParentChildLinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateParentChildLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateParentChildLink[P]>
+      : GetScalarType<T[P], AggregateParentChildLink[P]>
+  }
+
+
+
+
+  export type ParentChildLinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParentChildLinkWhereInput
+    orderBy?: ParentChildLinkOrderByWithAggregationInput | ParentChildLinkOrderByWithAggregationInput[]
+    by: ParentChildLinkScalarFieldEnum[] | ParentChildLinkScalarFieldEnum
+    having?: ParentChildLinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ParentChildLinkCountAggregateInputType | true
+    _min?: ParentChildLinkMinAggregateInputType
+    _max?: ParentChildLinkMaxAggregateInputType
+  }
+
+  export type ParentChildLinkGroupByOutputType = {
+    id: string
+    parentId: string
+    studentId: string
+    status: $Enums.ApprovalStatus
+    approvedBy: string | null
+    rejectedBy: string | null
+    reason: string | null
+    requestedAt: Date
+    reviewedAt: Date | null
+    _count: ParentChildLinkCountAggregateOutputType | null
+    _min: ParentChildLinkMinAggregateOutputType | null
+    _max: ParentChildLinkMaxAggregateOutputType | null
+  }
+
+  type GetParentChildLinkGroupByPayload<T extends ParentChildLinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ParentChildLinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ParentChildLinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ParentChildLinkGroupByOutputType[P]>
+            : GetScalarType<T[P], ParentChildLinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ParentChildLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }, ExtArgs["result"]["parentChildLink"]>
+
+  export type ParentChildLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }, ExtArgs["result"]["parentChildLink"]>
+
+  export type ParentChildLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }, ExtArgs["result"]["parentChildLink"]>
+
+  export type ParentChildLinkSelectScalar = {
+    id?: boolean
+    parentId?: boolean
+    studentId?: boolean
+    status?: boolean
+    approvedBy?: boolean
+    rejectedBy?: boolean
+    reason?: boolean
+    requestedAt?: boolean
+    reviewedAt?: boolean
+  }
+
+  export type ParentChildLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "parentId" | "studentId" | "status" | "approvedBy" | "rejectedBy" | "reason" | "requestedAt" | "reviewedAt", ExtArgs["result"]["parentChildLink"]>
+
+  export type $ParentChildLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ParentChildLink"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      parentId: string
+      studentId: string
+      status: $Enums.ApprovalStatus
+      approvedBy: string | null
+      rejectedBy: string | null
+      reason: string | null
+      requestedAt: Date
+      reviewedAt: Date | null
+    }, ExtArgs["result"]["parentChildLink"]>
+    composites: {}
+  }
+
+  type ParentChildLinkGetPayload<S extends boolean | null | undefined | ParentChildLinkDefaultArgs> = $Result.GetResult<Prisma.$ParentChildLinkPayload, S>
+
+  type ParentChildLinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ParentChildLinkFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ParentChildLinkCountAggregateInputType | true
+    }
+
+  export interface ParentChildLinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ParentChildLink'], meta: { name: 'ParentChildLink' } }
+    /**
+     * Find zero or one ParentChildLink that matches the filter.
+     * @param {ParentChildLinkFindUniqueArgs} args - Arguments to find a ParentChildLink
+     * @example
+     * // Get one ParentChildLink
+     * const parentChildLink = await prisma.parentChildLink.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ParentChildLinkFindUniqueArgs>(args: SelectSubset<T, ParentChildLinkFindUniqueArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ParentChildLink that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ParentChildLinkFindUniqueOrThrowArgs} args - Arguments to find a ParentChildLink
+     * @example
+     * // Get one ParentChildLink
+     * const parentChildLink = await prisma.parentChildLink.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ParentChildLinkFindUniqueOrThrowArgs>(args: SelectSubset<T, ParentChildLinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ParentChildLink that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkFindFirstArgs} args - Arguments to find a ParentChildLink
+     * @example
+     * // Get one ParentChildLink
+     * const parentChildLink = await prisma.parentChildLink.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ParentChildLinkFindFirstArgs>(args?: SelectSubset<T, ParentChildLinkFindFirstArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ParentChildLink that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkFindFirstOrThrowArgs} args - Arguments to find a ParentChildLink
+     * @example
+     * // Get one ParentChildLink
+     * const parentChildLink = await prisma.parentChildLink.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ParentChildLinkFindFirstOrThrowArgs>(args?: SelectSubset<T, ParentChildLinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ParentChildLinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ParentChildLinks
+     * const parentChildLinks = await prisma.parentChildLink.findMany()
+     * 
+     * // Get first 10 ParentChildLinks
+     * const parentChildLinks = await prisma.parentChildLink.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const parentChildLinkWithIdOnly = await prisma.parentChildLink.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ParentChildLinkFindManyArgs>(args?: SelectSubset<T, ParentChildLinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ParentChildLink.
+     * @param {ParentChildLinkCreateArgs} args - Arguments to create a ParentChildLink.
+     * @example
+     * // Create one ParentChildLink
+     * const ParentChildLink = await prisma.parentChildLink.create({
+     *   data: {
+     *     // ... data to create a ParentChildLink
+     *   }
+     * })
+     * 
+     */
+    create<T extends ParentChildLinkCreateArgs>(args: SelectSubset<T, ParentChildLinkCreateArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ParentChildLinks.
+     * @param {ParentChildLinkCreateManyArgs} args - Arguments to create many ParentChildLinks.
+     * @example
+     * // Create many ParentChildLinks
+     * const parentChildLink = await prisma.parentChildLink.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ParentChildLinkCreateManyArgs>(args?: SelectSubset<T, ParentChildLinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ParentChildLinks and returns the data saved in the database.
+     * @param {ParentChildLinkCreateManyAndReturnArgs} args - Arguments to create many ParentChildLinks.
+     * @example
+     * // Create many ParentChildLinks
+     * const parentChildLink = await prisma.parentChildLink.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ParentChildLinks and only return the `id`
+     * const parentChildLinkWithIdOnly = await prisma.parentChildLink.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ParentChildLinkCreateManyAndReturnArgs>(args?: SelectSubset<T, ParentChildLinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ParentChildLink.
+     * @param {ParentChildLinkDeleteArgs} args - Arguments to delete one ParentChildLink.
+     * @example
+     * // Delete one ParentChildLink
+     * const ParentChildLink = await prisma.parentChildLink.delete({
+     *   where: {
+     *     // ... filter to delete one ParentChildLink
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ParentChildLinkDeleteArgs>(args: SelectSubset<T, ParentChildLinkDeleteArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ParentChildLink.
+     * @param {ParentChildLinkUpdateArgs} args - Arguments to update one ParentChildLink.
+     * @example
+     * // Update one ParentChildLink
+     * const parentChildLink = await prisma.parentChildLink.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ParentChildLinkUpdateArgs>(args: SelectSubset<T, ParentChildLinkUpdateArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ParentChildLinks.
+     * @param {ParentChildLinkDeleteManyArgs} args - Arguments to filter ParentChildLinks to delete.
+     * @example
+     * // Delete a few ParentChildLinks
+     * const { count } = await prisma.parentChildLink.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ParentChildLinkDeleteManyArgs>(args?: SelectSubset<T, ParentChildLinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ParentChildLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ParentChildLinks
+     * const parentChildLink = await prisma.parentChildLink.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ParentChildLinkUpdateManyArgs>(args: SelectSubset<T, ParentChildLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ParentChildLinks and returns the data updated in the database.
+     * @param {ParentChildLinkUpdateManyAndReturnArgs} args - Arguments to update many ParentChildLinks.
+     * @example
+     * // Update many ParentChildLinks
+     * const parentChildLink = await prisma.parentChildLink.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ParentChildLinks and only return the `id`
+     * const parentChildLinkWithIdOnly = await prisma.parentChildLink.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ParentChildLinkUpdateManyAndReturnArgs>(args: SelectSubset<T, ParentChildLinkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ParentChildLink.
+     * @param {ParentChildLinkUpsertArgs} args - Arguments to update or create a ParentChildLink.
+     * @example
+     * // Update or create a ParentChildLink
+     * const parentChildLink = await prisma.parentChildLink.upsert({
+     *   create: {
+     *     // ... data to create a ParentChildLink
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ParentChildLink we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ParentChildLinkUpsertArgs>(args: SelectSubset<T, ParentChildLinkUpsertArgs<ExtArgs>>): Prisma__ParentChildLinkClient<$Result.GetResult<Prisma.$ParentChildLinkPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ParentChildLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkCountArgs} args - Arguments to filter ParentChildLinks to count.
+     * @example
+     * // Count the number of ParentChildLinks
+     * const count = await prisma.parentChildLink.count({
+     *   where: {
+     *     // ... the filter for the ParentChildLinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends ParentChildLinkCountArgs>(
+      args?: Subset<T, ParentChildLinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ParentChildLinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ParentChildLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ParentChildLinkAggregateArgs>(args: Subset<T, ParentChildLinkAggregateArgs>): Prisma.PrismaPromise<GetParentChildLinkAggregateType<T>>
+
+    /**
+     * Group by ParentChildLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParentChildLinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ParentChildLinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ParentChildLinkGroupByArgs['orderBy'] }
+        : { orderBy?: ParentChildLinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ParentChildLinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetParentChildLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ParentChildLink model
+   */
+  readonly fields: ParentChildLinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ParentChildLink.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ParentChildLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ParentChildLink model
+   */
+  interface ParentChildLinkFieldRefs {
+    readonly id: FieldRef<"ParentChildLink", 'String'>
+    readonly parentId: FieldRef<"ParentChildLink", 'String'>
+    readonly studentId: FieldRef<"ParentChildLink", 'String'>
+    readonly status: FieldRef<"ParentChildLink", 'ApprovalStatus'>
+    readonly approvedBy: FieldRef<"ParentChildLink", 'String'>
+    readonly rejectedBy: FieldRef<"ParentChildLink", 'String'>
+    readonly reason: FieldRef<"ParentChildLink", 'String'>
+    readonly requestedAt: FieldRef<"ParentChildLink", 'DateTime'>
+    readonly reviewedAt: FieldRef<"ParentChildLink", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ParentChildLink findUnique
+   */
+  export type ParentChildLinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ParentChildLink to fetch.
+     */
+    where: ParentChildLinkWhereUniqueInput
+  }
+
+  /**
+   * ParentChildLink findUniqueOrThrow
+   */
+  export type ParentChildLinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ParentChildLink to fetch.
+     */
+    where: ParentChildLinkWhereUniqueInput
+  }
+
+  /**
+   * ParentChildLink findFirst
+   */
+  export type ParentChildLinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ParentChildLink to fetch.
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParentChildLinks to fetch.
+     */
+    orderBy?: ParentChildLinkOrderByWithRelationInput | ParentChildLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ParentChildLinks.
+     */
+    cursor?: ParentChildLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParentChildLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParentChildLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParentChildLinks.
+     */
+    distinct?: ParentChildLinkScalarFieldEnum | ParentChildLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ParentChildLink findFirstOrThrow
+   */
+  export type ParentChildLinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ParentChildLink to fetch.
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParentChildLinks to fetch.
+     */
+    orderBy?: ParentChildLinkOrderByWithRelationInput | ParentChildLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ParentChildLinks.
+     */
+    cursor?: ParentChildLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParentChildLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParentChildLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParentChildLinks.
+     */
+    distinct?: ParentChildLinkScalarFieldEnum | ParentChildLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ParentChildLink findMany
+   */
+  export type ParentChildLinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which ParentChildLinks to fetch.
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParentChildLinks to fetch.
+     */
+    orderBy?: ParentChildLinkOrderByWithRelationInput | ParentChildLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ParentChildLinks.
+     */
+    cursor?: ParentChildLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParentChildLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParentChildLinks.
+     */
+    skip?: number
+    distinct?: ParentChildLinkScalarFieldEnum | ParentChildLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ParentChildLink create
+   */
+  export type ParentChildLinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ParentChildLink.
+     */
+    data: XOR<ParentChildLinkCreateInput, ParentChildLinkUncheckedCreateInput>
+  }
+
+  /**
+   * ParentChildLink createMany
+   */
+  export type ParentChildLinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ParentChildLinks.
+     */
+    data: ParentChildLinkCreateManyInput | ParentChildLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ParentChildLink createManyAndReturn
+   */
+  export type ParentChildLinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * The data used to create many ParentChildLinks.
+     */
+    data: ParentChildLinkCreateManyInput | ParentChildLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ParentChildLink update
+   */
+  export type ParentChildLinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ParentChildLink.
+     */
+    data: XOR<ParentChildLinkUpdateInput, ParentChildLinkUncheckedUpdateInput>
+    /**
+     * Choose, which ParentChildLink to update.
+     */
+    where: ParentChildLinkWhereUniqueInput
+  }
+
+  /**
+   * ParentChildLink updateMany
+   */
+  export type ParentChildLinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ParentChildLinks.
+     */
+    data: XOR<ParentChildLinkUpdateManyMutationInput, ParentChildLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which ParentChildLinks to update
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * Limit how many ParentChildLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParentChildLink updateManyAndReturn
+   */
+  export type ParentChildLinkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * The data used to update ParentChildLinks.
+     */
+    data: XOR<ParentChildLinkUpdateManyMutationInput, ParentChildLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which ParentChildLinks to update
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * Limit how many ParentChildLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParentChildLink upsert
+   */
+  export type ParentChildLinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ParentChildLink to update in case it exists.
+     */
+    where: ParentChildLinkWhereUniqueInput
+    /**
+     * In case the ParentChildLink found by the `where` argument doesn't exist, create a new ParentChildLink with this data.
+     */
+    create: XOR<ParentChildLinkCreateInput, ParentChildLinkUncheckedCreateInput>
+    /**
+     * In case the ParentChildLink was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ParentChildLinkUpdateInput, ParentChildLinkUncheckedUpdateInput>
+  }
+
+  /**
+   * ParentChildLink delete
+   */
+  export type ParentChildLinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+    /**
+     * Filter which ParentChildLink to delete.
+     */
+    where: ParentChildLinkWhereUniqueInput
+  }
+
+  /**
+   * ParentChildLink deleteMany
+   */
+  export type ParentChildLinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ParentChildLinks to delete
+     */
+    where?: ParentChildLinkWhereInput
+    /**
+     * Limit how many ParentChildLinks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParentChildLink without action
+   */
+  export type ParentChildLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParentChildLink
+     */
+    select?: ParentChildLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParentChildLink
+     */
+    omit?: ParentChildLinkOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -38382,6 +41934,52 @@ export namespace Prisma {
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
+  export const InvitationCodeScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    role: 'role',
+    schoolId: 'schoolId',
+    createdBy: 'createdBy',
+    usedBy: 'usedBy',
+    isActive: 'isActive',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    usedAt: 'usedAt'
+  };
+
+  export type InvitationCodeScalarFieldEnum = (typeof InvitationCodeScalarFieldEnum)[keyof typeof InvitationCodeScalarFieldEnum]
+
+
+  export const TeacherApprovalScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    schoolId: 'schoolId',
+    status: 'status',
+    approvedBy: 'approvedBy',
+    rejectedBy: 'rejectedBy',
+    reason: 'reason',
+    requestedAt: 'requestedAt',
+    reviewedAt: 'reviewedAt'
+  };
+
+  export type TeacherApprovalScalarFieldEnum = (typeof TeacherApprovalScalarFieldEnum)[keyof typeof TeacherApprovalScalarFieldEnum]
+
+
+  export const ParentChildLinkScalarFieldEnum: {
+    id: 'id',
+    parentId: 'parentId',
+    studentId: 'studentId',
+    status: 'status',
+    approvedBy: 'approvedBy',
+    rejectedBy: 'rejectedBy',
+    reason: 'reason',
+    requestedAt: 'requestedAt',
+    reviewedAt: 'reviewedAt'
+  };
+
+  export type ParentChildLinkScalarFieldEnum = (typeof ParentChildLinkScalarFieldEnum)[keyof typeof ParentChildLinkScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -38719,6 +42317,34 @@ export namespace Prisma {
    * Reference to a field of type 'NotificationPriority[]'
    */
   export type ListEnumNotificationPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationPriority[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvitationCodeRole'
+   */
+  export type EnumInvitationCodeRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationCodeRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvitationCodeRole[]'
+   */
+  export type ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvitationCodeRole[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalStatus'
+   */
+  export type EnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalStatus[]'
+   */
+  export type ListEnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus[]'>
     
   /**
    * Deep Input Types
@@ -39231,6 +42857,7 @@ export namespace Prisma {
     academicYears?: AcademicYearListRelationFilter
     subjects?: SubjectListRelationFilter
     classes?: ClassListRelationFilter
+    invitationCodes?: InvitationCodeListRelationFilter
   }
 
   export type SchoolOrderByWithRelationInput = {
@@ -39248,6 +42875,7 @@ export namespace Prisma {
     academicYears?: AcademicYearOrderByRelationAggregateInput
     subjects?: SubjectOrderByRelationAggregateInput
     classes?: ClassOrderByRelationAggregateInput
+    invitationCodes?: InvitationCodeOrderByRelationAggregateInput
   }
 
   export type SchoolWhereUniqueInput = Prisma.AtLeast<{
@@ -39268,6 +42896,7 @@ export namespace Prisma {
     academicYears?: AcademicYearListRelationFilter
     subjects?: SubjectListRelationFilter
     classes?: ClassListRelationFilter
+    invitationCodes?: InvitationCodeListRelationFilter
   }, "id" | "code">
 
   export type SchoolOrderByWithAggregationInput = {
@@ -41035,6 +44664,231 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
 
+  export type InvitationCodeWhereInput = {
+    AND?: InvitationCodeWhereInput | InvitationCodeWhereInput[]
+    OR?: InvitationCodeWhereInput[]
+    NOT?: InvitationCodeWhereInput | InvitationCodeWhereInput[]
+    id?: StringFilter<"InvitationCode"> | string
+    code?: StringFilter<"InvitationCode"> | string
+    role?: EnumInvitationCodeRoleFilter<"InvitationCode"> | $Enums.InvitationCodeRole
+    schoolId?: StringFilter<"InvitationCode"> | string
+    createdBy?: StringFilter<"InvitationCode"> | string
+    usedBy?: StringNullableFilter<"InvitationCode"> | string | null
+    isActive?: BoolFilter<"InvitationCode"> | boolean
+    expiresAt?: DateTimeNullableFilter<"InvitationCode"> | Date | string | null
+    createdAt?: DateTimeFilter<"InvitationCode"> | Date | string
+    usedAt?: DateTimeNullableFilter<"InvitationCode"> | Date | string | null
+    school?: XOR<SchoolScalarRelationFilter, SchoolWhereInput>
+  }
+
+  export type InvitationCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    role?: SortOrder
+    schoolId?: SortOrder
+    createdBy?: SortOrder
+    usedBy?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    school?: SchoolOrderByWithRelationInput
+  }
+
+  export type InvitationCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    usedBy?: string
+    AND?: InvitationCodeWhereInput | InvitationCodeWhereInput[]
+    OR?: InvitationCodeWhereInput[]
+    NOT?: InvitationCodeWhereInput | InvitationCodeWhereInput[]
+    role?: EnumInvitationCodeRoleFilter<"InvitationCode"> | $Enums.InvitationCodeRole
+    schoolId?: StringFilter<"InvitationCode"> | string
+    createdBy?: StringFilter<"InvitationCode"> | string
+    isActive?: BoolFilter<"InvitationCode"> | boolean
+    expiresAt?: DateTimeNullableFilter<"InvitationCode"> | Date | string | null
+    createdAt?: DateTimeFilter<"InvitationCode"> | Date | string
+    usedAt?: DateTimeNullableFilter<"InvitationCode"> | Date | string | null
+    school?: XOR<SchoolScalarRelationFilter, SchoolWhereInput>
+  }, "id" | "code" | "usedBy">
+
+  export type InvitationCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    role?: SortOrder
+    schoolId?: SortOrder
+    createdBy?: SortOrder
+    usedBy?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    _count?: InvitationCodeCountOrderByAggregateInput
+    _max?: InvitationCodeMaxOrderByAggregateInput
+    _min?: InvitationCodeMinOrderByAggregateInput
+  }
+
+  export type InvitationCodeScalarWhereWithAggregatesInput = {
+    AND?: InvitationCodeScalarWhereWithAggregatesInput | InvitationCodeScalarWhereWithAggregatesInput[]
+    OR?: InvitationCodeScalarWhereWithAggregatesInput[]
+    NOT?: InvitationCodeScalarWhereWithAggregatesInput | InvitationCodeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InvitationCode"> | string
+    code?: StringWithAggregatesFilter<"InvitationCode"> | string
+    role?: EnumInvitationCodeRoleWithAggregatesFilter<"InvitationCode"> | $Enums.InvitationCodeRole
+    schoolId?: StringWithAggregatesFilter<"InvitationCode"> | string
+    createdBy?: StringWithAggregatesFilter<"InvitationCode"> | string
+    usedBy?: StringNullableWithAggregatesFilter<"InvitationCode"> | string | null
+    isActive?: BoolWithAggregatesFilter<"InvitationCode"> | boolean
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"InvitationCode"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"InvitationCode"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"InvitationCode"> | Date | string | null
+  }
+
+  export type TeacherApprovalWhereInput = {
+    AND?: TeacherApprovalWhereInput | TeacherApprovalWhereInput[]
+    OR?: TeacherApprovalWhereInput[]
+    NOT?: TeacherApprovalWhereInput | TeacherApprovalWhereInput[]
+    id?: StringFilter<"TeacherApproval"> | string
+    userId?: StringFilter<"TeacherApproval"> | string
+    schoolId?: StringFilter<"TeacherApproval"> | string
+    status?: EnumApprovalStatusFilter<"TeacherApproval"> | $Enums.ApprovalStatus
+    approvedBy?: StringNullableFilter<"TeacherApproval"> | string | null
+    rejectedBy?: StringNullableFilter<"TeacherApproval"> | string | null
+    reason?: StringNullableFilter<"TeacherApproval"> | string | null
+    requestedAt?: DateTimeFilter<"TeacherApproval"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"TeacherApproval"> | Date | string | null
+  }
+
+  export type TeacherApprovalOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    schoolId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    rejectedBy?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+  }
+
+  export type TeacherApprovalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: TeacherApprovalWhereInput | TeacherApprovalWhereInput[]
+    OR?: TeacherApprovalWhereInput[]
+    NOT?: TeacherApprovalWhereInput | TeacherApprovalWhereInput[]
+    schoolId?: StringFilter<"TeacherApproval"> | string
+    status?: EnumApprovalStatusFilter<"TeacherApproval"> | $Enums.ApprovalStatus
+    approvedBy?: StringNullableFilter<"TeacherApproval"> | string | null
+    rejectedBy?: StringNullableFilter<"TeacherApproval"> | string | null
+    reason?: StringNullableFilter<"TeacherApproval"> | string | null
+    requestedAt?: DateTimeFilter<"TeacherApproval"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"TeacherApproval"> | Date | string | null
+  }, "id" | "userId">
+
+  export type TeacherApprovalOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    schoolId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    rejectedBy?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    _count?: TeacherApprovalCountOrderByAggregateInput
+    _max?: TeacherApprovalMaxOrderByAggregateInput
+    _min?: TeacherApprovalMinOrderByAggregateInput
+  }
+
+  export type TeacherApprovalScalarWhereWithAggregatesInput = {
+    AND?: TeacherApprovalScalarWhereWithAggregatesInput | TeacherApprovalScalarWhereWithAggregatesInput[]
+    OR?: TeacherApprovalScalarWhereWithAggregatesInput[]
+    NOT?: TeacherApprovalScalarWhereWithAggregatesInput | TeacherApprovalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TeacherApproval"> | string
+    userId?: StringWithAggregatesFilter<"TeacherApproval"> | string
+    schoolId?: StringWithAggregatesFilter<"TeacherApproval"> | string
+    status?: EnumApprovalStatusWithAggregatesFilter<"TeacherApproval"> | $Enums.ApprovalStatus
+    approvedBy?: StringNullableWithAggregatesFilter<"TeacherApproval"> | string | null
+    rejectedBy?: StringNullableWithAggregatesFilter<"TeacherApproval"> | string | null
+    reason?: StringNullableWithAggregatesFilter<"TeacherApproval"> | string | null
+    requestedAt?: DateTimeWithAggregatesFilter<"TeacherApproval"> | Date | string
+    reviewedAt?: DateTimeNullableWithAggregatesFilter<"TeacherApproval"> | Date | string | null
+  }
+
+  export type ParentChildLinkWhereInput = {
+    AND?: ParentChildLinkWhereInput | ParentChildLinkWhereInput[]
+    OR?: ParentChildLinkWhereInput[]
+    NOT?: ParentChildLinkWhereInput | ParentChildLinkWhereInput[]
+    id?: StringFilter<"ParentChildLink"> | string
+    parentId?: StringFilter<"ParentChildLink"> | string
+    studentId?: StringFilter<"ParentChildLink"> | string
+    status?: EnumApprovalStatusFilter<"ParentChildLink"> | $Enums.ApprovalStatus
+    approvedBy?: StringNullableFilter<"ParentChildLink"> | string | null
+    rejectedBy?: StringNullableFilter<"ParentChildLink"> | string | null
+    reason?: StringNullableFilter<"ParentChildLink"> | string | null
+    requestedAt?: DateTimeFilter<"ParentChildLink"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"ParentChildLink"> | Date | string | null
+  }
+
+  export type ParentChildLinkOrderByWithRelationInput = {
+    id?: SortOrder
+    parentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    rejectedBy?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+  }
+
+  export type ParentChildLinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    parentId_studentId?: ParentChildLinkParentIdStudentIdCompoundUniqueInput
+    AND?: ParentChildLinkWhereInput | ParentChildLinkWhereInput[]
+    OR?: ParentChildLinkWhereInput[]
+    NOT?: ParentChildLinkWhereInput | ParentChildLinkWhereInput[]
+    parentId?: StringFilter<"ParentChildLink"> | string
+    studentId?: StringFilter<"ParentChildLink"> | string
+    status?: EnumApprovalStatusFilter<"ParentChildLink"> | $Enums.ApprovalStatus
+    approvedBy?: StringNullableFilter<"ParentChildLink"> | string | null
+    rejectedBy?: StringNullableFilter<"ParentChildLink"> | string | null
+    reason?: StringNullableFilter<"ParentChildLink"> | string | null
+    requestedAt?: DateTimeFilter<"ParentChildLink"> | Date | string
+    reviewedAt?: DateTimeNullableFilter<"ParentChildLink"> | Date | string | null
+  }, "id" | "parentId_studentId">
+
+  export type ParentChildLinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    parentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrderInput | SortOrder
+    rejectedBy?: SortOrderInput | SortOrder
+    reason?: SortOrderInput | SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    _count?: ParentChildLinkCountOrderByAggregateInput
+    _max?: ParentChildLinkMaxOrderByAggregateInput
+    _min?: ParentChildLinkMinOrderByAggregateInput
+  }
+
+  export type ParentChildLinkScalarWhereWithAggregatesInput = {
+    AND?: ParentChildLinkScalarWhereWithAggregatesInput | ParentChildLinkScalarWhereWithAggregatesInput[]
+    OR?: ParentChildLinkScalarWhereWithAggregatesInput[]
+    NOT?: ParentChildLinkScalarWhereWithAggregatesInput | ParentChildLinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ParentChildLink"> | string
+    parentId?: StringWithAggregatesFilter<"ParentChildLink"> | string
+    studentId?: StringWithAggregatesFilter<"ParentChildLink"> | string
+    status?: EnumApprovalStatusWithAggregatesFilter<"ParentChildLink"> | $Enums.ApprovalStatus
+    approvedBy?: StringNullableWithAggregatesFilter<"ParentChildLink"> | string | null
+    rejectedBy?: StringNullableWithAggregatesFilter<"ParentChildLink"> | string | null
+    reason?: StringNullableWithAggregatesFilter<"ParentChildLink"> | string | null
+    requestedAt?: DateTimeWithAggregatesFilter<"ParentChildLink"> | Date | string
+    reviewedAt?: DateTimeNullableWithAggregatesFilter<"ParentChildLink"> | Date | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     email?: string | null
@@ -41593,6 +45447,7 @@ export namespace Prisma {
     academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
     subjects?: SubjectCreateNestedManyWithoutSchoolInput
     classes?: ClassCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateInput = {
@@ -41610,6 +45465,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
     classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUpdateInput = {
@@ -41627,6 +45483,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUpdateManyWithoutSchoolNestedInput
     classes?: ClassUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateInput = {
@@ -41644,6 +45501,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
     classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolCreateManyInput = {
@@ -43504,6 +47362,264 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InvitationCodeCreateInput = {
+    id?: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    createdBy: string
+    usedBy?: string | null
+    isActive?: boolean
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+    school: SchoolCreateNestedOneWithoutInvitationCodesInput
+  }
+
+  export type InvitationCodeUncheckedCreateInput = {
+    id?: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    schoolId: string
+    createdBy: string
+    usedBy?: string | null
+    isActive?: boolean
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type InvitationCodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    school?: SchoolUpdateOneRequiredWithoutInvitationCodesNestedInput
+  }
+
+  export type InvitationCodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    schoolId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InvitationCodeCreateManyInput = {
+    id?: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    schoolId: string
+    createdBy: string
+    usedBy?: string | null
+    isActive?: boolean
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type InvitationCodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InvitationCodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    schoolId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TeacherApprovalCreateInput = {
+    id?: string
+    userId: string
+    schoolId: string
+    status?: $Enums.ApprovalStatus
+    approvedBy?: string | null
+    rejectedBy?: string | null
+    reason?: string | null
+    requestedAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type TeacherApprovalUncheckedCreateInput = {
+    id?: string
+    userId: string
+    schoolId: string
+    status?: $Enums.ApprovalStatus
+    approvedBy?: string | null
+    rejectedBy?: string | null
+    reason?: string | null
+    requestedAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type TeacherApprovalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    schoolId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TeacherApprovalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    schoolId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TeacherApprovalCreateManyInput = {
+    id?: string
+    userId: string
+    schoolId: string
+    status?: $Enums.ApprovalStatus
+    approvedBy?: string | null
+    rejectedBy?: string | null
+    reason?: string | null
+    requestedAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type TeacherApprovalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    schoolId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TeacherApprovalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    schoolId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ParentChildLinkCreateInput = {
+    id?: string
+    parentId: string
+    studentId: string
+    status?: $Enums.ApprovalStatus
+    approvedBy?: string | null
+    rejectedBy?: string | null
+    reason?: string | null
+    requestedAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ParentChildLinkUncheckedCreateInput = {
+    id?: string
+    parentId: string
+    studentId: string
+    status?: $Enums.ApprovalStatus
+    approvedBy?: string | null
+    rejectedBy?: string | null
+    reason?: string | null
+    requestedAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ParentChildLinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ParentChildLinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ParentChildLinkCreateManyInput = {
+    id?: string
+    parentId: string
+    studentId: string
+    status?: $Enums.ApprovalStatus
+    approvedBy?: string | null
+    rejectedBy?: string | null
+    reason?: string | null
+    requestedAt?: Date | string
+    reviewedAt?: Date | string | null
+  }
+
+  export type ParentChildLinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ParentChildLinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentId?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    rejectedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -44191,6 +48307,12 @@ export namespace Prisma {
     none?: SubjectWhereInput
   }
 
+  export type InvitationCodeListRelationFilter = {
+    every?: InvitationCodeWhereInput
+    some?: InvitationCodeWhereInput
+    none?: InvitationCodeWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -44200,6 +48322,10 @@ export namespace Prisma {
   }
 
   export type SubjectOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvitationCodeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -45601,6 +49727,156 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumInvitationCodeRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationCodeRole | EnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationCodeRoleFilter<$PrismaModel> | $Enums.InvitationCodeRole
+  }
+
+  export type InvitationCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    role?: SortOrder
+    schoolId?: SortOrder
+    createdBy?: SortOrder
+    usedBy?: SortOrder
+    isActive?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrder
+  }
+
+  export type InvitationCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    role?: SortOrder
+    schoolId?: SortOrder
+    createdBy?: SortOrder
+    usedBy?: SortOrder
+    isActive?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrder
+  }
+
+  export type InvitationCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    role?: SortOrder
+    schoolId?: SortOrder
+    createdBy?: SortOrder
+    usedBy?: SortOrder
+    isActive?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    usedAt?: SortOrder
+  }
+
+  export type EnumInvitationCodeRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationCodeRole | EnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationCodeRoleWithAggregatesFilter<$PrismaModel> | $Enums.InvitationCodeRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvitationCodeRoleFilter<$PrismaModel>
+    _max?: NestedEnumInvitationCodeRoleFilter<$PrismaModel>
+  }
+
+  export type EnumApprovalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalStatus | EnumApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalStatusFilter<$PrismaModel> | $Enums.ApprovalStatus
+  }
+
+  export type TeacherApprovalCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    schoolId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    rejectedBy?: SortOrder
+    reason?: SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type TeacherApprovalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    schoolId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    rejectedBy?: SortOrder
+    reason?: SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type TeacherApprovalMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    schoolId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    rejectedBy?: SortOrder
+    reason?: SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type EnumApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalStatus | EnumApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalStatusWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalStatusFilter<$PrismaModel>
+    _max?: NestedEnumApprovalStatusFilter<$PrismaModel>
+  }
+
+  export type ParentChildLinkParentIdStudentIdCompoundUniqueInput = {
+    parentId: string
+    studentId: string
+  }
+
+  export type ParentChildLinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    parentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    rejectedBy?: SortOrder
+    reason?: SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type ParentChildLinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    parentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    rejectedBy?: SortOrder
+    reason?: SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
+  export type ParentChildLinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    parentId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    approvedBy?: SortOrder
+    rejectedBy?: SortOrder
+    reason?: SortOrder
+    requestedAt?: SortOrder
+    reviewedAt?: SortOrder
+  }
+
   export type SchoolCreateNestedOneWithoutUsersInput = {
     create?: XOR<SchoolCreateWithoutUsersInput, SchoolUncheckedCreateWithoutUsersInput>
     connectOrCreate?: SchoolCreateOrConnectWithoutUsersInput
@@ -46510,6 +50786,13 @@ export namespace Prisma {
     connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
   }
 
+  export type InvitationCodeCreateNestedManyWithoutSchoolInput = {
+    create?: XOR<InvitationCodeCreateWithoutSchoolInput, InvitationCodeUncheckedCreateWithoutSchoolInput> | InvitationCodeCreateWithoutSchoolInput[] | InvitationCodeUncheckedCreateWithoutSchoolInput[]
+    connectOrCreate?: InvitationCodeCreateOrConnectWithoutSchoolInput | InvitationCodeCreateOrConnectWithoutSchoolInput[]
+    createMany?: InvitationCodeCreateManySchoolInputEnvelope
+    connect?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutSchoolInput = {
     create?: XOR<UserCreateWithoutSchoolInput, UserUncheckedCreateWithoutSchoolInput> | UserCreateWithoutSchoolInput[] | UserUncheckedCreateWithoutSchoolInput[]
     connectOrCreate?: UserCreateOrConnectWithoutSchoolInput | UserCreateOrConnectWithoutSchoolInput[]
@@ -46549,6 +50832,13 @@ export namespace Prisma {
     connectOrCreate?: ClassCreateOrConnectWithoutSchoolInput | ClassCreateOrConnectWithoutSchoolInput[]
     createMany?: ClassCreateManySchoolInputEnvelope
     connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+  }
+
+  export type InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput = {
+    create?: XOR<InvitationCodeCreateWithoutSchoolInput, InvitationCodeUncheckedCreateWithoutSchoolInput> | InvitationCodeCreateWithoutSchoolInput[] | InvitationCodeUncheckedCreateWithoutSchoolInput[]
+    connectOrCreate?: InvitationCodeCreateOrConnectWithoutSchoolInput | InvitationCodeCreateOrConnectWithoutSchoolInput[]
+    createMany?: InvitationCodeCreateManySchoolInputEnvelope
+    connect?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
   }
 
   export type UserUpdateManyWithoutSchoolNestedInput = {
@@ -46631,6 +50921,20 @@ export namespace Prisma {
     deleteMany?: ClassScalarWhereInput | ClassScalarWhereInput[]
   }
 
+  export type InvitationCodeUpdateManyWithoutSchoolNestedInput = {
+    create?: XOR<InvitationCodeCreateWithoutSchoolInput, InvitationCodeUncheckedCreateWithoutSchoolInput> | InvitationCodeCreateWithoutSchoolInput[] | InvitationCodeUncheckedCreateWithoutSchoolInput[]
+    connectOrCreate?: InvitationCodeCreateOrConnectWithoutSchoolInput | InvitationCodeCreateOrConnectWithoutSchoolInput[]
+    upsert?: InvitationCodeUpsertWithWhereUniqueWithoutSchoolInput | InvitationCodeUpsertWithWhereUniqueWithoutSchoolInput[]
+    createMany?: InvitationCodeCreateManySchoolInputEnvelope
+    set?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    disconnect?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    delete?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    connect?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    update?: InvitationCodeUpdateWithWhereUniqueWithoutSchoolInput | InvitationCodeUpdateWithWhereUniqueWithoutSchoolInput[]
+    updateMany?: InvitationCodeUpdateManyWithWhereWithoutSchoolInput | InvitationCodeUpdateManyWithWhereWithoutSchoolInput[]
+    deleteMany?: InvitationCodeScalarWhereInput | InvitationCodeScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutSchoolNestedInput = {
     create?: XOR<UserCreateWithoutSchoolInput, UserUncheckedCreateWithoutSchoolInput> | UserCreateWithoutSchoolInput[] | UserUncheckedCreateWithoutSchoolInput[]
     connectOrCreate?: UserCreateOrConnectWithoutSchoolInput | UserCreateOrConnectWithoutSchoolInput[]
@@ -46709,6 +51013,20 @@ export namespace Prisma {
     update?: ClassUpdateWithWhereUniqueWithoutSchoolInput | ClassUpdateWithWhereUniqueWithoutSchoolInput[]
     updateMany?: ClassUpdateManyWithWhereWithoutSchoolInput | ClassUpdateManyWithWhereWithoutSchoolInput[]
     deleteMany?: ClassScalarWhereInput | ClassScalarWhereInput[]
+  }
+
+  export type InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput = {
+    create?: XOR<InvitationCodeCreateWithoutSchoolInput, InvitationCodeUncheckedCreateWithoutSchoolInput> | InvitationCodeCreateWithoutSchoolInput[] | InvitationCodeUncheckedCreateWithoutSchoolInput[]
+    connectOrCreate?: InvitationCodeCreateOrConnectWithoutSchoolInput | InvitationCodeCreateOrConnectWithoutSchoolInput[]
+    upsert?: InvitationCodeUpsertWithWhereUniqueWithoutSchoolInput | InvitationCodeUpsertWithWhereUniqueWithoutSchoolInput[]
+    createMany?: InvitationCodeCreateManySchoolInputEnvelope
+    set?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    disconnect?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    delete?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    connect?: InvitationCodeWhereUniqueInput | InvitationCodeWhereUniqueInput[]
+    update?: InvitationCodeUpdateWithWhereUniqueWithoutSchoolInput | InvitationCodeUpdateWithWhereUniqueWithoutSchoolInput[]
+    updateMany?: InvitationCodeUpdateManyWithWhereWithoutSchoolInput | InvitationCodeUpdateManyWithWhereWithoutSchoolInput[]
+    deleteMany?: InvitationCodeScalarWhereInput | InvitationCodeScalarWhereInput[]
   }
 
   export type SchoolCreateNestedOneWithoutConfigInput = {
@@ -48079,6 +52397,28 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
   }
 
+  export type SchoolCreateNestedOneWithoutInvitationCodesInput = {
+    create?: XOR<SchoolCreateWithoutInvitationCodesInput, SchoolUncheckedCreateWithoutInvitationCodesInput>
+    connectOrCreate?: SchoolCreateOrConnectWithoutInvitationCodesInput
+    connect?: SchoolWhereUniqueInput
+  }
+
+  export type EnumInvitationCodeRoleFieldUpdateOperationsInput = {
+    set?: $Enums.InvitationCodeRole
+  }
+
+  export type SchoolUpdateOneRequiredWithoutInvitationCodesNestedInput = {
+    create?: XOR<SchoolCreateWithoutInvitationCodesInput, SchoolUncheckedCreateWithoutInvitationCodesInput>
+    connectOrCreate?: SchoolCreateOrConnectWithoutInvitationCodesInput
+    upsert?: SchoolUpsertWithoutInvitationCodesInput
+    connect?: SchoolWhereUniqueInput
+    update?: XOR<XOR<SchoolUpdateToOneWithWhereWithoutInvitationCodesInput, SchoolUpdateWithoutInvitationCodesInput>, SchoolUncheckedUpdateWithoutInvitationCodesInput>
+  }
+
+  export type EnumApprovalStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ApprovalStatus
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -48626,6 +52966,40 @@ export namespace Prisma {
     _max?: NestedEnumNotificationPriorityFilter<$PrismaModel>
   }
 
+  export type NestedEnumInvitationCodeRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationCodeRole | EnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationCodeRoleFilter<$PrismaModel> | $Enums.InvitationCodeRole
+  }
+
+  export type NestedEnumInvitationCodeRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvitationCodeRole | EnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvitationCodeRole[] | ListEnumInvitationCodeRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvitationCodeRoleWithAggregatesFilter<$PrismaModel> | $Enums.InvitationCodeRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvitationCodeRoleFilter<$PrismaModel>
+    _max?: NestedEnumInvitationCodeRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumApprovalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalStatus | EnumApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalStatusFilter<$PrismaModel> | $Enums.ApprovalStatus
+  }
+
+  export type NestedEnumApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalStatus | EnumApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalStatus[] | ListEnumApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalStatusWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalStatusFilter<$PrismaModel>
+    _max?: NestedEnumApprovalStatusFilter<$PrismaModel>
+  }
+
   export type SchoolCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -48640,6 +53014,7 @@ export namespace Prisma {
     academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
     subjects?: SubjectCreateNestedManyWithoutSchoolInput
     classes?: ClassCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateWithoutUsersInput = {
@@ -48656,6 +53031,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
     classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolCreateOrConnectWithoutUsersInput = {
@@ -49261,6 +53637,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUpdateManyWithoutSchoolNestedInput
     classes?: ClassUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateWithoutUsersInput = {
@@ -49277,6 +53654,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
     classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -50687,6 +55065,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InvitationCodeCreateWithoutSchoolInput = {
+    id?: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    createdBy: string
+    usedBy?: string | null
+    isActive?: boolean
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type InvitationCodeUncheckedCreateWithoutSchoolInput = {
+    id?: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    createdBy: string
+    usedBy?: string | null
+    isActive?: boolean
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
+  export type InvitationCodeCreateOrConnectWithoutSchoolInput = {
+    where: InvitationCodeWhereUniqueInput
+    create: XOR<InvitationCodeCreateWithoutSchoolInput, InvitationCodeUncheckedCreateWithoutSchoolInput>
+  }
+
+  export type InvitationCodeCreateManySchoolInputEnvelope = {
+    data: InvitationCodeCreateManySchoolInput | InvitationCodeCreateManySchoolInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutSchoolInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutSchoolInput, UserUncheckedUpdateWithoutSchoolInput>
@@ -50842,6 +55254,38 @@ export namespace Prisma {
     data: XOR<ClassUpdateManyMutationInput, ClassUncheckedUpdateManyWithoutSchoolInput>
   }
 
+  export type InvitationCodeUpsertWithWhereUniqueWithoutSchoolInput = {
+    where: InvitationCodeWhereUniqueInput
+    update: XOR<InvitationCodeUpdateWithoutSchoolInput, InvitationCodeUncheckedUpdateWithoutSchoolInput>
+    create: XOR<InvitationCodeCreateWithoutSchoolInput, InvitationCodeUncheckedCreateWithoutSchoolInput>
+  }
+
+  export type InvitationCodeUpdateWithWhereUniqueWithoutSchoolInput = {
+    where: InvitationCodeWhereUniqueInput
+    data: XOR<InvitationCodeUpdateWithoutSchoolInput, InvitationCodeUncheckedUpdateWithoutSchoolInput>
+  }
+
+  export type InvitationCodeUpdateManyWithWhereWithoutSchoolInput = {
+    where: InvitationCodeScalarWhereInput
+    data: XOR<InvitationCodeUpdateManyMutationInput, InvitationCodeUncheckedUpdateManyWithoutSchoolInput>
+  }
+
+  export type InvitationCodeScalarWhereInput = {
+    AND?: InvitationCodeScalarWhereInput | InvitationCodeScalarWhereInput[]
+    OR?: InvitationCodeScalarWhereInput[]
+    NOT?: InvitationCodeScalarWhereInput | InvitationCodeScalarWhereInput[]
+    id?: StringFilter<"InvitationCode"> | string
+    code?: StringFilter<"InvitationCode"> | string
+    role?: EnumInvitationCodeRoleFilter<"InvitationCode"> | $Enums.InvitationCodeRole
+    schoolId?: StringFilter<"InvitationCode"> | string
+    createdBy?: StringFilter<"InvitationCode"> | string
+    usedBy?: StringNullableFilter<"InvitationCode"> | string | null
+    isActive?: BoolFilter<"InvitationCode"> | boolean
+    expiresAt?: DateTimeNullableFilter<"InvitationCode"> | Date | string | null
+    createdAt?: DateTimeFilter<"InvitationCode"> | Date | string
+    usedAt?: DateTimeNullableFilter<"InvitationCode"> | Date | string | null
+  }
+
   export type SchoolCreateWithoutConfigInput = {
     id?: string
     name: string
@@ -50856,6 +55300,7 @@ export namespace Prisma {
     academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
     subjects?: SubjectCreateNestedManyWithoutSchoolInput
     classes?: ClassCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateWithoutConfigInput = {
@@ -50872,6 +55317,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
     classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolCreateOrConnectWithoutConfigInput = {
@@ -50904,6 +55350,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUpdateManyWithoutSchoolNestedInput
     classes?: ClassUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateWithoutConfigInput = {
@@ -50920,6 +55367,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
     classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolCreateWithoutAcademicYearsInput = {
@@ -50936,6 +55384,7 @@ export namespace Prisma {
     config?: SchoolConfigCreateNestedOneWithoutSchoolInput
     subjects?: SubjectCreateNestedManyWithoutSchoolInput
     classes?: ClassCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateWithoutAcademicYearsInput = {
@@ -50952,6 +55401,7 @@ export namespace Prisma {
     config?: SchoolConfigUncheckedCreateNestedOneWithoutSchoolInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
     classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolCreateOrConnectWithoutAcademicYearsInput = {
@@ -50984,6 +55434,7 @@ export namespace Prisma {
     config?: SchoolConfigUpdateOneWithoutSchoolNestedInput
     subjects?: SubjectUpdateManyWithoutSchoolNestedInput
     classes?: ClassUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateWithoutAcademicYearsInput = {
@@ -51000,6 +55451,7 @@ export namespace Prisma {
     config?: SchoolConfigUncheckedUpdateOneWithoutSchoolNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
     classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolCreateWithoutSubjectsInput = {
@@ -51016,6 +55468,7 @@ export namespace Prisma {
     config?: SchoolConfigCreateNestedOneWithoutSchoolInput
     academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
     classes?: ClassCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateWithoutSubjectsInput = {
@@ -51032,6 +55485,7 @@ export namespace Prisma {
     config?: SchoolConfigUncheckedCreateNestedOneWithoutSchoolInput
     academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
     classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolCreateOrConnectWithoutSubjectsInput = {
@@ -51116,6 +55570,7 @@ export namespace Prisma {
     config?: SchoolConfigUpdateOneWithoutSchoolNestedInput
     academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
     classes?: ClassUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateWithoutSubjectsInput = {
@@ -51132,6 +55587,7 @@ export namespace Prisma {
     config?: SchoolConfigUncheckedUpdateOneWithoutSchoolNestedInput
     academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
     classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type CourseUpsertWithWhereUniqueWithoutSubjectInput = {
@@ -51164,6 +55620,7 @@ export namespace Prisma {
     config?: SchoolConfigCreateNestedOneWithoutSchoolInput
     academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
     subjects?: SubjectCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateWithoutClassesInput = {
@@ -51180,6 +55637,7 @@ export namespace Prisma {
     config?: SchoolConfigUncheckedCreateNestedOneWithoutSchoolInput
     academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolCreateOrConnectWithoutClassesInput = {
@@ -51409,6 +55867,7 @@ export namespace Prisma {
     config?: SchoolConfigUpdateOneWithoutSchoolNestedInput
     academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateWithoutClassesInput = {
@@ -51425,6 +55884,7 @@ export namespace Prisma {
     config?: SchoolConfigUncheckedUpdateOneWithoutSchoolNestedInput
     academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutClassesInput = {
@@ -51854,6 +56314,7 @@ export namespace Prisma {
     academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
     subjects?: SubjectCreateNestedManyWithoutSchoolInput
     classes?: ClassCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolUncheckedCreateWithoutCoursesInput = {
@@ -51870,6 +56331,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
     classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+    invitationCodes?: InvitationCodeUncheckedCreateNestedManyWithoutSchoolInput
   }
 
   export type SchoolCreateOrConnectWithoutCoursesInput = {
@@ -52162,6 +56624,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUpdateManyWithoutSchoolNestedInput
     classes?: ClassUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUpdateManyWithoutSchoolNestedInput
   }
 
   export type SchoolUncheckedUpdateWithoutCoursesInput = {
@@ -52178,6 +56641,7 @@ export namespace Prisma {
     academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
     classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+    invitationCodes?: InvitationCodeUncheckedUpdateManyWithoutSchoolNestedInput
   }
 
   export type SubjectUpsertWithoutCoursesInput = {
@@ -55880,6 +60344,90 @@ export namespace Prisma {
     quizSubmissions?: QuizSubmissionUncheckedUpdateManyWithoutStudentNestedInput
   }
 
+  export type SchoolCreateWithoutInvitationCodesInput = {
+    id?: string
+    name: string
+    code: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutSchoolInput
+    courses?: CourseCreateNestedManyWithoutSchoolInput
+    config?: SchoolConfigCreateNestedOneWithoutSchoolInput
+    academicYears?: AcademicYearCreateNestedManyWithoutSchoolInput
+    subjects?: SubjectCreateNestedManyWithoutSchoolInput
+    classes?: ClassCreateNestedManyWithoutSchoolInput
+  }
+
+  export type SchoolUncheckedCreateWithoutInvitationCodesInput = {
+    id?: string
+    name: string
+    code: string
+    address?: string | null
+    phone?: string | null
+    email?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutSchoolInput
+    courses?: CourseUncheckedCreateNestedManyWithoutSchoolInput
+    config?: SchoolConfigUncheckedCreateNestedOneWithoutSchoolInput
+    academicYears?: AcademicYearUncheckedCreateNestedManyWithoutSchoolInput
+    subjects?: SubjectUncheckedCreateNestedManyWithoutSchoolInput
+    classes?: ClassUncheckedCreateNestedManyWithoutSchoolInput
+  }
+
+  export type SchoolCreateOrConnectWithoutInvitationCodesInput = {
+    where: SchoolWhereUniqueInput
+    create: XOR<SchoolCreateWithoutInvitationCodesInput, SchoolUncheckedCreateWithoutInvitationCodesInput>
+  }
+
+  export type SchoolUpsertWithoutInvitationCodesInput = {
+    update: XOR<SchoolUpdateWithoutInvitationCodesInput, SchoolUncheckedUpdateWithoutInvitationCodesInput>
+    create: XOR<SchoolCreateWithoutInvitationCodesInput, SchoolUncheckedCreateWithoutInvitationCodesInput>
+    where?: SchoolWhereInput
+  }
+
+  export type SchoolUpdateToOneWithWhereWithoutInvitationCodesInput = {
+    where?: SchoolWhereInput
+    data: XOR<SchoolUpdateWithoutInvitationCodesInput, SchoolUncheckedUpdateWithoutInvitationCodesInput>
+  }
+
+  export type SchoolUpdateWithoutInvitationCodesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutSchoolNestedInput
+    courses?: CourseUpdateManyWithoutSchoolNestedInput
+    config?: SchoolConfigUpdateOneWithoutSchoolNestedInput
+    academicYears?: AcademicYearUpdateManyWithoutSchoolNestedInput
+    subjects?: SubjectUpdateManyWithoutSchoolNestedInput
+    classes?: ClassUpdateManyWithoutSchoolNestedInput
+  }
+
+  export type SchoolUncheckedUpdateWithoutInvitationCodesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutSchoolNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutSchoolNestedInput
+    config?: SchoolConfigUncheckedUpdateOneWithoutSchoolNestedInput
+    academicYears?: AcademicYearUncheckedUpdateManyWithoutSchoolNestedInput
+    subjects?: SubjectUncheckedUpdateManyWithoutSchoolNestedInput
+    classes?: ClassUncheckedUpdateManyWithoutSchoolNestedInput
+  }
+
   export type AccountCreateManyUserInput = {
     id?: string
     type: string
@@ -56703,6 +61251,18 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type InvitationCodeCreateManySchoolInput = {
+    id?: string
+    code: string
+    role: $Enums.InvitationCodeRole
+    createdBy: string
+    usedBy?: string | null
+    isActive?: boolean
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    usedAt?: Date | string | null
+  }
+
   export type UserUpdateWithoutSchoolInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -56930,6 +61490,42 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvitationCodeUpdateWithoutSchoolInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InvitationCodeUncheckedUpdateWithoutSchoolInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InvitationCodeUncheckedUpdateManyWithoutSchoolInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    role?: EnumInvitationCodeRoleFieldUpdateOperationsInput | $Enums.InvitationCodeRole
+    createdBy?: StringFieldUpdateOperationsInput | string
+    usedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseCreateManySubjectInput = {
