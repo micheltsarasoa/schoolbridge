@@ -52,14 +52,8 @@ export default function OnboardingPage() {
   }, [router]);
 
   const getRoleRedirect = (userRole: UserRole) => {
-    const redirects: Record<UserRole, string> = {
-      'ADMIN': '/admin/dashboard',
-      'EDUCATIONAL_MANAGER': '/admin/dashboard',
-      'TEACHER': '/teacher/dashboard',
-      'STUDENT': '/student/dashboard',
-      'PARENT': '/parent/dashboard',
-    };
-    return redirects[userRole] || '/dashboard';
+    // Dashboard will handle role-based routing
+    return '/dashboard';
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
