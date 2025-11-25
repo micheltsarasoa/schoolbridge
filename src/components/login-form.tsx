@@ -72,17 +72,8 @@ export function LoginForm({
           showToast.info(`Welcome back, ${session.user.name}!`, "Redirecting to your dashboard...");
         }
 
-        // Role-based redirect
-        const roleRedirects: Record<string, string> = {
-          'ADMIN': '/admin/dashboard',
-          'EDUCATIONAL_MANAGER': '/admin/dashboard',
-          'TEACHER': '/teacher/dashboard',
-          'STUDENT': '/student/dashboard',
-          'PARENT': '/parent/dashboard',
-        };
-        // put in the cookie
-        
-        const redirectPath = roleRedirects[session?.user?.role] || '/dashboard';
+        // Redirect to dashboard - it will handle role-based routing
+        const redirectPath = '/dashboard';
 
         // Small delay to show success toast
         await new Promise(resolve => setTimeout(resolve, 1000));
