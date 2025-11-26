@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { Course, Section, Lecture, LectureType } from '@/types/course'
-import { generateId } from '@/lib/course-utils';
+import { generateId, validateCourse } from '@/lib/course-utils';
+import { useCourseAPI } from '@/hooks/use-course-api';
 import { CourseHeader } from '@/components/course/course-header';
 import { CourseSidebar } from '@/components/course/course-sidebar';
 import { SectionEditor } from '@/components/course/section-editor';
