@@ -93,26 +93,58 @@ export default function CourseCreationPage() {
     }
   }, [hasUnsavedChanges, course]);
 
-  const saveCourse = () => {
-    if (course) {
-      setIsSaving(true);
-      try {
+  const saveCourse = async () => {
+    if (!course) return;
+
+    // Validate course before saving
+    const validation = validateCourse(course);
+    if (!validation.isValid) {
+      toast.error('Please fix the following errors:', {
+        description: validation.errors.slice(0, 3).join(', '),
+        duration: 5000,
+      });
+      console.error('Validation errors:', validation.errors);
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      if (courseId) {
+        // Update existing course
+        const updated = await updateCourse(courseId, course);
+        setCourse(updated);
+        setLastSaved(new Date());
+        setHasUnsavedChanges(false);
+        toast.success('Course updated successfully');
+        // Also save to localStorage as backup
         localStorage.setItem('course_draft', JSON.stringify({
           ...course,
           updatedAt: new Date().toISOString()
         }));
+      } else {
+        // Create new course
+        const created = await createCourse(course);
+        setCourse(created);
         setLastSaved(new Date());
         setHasUnsavedChanges(false);
-        toast.success('Course saved successfully', {
-          description: 'Success',
-        });
-      } catch (e) {
-        toast.error('Failed to save course', {
-          description: 'Error',
-        });
-      } finally {
-        setIsSaving(false);
+        toast.success('Course created successfully');
+        // Clear localStorage after successful creation
+        localStorage.removeItem('course_draft');
+        // Navigate to edit mode with the new ID
+        router.push(`/dashboard/teacher/courses/course-builder?id=${created.id}`);
       }
+    } catch (e) {
+      console.error('Failed to save course:', e);
+      toast.error('Failed to save course', {
+        description: e instanceof Error ? e.message : 'Unknown error',
+      });
+      // Save to localStorage as fallback
+      localStorage.setItem('course_draft', JSON.stringify({
+        ...course,
+        updatedAt: new Date().toISOString()
+      }));
+    } finally {
+      setIsSaving(false);
     }
   };
 
