@@ -13,6 +13,16 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+export function getStatusColor(status: string): string {
+  const colors: Record<string, string> = {
+    DRAFT: 'text-gray-500 bg-gray-100',
+    PUBLISHED: 'text-green-600 bg-green-100',
+    ARCHIVED: 'text-red-600 bg-red-100',
+    UNPUBLISHED: 'text-yellow-600 bg-yellow-100',
+  };
+  return colors[status] || 'text-gray-500 bg-gray-100';
+}
+
 export function formatDuration(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
