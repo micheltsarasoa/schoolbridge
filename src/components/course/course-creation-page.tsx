@@ -13,6 +13,11 @@ import { EmptyState } from '@/components/course/empty-state';
 import { toast, Toaster } from 'sonner';
 
 export default function CourseCreationPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const courseId = searchParams?.get('id');
+  const { createCourse, updateCourse, getCourse, loading: apiLoading } = useCourseAPI();
+  
   const [course, setCourse] = useState<Course | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const [selectedLecture, setSelectedLecture] = useState<string | null>(null);
@@ -21,6 +26,7 @@ export default function CourseCreationPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isLoadingCourse, setIsLoadingCourse] = useState(false);
 
   // Initialize course
   useEffect(() => {
