@@ -23,6 +23,34 @@ export function getStatusColor(status: string): string {
   return colors[status] || 'text-gray-500 bg-gray-100';
 }
 
+export function calculateReadingTime(text: string): number {
+  // Average reading speed is 200-250 words per minute
+  const wordsPerMinute = 225;
+  const wordCount = countWords(text);
+  return Math.ceil(wordCount / wordsPerMinute);
+}
+
+export function countWords(text: string): number {
+  if (!text) return 0;
+  // Remove HTML tags if any
+  const plainText = text.replace(/<[^>]*>/g, '');
+  // Split by whitespace and filter out empty strings
+  const words = plainText.trim().split(/\s+/).filter(word => word.length > 0);
+  return words.length;
+}
+
+export function getLectureIcon(type: string): string {
+  const icons: Record<string, string> = {
+    VIDEO: 'Video',
+    ARTICLE: 'FileText',
+    QUIZ: 'HelpCircle',
+    CODING_EXERCISE: 'Code',
+    ASSIGNMENT: 'ClipboardList',
+    PROJECT: 'FolderKanban',
+  };
+  return icons[type] || 'FileText';
+}
+
 export function formatDuration(seconds: number): string {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
