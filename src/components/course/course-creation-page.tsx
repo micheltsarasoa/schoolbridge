@@ -30,21 +30,43 @@ export default function CourseCreationPage() {
 
   // Initialize course
   useEffect(() => {
-    const savedCourse = localStorage.getItem('course_draft');
-    if (savedCourse) {
-      try {
-        const parsed = JSON.parse(savedCourse);
-        setCourse(parsed);
-        // Expand all sections by default
-        setExpandedSections(new Set(parsed.sections.map((s: Section) => s.id)));
-      } catch (e) {
-        console.error('Failed to parse saved course', e);
-        initializeNewCourse();
+    const loadCourse = async () => {
+      if (courseId) {
+        // Load existing course from API
+        setIsLoadingCourse(true);
+        try {
+          const fetchedCourse = await getCourse(courseId);
+          setCourse(fetchedCourse);
+          setExpandedSections(new Set(fetchedCourse.sections.map((s: Section) => s.id)));
+          setLastSaved(new Date(fetchedCourse.updatedAt));
+          toast.success('Course loaded successfully');
+        } catch (error) {
+          console.error('Failed to load course:', error);
+          toast.error('Failed to load course');
+          initializeNewCourse();
+        } finally {
+          setIsLoadingCourse(false);
+        }
+      } else {
+        // Try to load from localStorage for draft
+        const savedCourse = localStorage.getItem('course_draft');
+        if (savedCourse) {
+          try {
+            const parsed = JSON.parse(savedCourse);
+            setCourse(parsed);
+            setExpandedSections(new Set(parsed.sections.map((s: Section) => s.id)));
+          } catch (e) {
+            console.error('Failed to parse saved course', e);
+            initializeNewCourse();
+          }
+        } else {
+          initializeNewCourse();
+        }
       }
-    } else {
-      initializeNewCourse();
-    }
-  }, []);
+    };
+
+    loadCourse();
+  }, [courseId]);
 
   const initializeNewCourse = () => {
     const newCourse: Course = {
