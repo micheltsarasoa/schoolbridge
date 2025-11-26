@@ -56,7 +56,9 @@ export function FillBlankQuestion({ question, questionNumber, onUpdate, onDelete
 
   const parts = parseQuestionText(question.question || '');
   const correctAnswers = question.acceptedAnswers || [];
-  const incorrectAnswers = question.options?.filter(opt => !correctAnswers.includes(opt)) || [];
+  // Store incorrect answers separately in options array, but keep them distinct from correct answers
+  const allOptions = question.options || [];
+  const incorrectAnswers = allOptions.filter(opt => !correctAnswers.includes(opt));
   const allAnswers = [...correctAnswers, ...incorrectAnswers];
 
   const addCorrectAnswer = () => {
