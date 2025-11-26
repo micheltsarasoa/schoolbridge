@@ -44,9 +44,13 @@ export function QuizEditor({ lecture, onUpdate, onClose }: QuizEditorProps) {
       points: 20,
       partialCredit: false,
       options: type === 'MULTIPLE_CHOICE' || type === 'MULTIPLE_ANSWER' ? ['', '', '', ''] : undefined,
-      correctAnswer: type === 'TRUE_FALSE' ? true : (type === 'MULTIPLE_CHOICE' ? '' : []),
+      correctAnswer: type === 'TRUE_FALSE' ? true : (type === 'MULTIPLE_CHOICE' ? 'option-0' : (type === 'MULTIPLE_ANSWER' ? [] : undefined)),
       acceptedAnswers: type === 'FILL_BLANK' ? [''] : undefined,
-      orderingItems: type === 'ORDERING' ? ['', '', ''] : undefined,
+      orderingItems: type === 'ORDERING' ? [
+        { id: generateId(), text: '', correctOrder: 1 },
+        { id: generateId(), text: '', correctOrder: 2 },
+        { id: generateId(), text: '', correctOrder: 3 }
+      ] : undefined,
     };
     
     setQuizData({
