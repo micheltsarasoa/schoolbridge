@@ -44,9 +44,13 @@ export function QuizEditor({ lecture, onUpdate, onClose }: QuizEditorProps) {
       points: 20,
       partialCredit: false,
       options: type === 'MULTIPLE_CHOICE' || type === 'MULTIPLE_ANSWER' ? ['', '', '', ''] : undefined,
-      correctAnswer: type === 'TRUE_FALSE' ? true : (type === 'MULTIPLE_CHOICE' ? '' : []),
+      correctAnswer: type === 'TRUE_FALSE' ? true : (type === 'MULTIPLE_CHOICE' ? 'option-0' : (type === 'MULTIPLE_ANSWER' ? [] : undefined)),
       acceptedAnswers: type === 'FILL_BLANK' ? [''] : undefined,
-      orderingItems: type === 'ORDERING' ? ['', '', ''] : undefined,
+      orderingItems: type === 'ORDERING' ? [
+        { id: generateId(), text: '', correctOrder: 1 },
+        { id: generateId(), text: '', correctOrder: 2 },
+        { id: generateId(), text: '', correctOrder: 3 }
+      ] : undefined,
     };
     
     setQuizData({
@@ -191,7 +195,6 @@ export function QuizEditor({ lecture, onUpdate, onClose }: QuizEditorProps) {
                         <div className="flex items-center gap-2">
                           <Badge variant="outline">Q{index + 1}</Badge>
                           <Badge>{question.type.replace('_', ' ')}</Badge>
-                          <span className="text-sm text-muted-foreground">{question.points} points</span>
                         </div>
                         <Button
                           variant="ghost"
@@ -281,6 +284,92 @@ export function QuizEditor({ lecture, onUpdate, onClose }: QuizEditorProps) {
                           </div>
                         </RadioGroup>
                       )}
+
+                      {question.type === 'ORDERING' && (
+                        <div className="space-y-2">
+                          <Label>Items to Order (students will arrange these in correct order)</Label>
+                          {question.orderingItems?.map((item, i) => (
+                            <div key={item.id} className="flex items-center gap-2">
+                              <Badge variant="outline">{item.correctOrder}</Badge>
+                              <Input
+                                value={item.text}
+                                onChange={(e) => {
+                                  const newItems = [...(question.orderingItems || [])];
+                                  newItems[i] = { ...newItems[i], text: e.target.value };
+                                  updateQuestion(question.id, { orderingItems: newItems });
+                                }}
+                                placeholder={`Item ${i + 1}`}
+                              />
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  const newItems = question.orderingItems?.filter((_, idx) => idx !== i)
+                                    .map((item, idx) => ({ ...item, correctOrder: idx + 1 })) || [];
+                                  updateQuestion(question.id, { orderingItems: newItems });
+                                }}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          ))}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const newItems = [
+                                ...(question.orderingItems || []),
+                                { id: generateId(), text: '', correctOrder: (question.orderingItems?.length || 0) + 1 }
+                              ];
+                              updateQuestion(question.id, { orderingItems: newItems });
+                            }}
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Item
+                          </Button>
+                        </div>
+                      )}
+
+                      {/* Points input for all question types */}
+                      <div className="grid grid-cols-2 gap-4 pt-2 border-t">
+                        <div className="space-y-2">
+                          <Label className="text-sm">Points</Label>
+                          <Input
+                            type="number"
+                            value={question.points}
+                            onChange={(e) => updateQuestion(question.id, { points: parseInt(e.target.value) || 0 })}
+                            min={0}
+                            className="w-24"
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm">Partial Credit</Label>
+                          <Switch
+                            checked={question.partialCredit}
+                            onCheckedChange={(checked) => updateQuestion(question.id, { partialCredit: checked })}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Optional fields */}
+                      <div className="space-y-2">
+                        <Label className="text-sm">Explanation (optional)</Label>
+                        <Textarea
+                          value={question.explanation || ''}
+                          onChange={(e) => updateQuestion(question.id, { explanation: e.target.value })}
+                          placeholder="Explain why this is the correct answer"
+                          rows={2}
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label className="text-sm">Hint (optional)</Label>
+                        <Input
+                          value={question.hint || ''}
+                          onChange={(e) => updateQuestion(question.id, { hint: e.target.value })}
+                          placeholder="Provide a hint for students"
+                        />
+                      </div>
                     </CardContent>
                   </Card>
                 );

@@ -56,7 +56,9 @@ export function FillBlankQuestion({ question, questionNumber, onUpdate, onDelete
 
   const parts = parseQuestionText(question.question || '');
   const correctAnswers = question.acceptedAnswers || [];
-  const incorrectAnswers = question.options?.filter(opt => !correctAnswers.includes(opt)) || [];
+  // Store incorrect answers separately in options array, but keep them distinct from correct answers
+  const allOptions = question.options || [];
+  const incorrectAnswers = allOptions.filter(opt => !correctAnswers.includes(opt));
   const allAnswers = [...correctAnswers, ...incorrectAnswers];
 
   const addCorrectAnswer = () => {
@@ -65,7 +67,9 @@ export function FillBlankQuestion({ question, questionNumber, onUpdate, onDelete
   };
 
   const addIncorrectAnswer = () => {
-    const updated = [...(question.options || []), ''];
+    // Add new incorrect answer to options, ensuring no duplicates with correct answers
+    const currentOptions = question.options || [];
+    const updated = [...currentOptions, ''];
     onUpdate({ options: updated });
   };
 
@@ -76,9 +80,14 @@ export function FillBlankQuestion({ question, questionNumber, onUpdate, onDelete
   };
 
   const updateIncorrectAnswer = (index: number, value: string) => {
-    const updated = [...(question.options || [])];
-    const incorrectIndex = correctAnswers.length + index;
-    updated[incorrectIndex] = value;
+    // Update only incorrect answers which are stored in options but not in acceptedAnswers
+    const currentOptions = question.options || [];
+    // Find all incorrect options
+    const incorrectOnly = currentOptions.filter(opt => !correctAnswers.includes(opt));
+    // Update the specific incorrect answer
+    incorrectOnly[index] = value;
+    // Merge back with any options that might have been correct answers (shouldn't happen, but safety)
+    const updated = [...correctAnswers, ...incorrectOnly];
     onUpdate({ options: updated });
   };
 

@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { Course, Section, Lecture, LectureType } from '@/types/course'
-import { generateId } from '@/lib/course-utils';
+import { generateId, validateCourse } from '@/lib/course-utils';
+import { useCourseAPI } from '@/hooks/use-course-api';
 import { CourseHeader } from '@/components/course/course-header';
 import { CourseSidebar } from '@/components/course/course-sidebar';
 import { SectionEditor } from '@/components/course/section-editor';
@@ -11,6 +13,11 @@ import { EmptyState } from '@/components/course/empty-state';
 import { toast, Toaster } from 'sonner';
 
 export default function CourseCreationPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const courseId = searchParams?.get('id');
+  const { createCourse, updateCourse, getCourse, loading: apiLoading } = useCourseAPI();
+  
   const [course, setCourse] = useState<Course | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const [selectedLecture, setSelectedLecture] = useState<string | null>(null);
@@ -19,24 +26,47 @@ export default function CourseCreationPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isLoadingCourse, setIsLoadingCourse] = useState(false);
 
   // Initialize course
   useEffect(() => {
-    const savedCourse = localStorage.getItem('course_draft');
-    if (savedCourse) {
-      try {
-        const parsed = JSON.parse(savedCourse);
-        setCourse(parsed);
-        // Expand all sections by default
-        setExpandedSections(new Set(parsed.sections.map((s: Section) => s.id)));
-      } catch (e) {
-        console.error('Failed to parse saved course', e);
-        initializeNewCourse();
+    const loadCourse = async () => {
+      if (courseId) {
+        // Load existing course from API
+        setIsLoadingCourse(true);
+        try {
+          const fetchedCourse = await getCourse(courseId);
+          setCourse(fetchedCourse);
+          setExpandedSections(new Set(fetchedCourse.sections.map((s: Section) => s.id)));
+          setLastSaved(new Date(fetchedCourse.updatedAt));
+          toast.success('Course loaded successfully');
+        } catch (error) {
+          console.error('Failed to load course:', error);
+          toast.error('Failed to load course');
+          initializeNewCourse();
+        } finally {
+          setIsLoadingCourse(false);
+        }
+      } else {
+        // Try to load from localStorage for draft
+        const savedCourse = localStorage.getItem('course_draft');
+        if (savedCourse) {
+          try {
+            const parsed = JSON.parse(savedCourse);
+            setCourse(parsed);
+            setExpandedSections(new Set(parsed.sections.map((s: Section) => s.id)));
+          } catch (e) {
+            console.error('Failed to parse saved course', e);
+            initializeNewCourse();
+          }
+        } else {
+          initializeNewCourse();
+        }
       }
-    } else {
-      initializeNewCourse();
-    }
-  }, []);
+    };
+
+    loadCourse();
+  }, [courseId]);
 
   const initializeNewCourse = () => {
     const newCourse: Course = {
@@ -63,26 +93,58 @@ export default function CourseCreationPage() {
     }
   }, [hasUnsavedChanges, course]);
 
-  const saveCourse = () => {
-    if (course) {
-      setIsSaving(true);
-      try {
+  const saveCourse = async () => {
+    if (!course) return;
+
+    // Validate course before saving
+    const validation = validateCourse(course);
+    if (!validation.isValid) {
+      toast.error('Please fix the following errors:', {
+        description: validation.errors.slice(0, 3).join(', '),
+        duration: 5000,
+      });
+      console.error('Validation errors:', validation.errors);
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      if (courseId) {
+        // Update existing course
+        const updated = await updateCourse(courseId, course);
+        setCourse(updated);
+        setLastSaved(new Date());
+        setHasUnsavedChanges(false);
+        toast.success('Course updated successfully');
+        // Also save to localStorage as backup
         localStorage.setItem('course_draft', JSON.stringify({
           ...course,
           updatedAt: new Date().toISOString()
         }));
+      } else {
+        // Create new course
+        const created = await createCourse(course);
+        setCourse(created);
         setLastSaved(new Date());
         setHasUnsavedChanges(false);
-        toast.success('Course saved successfully', {
-          description: 'Success',
-        });
-      } catch (e) {
-        toast.error('Failed to save course', {
-          description: 'Error',
-        });
-      } finally {
-        setIsSaving(false);
+        toast.success('Course created successfully');
+        // Clear localStorage after successful creation
+        localStorage.removeItem('course_draft');
+        // Navigate to edit mode with the new ID
+        router.push(`/dashboard/teacher/courses/course-builder?id=${created.id}`);
       }
+    } catch (e) {
+      console.error('Failed to save course:', e);
+      toast.error('Failed to save course', {
+        description: e instanceof Error ? e.message : 'Unknown error',
+      });
+      // Save to localStorage as fallback
+      localStorage.setItem('course_draft', JSON.stringify({
+        ...course,
+        updatedAt: new Date().toISOString()
+      }));
+    } finally {
+      setIsSaving(false);
     }
   };
 
