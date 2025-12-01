@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import {
@@ -169,30 +169,27 @@ export function DashboardNavbar({
         <div className="flex-1 min-w-0">
           <Breadcrumb>
             <BreadcrumbList>
-              {breadcrumbs.map((item, index, array) => (
-                <div key={`breadcrumb-${index}-${item.href}`} className="flex items-center gap-1">
-                  {index > 0 && <BreadcrumbSeparator className="hidden sm:inline" />}
-                  <BreadcrumbItem className="hidden sm:inline-flex">
-                    {index === array.length - 1 ? (
-                      <BreadcrumbPage className="text-sm font-medium">
-                        {item.label}
-                      </BreadcrumbPage>
+              {breadcrumbs.flatMap((item, index, array) => {
+                const isLast = index === array.length - 1;
+                const breadcrumbItem = (
+                  <BreadcrumbItem key={`breadcrumb-item-${index}`}>
+                    {isLast ? (
+                      <BreadcrumbPage>{item.label}</BreadcrumbPage>
                     ) : (
-                      <BreadcrumbLink
-                        href={item.href}
-                        className="text-sm hover:text-primary"
-                      >
-                        {item.label}
-                      </BreadcrumbLink>
+                      <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
-                  {index === array.length - 1 && (
-                    <BreadcrumbPage className="text-sm font-medium sm:hidden">
-                      {item.label}
-                    </BreadcrumbPage>
-                  )}
-                </div>
-              ))}
+                );
+
+                if (isLast) {
+                  return [breadcrumbItem];
+                }
+
+                return [
+                  breadcrumbItem,
+                  <BreadcrumbSeparator key={`breadcrumb-separator-${index}`} />,
+                ];
+              })}
             </BreadcrumbList>
           </Breadcrumb>
         </div>

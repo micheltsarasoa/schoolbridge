@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAdmin } from "@/lib/auth-utils";
-import { UserRole } from "@/generated/prisma";
+import { UserRole } from "@/generated/prisma/browser";
 
 interface IParams {
   params: Promise<{ userId: string }>;
@@ -21,7 +21,7 @@ async function getHandler(req: Request, { params }: IParams) {
       where: { id: userId },
       select: {
         id: true,
-        name: true,
+        firstName: true,
         email: true,
         phone: true,
         role: true,

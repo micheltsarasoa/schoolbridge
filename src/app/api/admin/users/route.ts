@@ -40,20 +40,14 @@ async function getHandler(req: Request) {
         where,
         select: {
           id: true,
-          name: true,
+          firstName: true,
+          lastName: true,
           email: true,
           phone: true,
           role: true,
-          isActive: true,
           schoolId: true,
           lastLogin: true,
           createdAt: true,
-          classes: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
         },
         orderBy: { createdAt: "desc" },
         skip,

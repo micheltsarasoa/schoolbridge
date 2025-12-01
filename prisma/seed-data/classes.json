@@ -1,17 +1,9 @@
 [
   {
-    "id": "clp000000000000000000013",
-    "name": "Grade 1A",
-    "schoolId": "clp000000000000000000001"
-  },
-  {
-    "id": "clp000000000000000000014",
-    "name": "Grade 2B",
-    "schoolId": "clp000000000000000000001"
-  },
-  {
-    "id": "clp000000000000000000015",
-    "name": "Grade 1",
-    "schoolId": "clp000000000000000000002"
+    "id": "clv9v1n13000b08l5y1z2a3b2",
+    "name": "CM2 - Section A",
+    "degreeLevel": "CM2",
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "academicPeriodId": "clv9v1n0t000108l5h2d1c3a2"
   }
 ]

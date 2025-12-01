@@ -1,6 +1,6 @@
 # To-Do List: Refactor Dashboard Routes
 
-## Goal
+## Goal 
 Migrate routes from `src/app/{admin, teacher, parent, student}` to `src/app/dashboard/{teacher, admin, parent, student}` incrementally, excluding `dashboard_navbar` and `sidebar` components.
 
 ## Phase 1: Preparation and Analysis

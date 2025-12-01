@@ -118,7 +118,7 @@ const dataAdmin = {
     },
     {
       title: "School Management",
-      url: "/dashboard/admin/school",
+      url: "/dashboard/admin/schools",
       icon: School,
       items: [
         {

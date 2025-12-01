@@ -5,7 +5,6 @@ import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BookOpen, Plus, ChevronDown, ChevronRight, GripVertical, Trash2, Video, FileText, HelpCircle, Code, ClipboardList, FolderKanban, Paperclip } from 'lucide-react';
 import type { Section, LectureType } from '@/types/course';
-import { getLectureIcon } from '@/lib/course-utils';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,7 +111,20 @@ export function CourseSidebar({
                       {[...section.lectures]
                         .sort((a, b) => a.order - b.order)
                         .map((lecture, lectureIndex) => {
-                        const Icon = getLectureIcon(lecture.type);
+                        // Get the appropriate icon component
+                        const getIcon = (type: string) => {
+                          switch (type) {
+                            case 'VIDEO': return Video;
+                            case 'ARTICLE': return FileText;
+                            case 'QUIZ': return HelpCircle;
+                            case 'CODING_EXERCISE': return Code;
+                            case 'ASSIGNMENT': return ClipboardList;
+                            case 'PROJECT': return FolderKanban;
+                            default: return FileText;
+                          }
+                        };
+                        const Icon = getIcon(lecture.type);
+                        
                         return (
                           <div
                             key={lecture.id}
@@ -126,7 +138,7 @@ export function CourseSidebar({
                               {lectureIndex + 1}
                             </span>
                             <Icon className="h-4 w-4 text-muted-foreground shrink-0" />
-                            <span className="text-sm flex-1 truncate">{lecture.title}</span>
+                            <span className="text-sm flex-1 truncate">{lecture.title || 'Untitled Lecture'}</span>
                             {lecture.resources && lecture.resources.length > 0 && (
                               <Paperclip className="h-3 w-3 text-muted-foreground" />
                             )}

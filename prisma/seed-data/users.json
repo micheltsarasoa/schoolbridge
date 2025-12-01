@@ -1,34 +1,68 @@
 [
   {
-    "id": "clp000000000000000000003",
-    "name": "Admin User",
-    "email": "admin@schoolbridge.app",
-    "password": "Password123!",
+    "id": "clv9v1n0u000208l5k4f8a3b2",
+    "email": "admin@school.mg",
+    "firstName": "Admin",
+    "lastName": "User",
+    "password": "admin123",
     "role": "ADMIN",
-    "schoolId": "clp000000000000000000001"
+    "verified": true,
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
   },
   {
-    "id": "clp000000000000000000004",
-    "name": "Teacher Jane",
-    "email": "jane.teacher@centralhigh.edu",
-    "password": "Password123!",
+    "id": "clv9v1n0w000408l5n6g7h8i4",
+    "email": "teacher@school.mg",
+    "firstName": "Marie",
+    "lastName": "Rakoto",
+    "password": "teacher123",
     "role": "TEACHER",
-    "schoolId": "clp000000000000000000001"
+    "verified": true,
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
   },
   {
-    "id": "clp000000000000000000005",
-    "name": "Student John",
-    "email": "john.student@centralhigh.edu",
-    "password": "Password123!",
+    "id": "clv9v1n0y000608l5p4q5r6s6",
+    "email": "student@school.mg",
+    "firstName": "Jean",
+    "lastName": "Dupont",
+    "password": "student123",
     "role": "STUDENT",
-    "schoolId": "clp000000000000000000001"
+    "verified": true,
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
   },
   {
-    "id": "clp000000000000000000006",
-    "name": "Parent Mary",
-    "email": "mary.parent@centralhigh.edu",
-    "password": "Password123!",
+    "id": "clv9v1n10000808l5t2u3v4w8",
+    "email": "parent@school.mg",
+    "firstName": "Hélène",
+    "lastName": "Dupont",
+    "password": "parent123",
     "role": "PARENT",
-    "schoolId": "clp000000000000000000001"
+    "verified": true,
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
+  },
+  {
+    "id": "clxud8z7v000008l0g1p4e2n1",
+    "email": "testuser@example.com",
+    "firstName": "Test",
+    "lastName": "User",
+    "password": "password123",
+    "role": "STUDENT",
+    "verified": true,
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
+  },
+  {
+    "id": "clxud8z7v000108l0g1p4e2n2",
+    "email": "lockuser@example.com",
+    "firstName": "Lock",
+    "lastName": "User",
+    "password": "password123",
+    "role": "STUDENT",
+    "verified": true,
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
   }
 ]

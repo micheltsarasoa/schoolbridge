@@ -1,0 +1,16 @@
+[
+  {
+    "id": "clv9v1n18000g08l5d5e6f7g7",
+    "name": "Première Connexion",
+    "description": "Bravo pour votre première connexion sur SchoolBridge !",
+    "imageUrl": "/badges/first_login.svg",
+    "criteria": { "reason": "First login" }
+  },
+  {
+    "id": "clv9v1n19000h08l5e8f9g1h8",
+    "name": "Assiduité Parfaite",
+    "description": "Présent à tous les cours pendant un mois.",
+    "imageUrl": "/badges/perfect_attendance.svg",
+    "criteria": { "days": 30, "status": "PRESENT" }
+  }
+]

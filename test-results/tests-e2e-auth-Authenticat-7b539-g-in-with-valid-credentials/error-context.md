@@ -1,0 +1,221 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - button "School 1 student maditra" [ref=e9]:
+            - img [ref=e11]
+            - generic [ref=e14]:
+              - generic [ref=e15]: School 1
+              - generic [ref=e16]: student maditra
+            - img [ref=e17]
+      - generic [ref=e20]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: Platform
+          - list [ref=e26]:
+            - listitem [ref=e27]:
+              - button "Dashboard" [ref=e28]:
+                - img [ref=e29]
+                - link "Dashboard" [ref=e32] [cursor=pointer]:
+                  - /url: /dashboard/student
+            - listitem [ref=e33]:
+              - button "Inbox" [ref=e34]:
+                - img [ref=e35]
+                - link "Inbox" [ref=e38] [cursor=pointer]:
+                  - /url: /dashboard/inbox
+            - listitem [ref=e39]:
+              - button "Courses" [ref=e40]:
+                - img [ref=e41]
+                - link "Courses" [ref=e45] [cursor=pointer]:
+                  - /url: /dashboard/student/courses
+                - img [ref=e46]
+            - listitem [ref=e48]:
+              - button "Planning" [ref=e49]:
+                - img [ref=e50]
+                - link "Planning" [ref=e53] [cursor=pointer]:
+                  - /url: /dashboard/student/planning
+                - img [ref=e54]
+            - listitem [ref=e56]:
+              - button "Exams & Result" [expanded] [ref=e57]:
+                - img [ref=e58]
+                - link "Exams & Result" [ref=e61] [cursor=pointer]:
+                  - /url: /dashboard/student/exams-and-results
+                - img [ref=e62]
+              - list [ref=e65]:
+                - listitem [ref=e66]:
+                  - link "Upcoming Exams" [ref=e67] [cursor=pointer]:
+                    - /url: "#"
+                    - generic [ref=e68]: Upcoming Exams
+                - listitem [ref=e69]:
+                  - link "Exam Results" [ref=e70] [cursor=pointer]:
+                    - /url: "#"
+                    - generic [ref=e71]: Exam Results
+            - listitem [ref=e72]:
+              - button "Quizzes" [ref=e73]:
+                - img [ref=e74]
+                - link "Quizzes" [ref=e77] [cursor=pointer]:
+                  - /url: /dashboard/student/quizzes
+            - listitem [ref=e78]:
+              - button "Badges" [ref=e79]:
+                - img [ref=e80]
+                - link "Badges" [ref=e86] [cursor=pointer]:
+                  - /url: /dashboard/student/badges
+            - listitem [ref=e87]:
+              - button "Todos" [ref=e88]:
+                - img [ref=e89]
+                - link "Todos" [ref=e94] [cursor=pointer]:
+                  - /url: /dashboard/student/todos
+            - listitem [ref=e95]:
+              - button "Forecast" [ref=e96]:
+                - img [ref=e97]
+                - link "Forecast" [ref=e102] [cursor=pointer]:
+                  - /url: /dashboard/student/forecast
+        - list [ref=e105]:
+          - listitem [ref=e106]:
+            - link "Feedback" [ref=e107] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e108]
+              - generic [ref=e111]: Feedback
+          - listitem [ref=e112]:
+            - link "Support" [ref=e113] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e114]
+              - generic [ref=e121]: Support
+      - list [ref=e123]:
+        - listitem [ref=e124]:
+          - button "CN shadcn m@example.com" [ref=e125]:
+            - generic [ref=e127]: CN
+            - generic [ref=e128]:
+              - generic [ref=e129]: shadcn
+              - generic [ref=e130]: m@example.com
+            - img [ref=e131]
+      - button "Toggle Sidebar" [ref=e134]
+    - main [ref=e135]:
+      - generic [ref=e136]:
+        - generic [ref=e137]:
+          - button "Toggle Sidebar" [ref=e138]:
+            - img
+            - generic [ref=e139]: Toggle Sidebar
+          - navigation "breadcrumb" [ref=e140]:
+            - list [ref=e141]:
+              - listitem [ref=e142]:
+                - link "Dashboard" [ref=e143] [cursor=pointer]:
+                  - /url: /dashboard
+              - listitem [ref=e144]:
+                - img [ref=e145]
+              - listitem [ref=e147]:
+                - link "Student" [disabled] [ref=e148]
+        - generic [ref=e149]:
+          - button "Toggle theme" [ref=e150]:
+            - img
+            - generic [ref=e151]: Toggle theme
+          - button "2" [ref=e153]:
+            - img
+            - generic [ref=e154]: "2"
+          - button "J" [ref=e155]:
+            - generic [ref=e157]: J
+      - generic [ref=e158]:
+        - alert [ref=e159]:
+          - img [ref=e160]
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - paragraph [ref=e164]: Complete Your Profile
+              - paragraph [ref=e165]: Please complete your profile to access all features and personalize your experience.
+            - generic [ref=e166]:
+              - link "Complete Profile" [ref=e167] [cursor=pointer]:
+                - /url: /student/settings
+                - button "Complete Profile" [ref=e168]
+              - button [ref=e169]:
+                - img
+        - generic [ref=e170]:
+          - alert [ref=e171]:
+            - img [ref=e172]
+            - generic [ref=e174]: Failed to fetch dashboard data
+          - button "Retry" [ref=e175]
+  - region "Notifications alt+T"
+  - generic [active]:
+    - generic [ref=e178]:
+      - generic [ref=e179]:
+        - generic [ref=e180]:
+          - navigation [ref=e181]:
+            - button "previous" [disabled] [ref=e182]:
+              - img "previous" [ref=e183]
+            - generic [ref=e185]:
+              - generic [ref=e186]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e187]:
+              - img "next" [ref=e188]
+          - img
+        - generic [ref=e190]:
+          - link "Next.js 16.0.1 (stale) Turbopack" [ref=e191] [cursor=pointer]:
+            - /url: https://nextjs.org/docs/messages/version-staleness
+            - img [ref=e192]
+            - generic "There is a newer version (16.0.4) available, upgrade recommended!" [ref=e194]: Next.js 16.0.1 (stale)
+            - generic [ref=e195]: Turbopack
+          - img
+      - dialog "Build Error" [ref=e197]:
+        - generic [ref=e200]:
+          - generic [ref=e201]:
+            - generic [ref=e202]:
+              - generic [ref=e204]: Build Error
+              - generic [ref=e205]:
+                - button "Copy Error Info" [ref=e206] [cursor=pointer]:
+                  - img [ref=e207]
+                - link "Go to related documentation" [ref=e209] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+                  - img [ref=e210]
+                - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e212] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
+                  - img [ref=e213]
+            - generic [ref=e222]: "Module not found: Can't resolve '@/generated/prisma'"
+          - generic [ref=e224]:
+            - generic [ref=e226]:
+              - img [ref=e228]
+              - generic [ref=e232]: ./OneDrive - SPC CONSULTANTS/source/repos/schoolbridge/src/app/api/student/dashboard/route.ts (4:1)
+              - button "Open in editor" [ref=e233] [cursor=pointer]:
+                - img [ref=e235]
+            - generic [ref=e238]:
+              - generic [ref=e239]: Module not found
+              - generic [ref=e240]: ": Can't resolve"
+              - text: "'@/generated/prisma'"
+              - generic [ref=e241]: 2 |
+              - text: import
+              - generic [ref=e242]: "{ auth }"
+              - text: from '@/auth';
+              - generic [ref=e243]: 3 |
+              - text: import
+              - generic [ref=e244]: prisma
+              - text: from '@/lib/prisma'; >
+              - generic [ref=e245]: 4 |
+              - text: import
+              - generic [ref=e246]: "{"
+              - text: AttendanceStatus
+              - generic [ref=e247]: "}"
+              - text: from '@/generated/prisma';
+              - generic [ref=e248]: "|"
+              - text: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              - generic [ref=e249]: 5 |
+              - generic [ref=e250]: 6 |
+              - generic [ref=e251]: // GET /api/student/dashboard - Get student dashboard data
+              - generic [ref=e252]: 7 |
+              - text: "export async function GET(request: NextRequest"
+              - generic [ref=e253]: ") {"
+              - generic [ref=e254]:
+                - text: "Import map: aliased to relative './src/generated/prisma' inside of [project]/OneDrive - SPC CONSULTANTS/source/repos/schoolbridge"
+                - link "https://nextjs.org/docs/messages/module-not-found" [ref=e255] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+        - generic [ref=e256]: "1"
+        - generic [ref=e257]: "2"
+    - generic [ref=e262] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e263]:
+        - img [ref=e264]
+      - button "Open issues overlay" [ref=e268]:
+        - generic [ref=e269]:
+          - generic [ref=e270]: "0"
+          - generic [ref=e271]: "1"
+        - generic [ref=e272]: Issue
+  - alert [ref=e273]
+```

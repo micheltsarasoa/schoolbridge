@@ -82,15 +82,17 @@ export const DEFAULT_SETTINGS: Required<UserSettings> = {
 /**
  * Type guard to check if an object is valid UserSettings
  */
-export function isValidUserSettings(obj: any): obj is UserSettings {
+export function isValidUserSettings(obj: unknown): obj is UserSettings {
   if (typeof obj !== 'object' || obj === null) return false;
 
+  const settings = obj as Partial<UserSettings>;
+
   // Basic validation - can be extended as needed
-  if (obj.display?.theme && !['light', 'dark', 'system'].includes(obj.display.theme)) {
+  if (settings.display?.theme && !['light', 'dark', 'system'].includes(settings.display.theme)) {
     return false;
   }
 
-  if (obj.language && !['FR', 'EN', 'MG', 'ES'].includes(obj.language)) {
+  if (settings.language && !['FR', 'EN', 'MG', 'ES'].includes(settings.language)) {
     return false;
   }
 

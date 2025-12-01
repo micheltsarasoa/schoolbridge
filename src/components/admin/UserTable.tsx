@@ -42,8 +42,10 @@ import { Badge } from "@/components/ui/badge";
 import { DataTablePagination } from "../data-table/data-table-pagination";
 import { DataTableToolbar } from "../data-table/data-table-toolbar";
 import { DataTableColumnHeader } from "../data-table/data-table-column-header";
-import EditUserModal from "./EditUserModal";
+import { UpsertUserSheet } from "../users/upsert-user-sheet";
 import UserDetailsDialog from "./UserDetailsDialog";
+import { Sheet, SheetTrigger } from "../ui/sheet";
+import UserDetailsSheet from "../users/user-dialog-sheet";
 
 export type User = {
   id: string;
@@ -304,6 +306,12 @@ export function UserTable({ roleFilter }: UserTableProps) {
           <Plus className="h-4 w-4" />
           Add User
         </Button>
+        {/* <Sheet>
+          <SheetTrigger asChild>
+            <Button>Add User</Button>
+          </SheetTrigger>
+          <AddUser/>
+        </Sheet> */}
       </div>
 
       <div className="rounded-md border">
@@ -382,8 +390,8 @@ export function UserTable({ roleFilter }: UserTableProps) {
         </Button>
       </div>
 
-      {/* Dialogs */}
-      <EditUserModal
+      {/* Dialogs & Sheets */}
+      <UpsertUserSheet
         isCreate={dialogMode === 'create'}
         user={dialogMode === 'edit' ? { id: selectedUserId } : undefined}
         onClose={handleDialogClose}
@@ -391,13 +399,15 @@ export function UserTable({ roleFilter }: UserTableProps) {
         isOpen={dialogMode === 'create' || dialogMode === 'edit'}
       />
 
-      {dialogMode === 'view' && selectedUserId && (
-        <UserDetailsDialog
-          userId={selectedUserId}
-          onClose={handleDialogClose}
-          onEdit={handleEditUser}
-        />
-      )}
+      <Sheet open={dialogMode === 'view'} onOpenChange={handleDialogClose}>
+        {selectedUserId && (
+          <UserDetailsSheet 
+            userId={selectedUserId}
+            onClose={handleDialogClose}
+            onEdit={handleEditUser}
+          />
+        )}
+      </Sheet>
     </div>
   );
 }

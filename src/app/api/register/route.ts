@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { name, email, password, role, schoolId } = body;
+    const { name, email, password, role, schoolId, invitationCode } = body;
 
     if (!name || !email || !password || !role || !schoolId) {
       return new NextResponse("Missing required fields", { status: 400 });
@@ -27,6 +27,46 @@ export async function POST(req: NextRequest) {
         "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
         { status: 400 }
       );
+    }
+
+    // Validate invitation code for TEACHER and PARENT roles
+    if (role === 'TEACHER' || role === 'PARENT') {
+      if (!invitationCode) {
+        return new NextResponse(
+          `${role === 'TEACHER' ? 'Teachers' : 'Parents'} must provide an invitation code`,
+          { status: 400 }
+        );
+      }
+
+      // Check if invitation code is valid
+      const invitation = await prisma.invitationCode.findUnique({
+        where: { code: invitationCode },
+      });
+
+      if (!invitation) {
+        return new NextResponse("Invalid invitation code", { status: 400 });
+      }
+
+      if (!invitation.isActive) {
+        return new NextResponse("This invitation code is no longer active", { status: 400 });
+      }
+
+      if (invitation.usedBy) {
+        return new NextResponse("This invitation code has already been used", { status: 400 });
+      }
+
+      if (invitation.expiresAt && invitation.expiresAt < new Date()) {
+        return new NextResponse("This invitation code has expired", { status: 400 });
+      }
+
+      if (invitation.schoolId !== schoolId) {
+        return new NextResponse("This invitation code is for a different school", { status: 400 });
+      }
+
+      const expectedRole = invitation.role === 'TEACHER' ? 'TEACHER' : 'PARENT';
+      if (role !== expectedRole) {
+        return new NextResponse(`This invitation code is for ${expectedRole} role only`, { status: 400 });
+      }
     }
 
     const existingUser = await prisma.user.findUnique({
@@ -63,7 +103,7 @@ export async function POST(req: NextRequest) {
     const tokenExpiry = new Date(new Date().getTime() + 10 * 60 * 1000); // 10 minutes
 
     // Store registration data in PendingRegistration
-    await prisma.pendingRegistration.create({
+    const pendingReg = await prisma.pendingRegistration.create({
       data: {
         email,
         name,
@@ -74,6 +114,17 @@ export async function POST(req: NextRequest) {
         expires: tokenExpiry,
       },
     });
+
+    // Mark invitation code as used (will be finalized after OTP verification)
+    if (invitationCode) {
+      await prisma.invitationCode.update({
+        where: { code: invitationCode },
+        data: { 
+          usedBy: email, // Temporarily store email, will update to userId after verification
+          usedAt: new Date(),
+        },
+      });
+    }
 
     // Log OTP for development (ALWAYS log this for debugging)
     console.log(`\n🔐 OTP for ${email}: ${otp}\n`);

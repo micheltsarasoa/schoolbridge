@@ -2,9 +2,12 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
+import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google";
+import AppleProvider from "next-auth/providers/apple";
 import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs";
-import { UserRole } from "@/generated/prisma";
+import { UserRole } from "@/generated/prisma/browser";
 
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_TIME_IN_MINUTES = 15;
@@ -12,6 +15,7 @@ const LOCKOUT_TIME_IN_MINUTES = 15;
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
+
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -20,7 +24,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+          return null; // Return null for missing credentials
         }
 
         const user = await prisma.user.findUnique({
@@ -28,7 +32,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         });
 
         if (!user) {
-          throw new Error("Invalid credentials");
+          return null; // Return null if user not found
         }
 
         if (user.lockedUntil && user.lockedUntil > new Date()) {
@@ -37,7 +41,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password as string,
-          user.password
+          user.password as string
         );
 
         if (!isPasswordValid) {
@@ -62,7 +66,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             });
           }
 
-          throw new Error("Invalid credentials");
+          return null; // Return null for invalid password
         }
 
         // If login is successful, reset attempts
@@ -76,7 +80,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return {
           id: user.id,
           email: user.email!,
-          name: user.name,
+          name: user.firstName,
           role: user.role,
         };
       },

@@ -15,7 +15,7 @@ export function useRole(requiredRole: UserRole | UserRole[]) {
     return { isAuthorized: false, isLoading: false };
   }
 
-  // @ts-ignore
+  // @ts-expect-error - role is a custom property on the session user
   const userRole = session.user.role as UserRole;
 
   const hasRequiredRole = Array.isArray(requiredRole)

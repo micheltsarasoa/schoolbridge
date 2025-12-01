@@ -1,0 +1,46 @@
+{
+  "sections": [
+    {
+      "id": "01",
+      "title": "Intro",
+      "duration": "22min",
+      "defaultOpen": true,
+      "lessons": [
+        { "title": "Introduction", "duration": "2 min" },
+        { "title": "What is Figma?", "duration": "5 min" },
+        { "title": "Understanding Figma", "duration": "12 min" },
+        { "title": "UI tour", "duration": "3 min" }
+      ]
+    },
+    {
+      "id": "02",
+      "title": "Intermediate Level Stuff",
+      "duration": "1h 20min"
+    },
+    {
+      "id": "03",
+      "title": "Advanced Stuff",
+      "duration": "36min"
+    },
+    {
+      "id": "04",
+      "title": "Imports & Graphics",
+      "duration": "40min"
+    },
+    {
+      "id": "05",
+      "title": "Component in Figma",
+      "duration": "1h 12min"
+    },
+    {
+      "id": "06",
+      "title": "Styles in Figma",
+      "duration": "41min"
+    },
+    {
+      "id": "07",
+      "title": "Summary",
+      "duration": "8min"
+    }
+  ]
+}

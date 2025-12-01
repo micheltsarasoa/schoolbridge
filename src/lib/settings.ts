@@ -18,6 +18,7 @@ import {
 /**
  * Deep merge two objects, with second object taking precedence
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>): T {
   const result = { ...target };
 
@@ -49,14 +50,14 @@ function deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>)
  * @param userSettingsJson - Raw JSON from database
  * @returns Merged settings with all required fields
  */
-export function getUserSettings(userSettingsJson: any): Required<UserSettings> {
+export function getUserSettings(userSettingsJson: string | object | null | undefined): Required<UserSettings> {
   // Handle null, undefined, or empty cases
   if (!userSettingsJson) {
     return DEFAULT_SETTINGS;
   }
 
   // Parse if it's a string
-  let parsed: any;
+  let parsed: UserSettings;
   if (typeof userSettingsJson === 'string') {
     try {
       parsed = JSON.parse(userSettingsJson);
@@ -82,7 +83,7 @@ export function getUserSettings(userSettingsJson: any): Required<UserSettings> {
  * Get notification settings only
  */
 export function getNotificationSettings(
-  userSettingsJson: any
+  userSettingsJson: string | object | null | undefined
 ): Required<NotificationSettings> {
   const settings = getUserSettings(userSettingsJson);
   return settings.notifications as Required<NotificationSettings>;
@@ -91,7 +92,7 @@ export function getNotificationSettings(
 /**
  * Get display settings only
  */
-export function getDisplaySettings(userSettingsJson: any): Required<DisplaySettings> {
+export function getDisplaySettings(userSettingsJson: string | object | null | undefined): Required<DisplaySettings> {
   const settings = getUserSettings(userSettingsJson);
   return settings.display as Required<DisplaySettings>;
 }
@@ -99,7 +100,7 @@ export function getDisplaySettings(userSettingsJson: any): Required<DisplaySetti
 /**
  * Get privacy settings only
  */
-export function getPrivacySettings(userSettingsJson: any): Required<PrivacySettings> {
+export function getPrivacySettings(userSettingsJson: string | object | null | undefined): Required<PrivacySettings> {
   const settings = getUserSettings(userSettingsJson);
   return settings.privacy as Required<PrivacySettings>;
 }
@@ -108,7 +109,7 @@ export function getPrivacySettings(userSettingsJson: any): Required<PrivacySetti
  * Get accessibility settings only
  */
 export function getAccessibilitySettings(
-  userSettingsJson: any
+  userSettingsJson: string | object | null | undefined
 ): Required<AccessibilitySettings> {
   const settings = getUserSettings(userSettingsJson);
   return settings.accessibility as Required<AccessibilitySettings>;
@@ -123,7 +124,7 @@ export function getAccessibilitySettings(
  * @returns Updated settings JSON ready to save to database
  */
 export function updateUserSettings(
-  currentSettingsJson: any,
+  currentSettingsJson: string | object | null | undefined,
   updates: Partial<UserSettings>
 ): UserSettings {
   const current = getUserSettings(currentSettingsJson);

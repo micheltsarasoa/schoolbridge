@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
-import { AttendanceStatus } from '@/generated/prisma';
+import { AttendanceStatus } from '@/generated/prisma/browser';
+import { includes } from 'zod';
 
 // GET /api/student/dashboard - Get student dashboard data
 export async function GET(request: NextRequest) {
@@ -17,11 +18,11 @@ export async function GET(request: NextRequest) {
     const student = await prisma.user.findUnique({
       where: { id: studentId },
       include: {
-        classes: {
+        students: {
           include: {
-            school: true,
-          },
-        },
+            CourseEnrollment: true
+          }
+        }
       },
     });
 
@@ -50,14 +51,14 @@ export async function GET(request: NextRequest) {
         : 0;
 
     // Get submissions count (completed quizzes/assignments)
-    const submissions = await prisma.submission.findMany({
+    const submissions = await prisma.assignmentSubmission.findMany({
       where: { studentId },
       include: {
-        courseContent: {
+        Assignment: {
           include: {
-            course: true,
-          },
-        },
+            Course: true
+          }
+        }
       },
     });
 
@@ -73,7 +74,7 @@ export async function GET(request: NextRequest) {
         : null;
 
     // Get active academic year
-    const activeYear = await prisma.academicYear.findFirst({
+    const activeYear = await prisma.academicPeriod.findFirst({
       where: {
         isActive: true,
         schoolId: student.schoolId || undefined,
@@ -88,26 +89,30 @@ export async function GET(request: NextRequest) {
     }
 
     // Get student progress for courses
-    const studentProgress = await prisma.studentProgress.findMany({
+    const studentProgress = await prisma.lectureProgress.findMany({
       where: { studentId },
       include: {
-        course: {
+        Lecture: {
           include: {
-            teacher: {
-              select: {
-                name: true,
-              },
-            },
-            subject: {
-              select: {
-                name: true,
-              },
+            Section: {
+              include: {
+                Course: {
+                  select: {
+                    title: true,
+                    Category: {
+                      select: {
+                        name: true
+                      }
+                    }
+                  },
+                }
+              }
             },
           },
         },
       },
       orderBy: {
-        lastAccessed: 'desc',
+        lastActivityAt: 'desc',
       },
       take: 6,
     });

@@ -8,10 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Video, X, Upload } from 'lucide-react';
-import type { Lecture, VideoData, Resource } from '@/types/course';
+import type { Lecture, VideoData } from '@/types/course';
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { ResourceManager } from '@/components/course/resource-manager';
 
 interface VideoEditorProps {
   lecture: Lecture;
@@ -29,7 +28,6 @@ export function VideoEditor({ lecture, onUpdate, onClose }: VideoEditorProps) {
   const [isPreview, setIsPreview] = useState(lecture.isPreview);
   const [isFree, setIsFree] = useState(lecture.isFree);
   const [offlineAvailable, setOfflineAvailable] = useState(lecture.offlineAvailable);
-  const [resources, setResources] = useState<Resource[]>(lecture.resources || []);
 
   const handleSave = () => {
     onUpdate({
@@ -39,25 +37,10 @@ export function VideoEditor({ lecture, onUpdate, onClose }: VideoEditorProps) {
       isPreview,
       isFree,
       offlineAvailable,
-      resources
+      // Don't include resources for video lectures
+      resources: []
     });
     onClose();
-  };
-
-  const handleAddResource = (resource: Omit<Resource, 'id'>) => {
-    const newResource: Resource = {
-      ...resource,
-      id: `res-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-    };
-    setResources([...resources, newResource]);
-  };
-
-  const handleUpdateResource = (id: string, updates: Partial<Resource>) => {
-    setResources(resources.map(r => r.id === id ? { ...r, ...updates } : r));
-  };
-
-  const handleDeleteResource = (id: string) => {
-    setResources(resources.filter(r => r.id !== id));
   };
 
   return (
@@ -164,12 +147,12 @@ export function VideoEditor({ lecture, onUpdate, onClose }: VideoEditorProps) {
           </div>
         </div>
 
-        <ResourceManager
-          resources={resources}
-          onAddResource={handleAddResource}
-          onUpdateResource={handleUpdateResource}
-          onDeleteResource={handleDeleteResource}
-        />
+        {/* Note: Video lectures don't support additional resources */}
+        <div className="rounded-lg bg-muted p-4">
+          <p className="text-sm text-muted-foreground">
+            💡 <strong>Tip:</strong> Video lectures don't support additional resources. Use Article or Assignment lectures to attach files and documents.
+          </p>
+        </div>
 
         <div className="flex gap-2 justify-end pt-4 border-t">
           <Button variant="outline" onClick={onClose}>Cancel</Button>

@@ -1,204 +1,156 @@
-import { PrismaClient, UserRole, Language, CourseStatus, ContentType } from '../src/generated/prisma';
+import { Prisma, PrismaClient } from '@/generated/prisma/client';
 import bcrypt from 'bcryptjs';
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 const prisma = new PrismaClient();
-
 const seedDataDir = path.join(__dirname, 'seed-data');
 
+// Map Prisma client model names to their JSON file names
+const MODEL_FILE_MAP: { [key: string]: string } = {
+  'schools': 'schools.json',
+  'academicPeriod': 'academicPeriods.json',
+  'user': 'users.json',
+  'admin': 'admins.json',
+  'instructor': 'instructors.json',
+  'students': 'students_profiles.json',
+  'parents': 'parents_profiles.json',
+  'classes': 'classes.json',
+  'parent_students': 'parent_students.json',
+  'class_enrollments': 'class_enrollments.json',
+  'attendance': 'attendances.json',
+  'calendarEvent': 'calendarEvents.json',
+  'announcement': 'announcements.json',
+  'badge': 'badges.json',
+  'userBadge': 'userBadges.json',
+};
+
+// --- Seeding Order (using actual Prisma client model property names) ---
+// The order is crucial to respect foreign key constraints.
+const SEED_ORDER = [
+  'schools',
+  'academicPeriod',
+  'user',
+  'admin',
+  'instructor',
+  'students',
+  'parents',
+  'classes',
+  'parent_students',
+  'class_enrollments',
+  'attendance',
+  'calendarEvent',
+  'announcement',
+  'badge',
+  'userBadge',
+];
+
+// --- Main Seeding Function ---
 async function main() {
-  console.log('🌱 Starting dynamic database seeding...');
+  console.log('🌱 Starting database seeding from JSON files...');
 
-  // --- 1. Clear existing data (order matters due to foreign keys) ---
-  console.log('🗑️  Cleaning existing data...');
-  await prisma.submission.deleteMany();
-  await prisma.attendance.deleteMany();
-  await prisma.studentProgress.deleteMany();
-  await prisma.courseAssignment.deleteMany();
-  await prisma.courseContent.deleteMany();
-  await prisma.courseValidation.deleteMany();
-  await prisma.contentVersion.deleteMany();
-  await prisma.course.deleteMany();
-  await prisma.userRelationship.deleteMany();
-  await prisma.notification.deleteMany();
-  await prisma.parentInstructionCompletion.deleteMany();
-  await prisma.parentInstruction.deleteMany();
-  await prisma.schoolConfig.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.subject.deleteMany();
-  await prisma.class.deleteMany();
-  await prisma.academicYear.deleteMany();
-  await prisma.school.deleteMany();
-  console.log('🗑️  Existing data cleared.');
+  for (const modelName of SEED_ORDER) {
+    const fileName = MODEL_FILE_MAP[modelName];
+    if (!fileName) {
+      console.error(`🔴 Error: No file mapping found for model ${modelName}.`);
+      continue;
+    }
+    const filePath = path.join(seedDataDir, fileName);
 
-  // --- 2. Seed Schools ---
-  console.log('🏫 Seeding schools from schools.json...');
-  const schoolsData = JSON.parse(fs.readFileSync(path.join(seedDataDir, 'schools.json'), 'utf-8'));
-  await prisma.school.createMany({ data: schoolsData });
-  console.log(`🏫 ${schoolsData.length} schools seeded.`);
-
-  // --- 3. Seed Academic Years ---
-  console.log('🗓️  Seeding academic years from academic-years.json...');
-  const academicYearsData = JSON.parse(fs.readFileSync(path.join(seedDataDir, 'academic-years.json'), 'utf-8'));
-  await prisma.academicYear.createMany({ data: academicYearsData });
-  console.log(`🗓️  ${academicYearsData.length} academic years seeded.`);
-
-  // --- 4. Seed Subjects ---
-  console.log('📚 Seeding subjects from subjects.json...');
-  const subjectsData = JSON.parse(fs.readFileSync(path.join(seedDataDir, 'subjects.json'), 'utf-8'));
-  await prisma.subject.createMany({ data: subjectsData });
-  console.log(`📚 ${subjectsData.length} subjects seeded.`);
-
-  // --- 5. Seed Classes ---
-  console.log('🏫 Seeding classes from classes.json...');
-  const classesData = JSON.parse(fs.readFileSync(path.join(seedDataDir, 'classes.json'), 'utf-8'));
-  await prisma.class.createMany({ data: classesData });
-  console.log(`🏫 ${classesData.length} classes seeded.`);
-
-  // --- 6. Seed Users ---
-  console.log('👥 Seeding users from users.json...');
-  const usersData = JSON.parse(fs.readFileSync(path.join(seedDataDir, 'users.json'), 'utf-8'));
-  for (const userData of usersData) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    await prisma.user.create({
-      data: {
-        ...userData,
-        password: hashedPassword,
-        emailVerified: userData.email ? new Date() : null, // Auto-verify email if present
-        phoneVerified: userData.phone ? new Date() : null, // Auto-verify phone if present
-      },
-    });
-  }
-  console.log(`👥 ${usersData.length} users seeded.`);
-
-  // --- 7. Seed Courses ---
-  console.log('📖 Seeding courses from courses.json...');
-  const coursesData = JSON.parse(fs.readFileSync(path.join(seedDataDir, 'courses.json'), 'utf-8'));
-  await prisma.course.createMany({ data: coursesData });
-  console.log(`📖 ${coursesData.length} courses seeded.`);
-
-  // --- 8. Seed Course Content and Assignments ---
-  console.log('📝 Seeding course content and assignments...');
-
-  const courses = await prisma.course.findMany();
-  const students = await prisma.user.findMany({ where: { role: 'STUDENT' } });
-  const classes = await prisma.class.findMany();
-
-  if (courses.length > 0 && students.length > 0) {
-    let contentCreated = 0;
-    let assignmentCreated = 0;
-
-    // Add course content
-    for (const course of courses) {
-      const sampleContents = [
-        {
-          contentOrder: 1,
-          contentType: ContentType.LESSON,
-          title: `Introduction to ${course.title}`,
-          contentData: {
-            text: `<h2>Welcome to ${course.title}!</h2><p>This is the first lesson. In this course, you will learn fundamental concepts and practical applications. Let's get started!</p>`,
-            duration: 15,
-          },
-          offlineAvailable: true,
-        },
-        {
-          contentOrder: 2,
-          contentType: ContentType.LESSON,
-          title: `Core Concepts of ${course.title}`,
-          contentData: {
-            text: `<h2>Core Concepts</h2><p>Understanding the main concepts is crucial for success in this course. We'll cover essential topics that form the foundation of your learning.</p>`,
-            duration: 20,
-          },
-          offlineAvailable: true,
-        },
-        {
-          contentOrder: 3,
-          contentType: ContentType.VIDEO,
-          title: `Video Lecture: ${course.title} Overview`,
-          contentData: {
-            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            duration: 600,
-            transcript: 'This is a sample video lecture...',
-          },
-          offlineAvailable: false,
-        },
-        {
-          contentOrder: 4,
-          contentType: ContentType.QUIZ,
-          title: `Quiz: ${course.title} Fundamentals`,
-          contentData: {
-            questions: [
-              { question: 'What is the main topic of this course?', options: ['Option A', 'Option B', 'Option C'], correctAnswer: 0 },
-              { question: 'Which concept is most important?', options: ['Concept 1', 'Concept 2', 'Concept 3'], correctAnswer: 1 },
-            ],
-            passingScore: 70,
-            timeLimit: 600,
-          },
-          offlineAvailable: true,
-        },
-      ];
-
-      for (const content of sampleContents) {
-        await prisma.courseContent.create({
-          data: {
-            courseId: course.id,
-            ...content,
-          },
-        });
-        contentCreated++;
-      }
+    if (!fs.existsSync(filePath)) {
+      console.log(`🟡 Skipping ${modelName}: File '${fileName}' not found.`);
+      continue;
     }
 
-    // Add course assignments (both class-based and individual student)
-    for (const course of courses) {
-      // Assign to a class
-      if (classes.length > 0) {
-        await prisma.courseAssignment.create({
-          data: {
-            courseId: course.id,
-            classId: classes[Math.floor(Math.random() * classes.length)].id,
-            dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          },
-        });
-        assignmentCreated++;
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    if (!fileContent.trim()) {
+      console.log(`🟡 Skipping ${modelName}: File '${fileName}' is empty.`);
+      continue;
+    }
+
+    const data = JSON.parse(fileContent);
+    if (!Array.isArray(data) || data.length === 0) {
+      console.log(`🟡 Skipping ${modelName}: No data to seed in '${fileName}'.`);
+      continue;
+    }
+
+    console.log(`🌱 Seeding ${modelName} from '${fileName}'...`);
+    let count = 0;
+    for (const record of data) {
+      // --- Special Handling for Users: Hash Passwords ---
+      if (modelName === 'user' && record.password) {
+        record.password = await bcrypt.hash(record.password, 10);
       }
 
-      // Assign to individual students
-      const numStudents = Math.min(Math.floor(Math.random() * 3) + 1, students.length);
-      for (let i = 0; i < numStudents; i++) {
-        const randomStudent = students[Math.floor(Math.random() * students.length)];
-        const existingAssignment = await prisma.courseAssignment.findFirst({
-          where: {
-            courseId: course.id,
-            studentId: randomStudent.id,
-          },
-        });
+      // --- Determine Unique Identifier for Upsert ---
+      let whereClause: any = {};
+      // Most models have 'id' as the unique identifier for upsert
+      if (record.id) {
+        whereClause.id = record.id;
+      } else {
+        // Handle models with composite unique keys or userId unique keys
+        switch (modelName) {
+          case 'parent_students':
+            whereClause = { parentId_studentId: { parentId: record.parentId, studentId: record.studentId } };
+            break;
+          case 'class_enrollments':
+            whereClause = { classId_studentId: { classId: record.classId, studentId: record.studentId } };
+            break;
+          case 'attendance':
+            whereClause = { studentId_classId_date: { studentId: record.studentId, classId: record.classId, date: new Date(record.date) } };
+            break;
+          case 'userBadge':
+            whereClause = { userId_badgeId: { userId: record.userId, badgeId: record.badgeId } };
+            break;
+          case 'schools':
+            whereClause = { code: record.code };
+            break;
+          case 'academicPeriod':
+            whereClause = { id: record.id };
+            break;
+          case 'classes':
+            whereClause = { id: record.id };
+            break;
+          case 'admin':
+          case 'instructor':
+          case 'students':
+          case 'parents':
+            whereClause = { userId: record.userId }; // These models have userId as a unique field
+            break;
+          default:
+            console.error(`🔴 Cannot upsert for ${modelName}: No 'id' field or specific unique key found in record for upsert ->`, record);
+            continue; // Skip this record if no upsert key is defined
+        }
+      }
 
-        if (!existingAssignment) {
-          await prisma.courseAssignment.create({
-            data: {
-              courseId: course.id,
-              studentId: randomStudent.id,
-              dueDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
-            },
-          });
-          assignmentCreated++;
+      try {
+        await (prisma as any)[modelName].upsert({
+          where: whereClause,
+          update: record,
+          create: record,
+        });
+        count++;
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          console.error(`❌ Prisma Error for ${modelName} (Code: ${e.code}): Record ->`, record, `\nError: ${e.message}`);
+        } else {
+          console.error(`❌ Unknown error seeding ${modelName}:`, e);
         }
       }
     }
-
-    console.log(`📝 Created ${contentCreated} course content items and ${assignmentCreated} course assignments.`);
+    console.log(`✅ Seeded ${count}/${data.length} records for ${modelName}.`);
   }
 
-  console.log('✅ Dynamic seeding completed successfully!');
+  console.log('✅ Seeding completed successfully!');
 }
 
+// --- Execute Seeding ---
 main()
   .catch((e) => {
-    console.error('❌ Error during seeding:', e);
+    console.error('❌ A critical error occurred during the seeding process:', e);
     process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();
+    console.log('🔚 Prisma client disconnected.');
   });

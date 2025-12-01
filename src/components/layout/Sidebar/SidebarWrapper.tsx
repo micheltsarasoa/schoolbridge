@@ -1,5 +1,5 @@
 import { StudentSidebar } from './StudentSidebar';
-import { $Enums } from '@/generated/prisma';
+import { $Enums } from '@/generated/prisma/browser';
 import { TeacherSidebar } from './TeacherSidebar';
 import { AdminSidebar } from './AdminSidebar';
 import { ParentSidebar } from './ParentSidebar';

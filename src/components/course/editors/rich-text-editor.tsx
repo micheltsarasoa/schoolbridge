@@ -29,6 +29,7 @@ interface RichTextEditorProps {
 
 export function RichTextEditor({ initialContent, onUpdate }: RichTextEditorProps) {
   const editor = useEditor({
+    immediatelyRender: false, // Fix SSR hydration mismatch
     extensions: [
       StarterKit.configure({
         codeBlock: false,

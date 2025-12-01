@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { LogOutIcon, Moon, MoonIcon, Settings2, SettingsIcon, Sun, SunIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -57,9 +58,9 @@ const Navbar = () => {
               const isLast = i === segments.length - 1;
 
               return (
-                <>
-                  {i > 0 && <BreadcrumbSeparator key={`sep-${segment}`} />}
-                  <BreadcrumbItem key={segment}>
+                <React.Fragment key={segment}>
+                  {i > 0 && <BreadcrumbSeparator />}
+                  <BreadcrumbItem>
                     {isLast ? (
                       <BreadcrumbPage>
                         {segment.charAt(0).toUpperCase() + segment.slice(1)}
@@ -72,7 +73,7 @@ const Navbar = () => {
                       </BreadcrumbLink>
                     )}
                   </BreadcrumbItem>
-               </> 
+                </React.Fragment>
               );
             })}
           </BreadcrumbList>

@@ -1,18 +1,12 @@
 [
   {
-    "id": "clp000000000000000000001",
-    "name": "Central High School",
-    "code": "CHS001",
-    "address": "123 Main St, Anytown",
-    "phone": "555-1234",
-    "email": "info@centralhigh.edu"
-  },
-  {
-    "id": "clp000000000000000000002",
-    "name": "Northwood Academy",
-    "code": "NWA002",
-    "address": "456 Oak Ave, Otherville",
-    "phone": "555-5678",
-    "email": "contact@northwood.org"
+    "id": "clv9v1n0s000008l5g1p4e2n1",
+    "name": "Lycée Français de Madagascar",
+    "code": "LFM-TANA",
+    "address": "BP 434, Ambatobe, Antananarivo 101",
+    "city": "Antananarivo",
+    "country": "Madagascar",
+    "timezone": "Indian/Antananarivo",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
   }
 ]

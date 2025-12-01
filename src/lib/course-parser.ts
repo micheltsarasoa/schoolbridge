@@ -1,4 +1,3 @@
-import MarkdownIt from 'markdown-it';
 import YAML from 'js-yaml';
 
 // Type definitions for Prisma enums
@@ -59,7 +58,19 @@ export interface ParseError {
   severity: 'error' | 'warning';
 }
 
-const md = new MarkdownIt();
+interface Frontmatter {
+  metadata: {
+    title: string;
+    description: string;
+    subject: string;
+    language: Language;
+    status?: CourseStatus;
+    requiresOnline?: boolean;
+    thumbnail?: string;
+  };
+  content?: Record<string, unknown>;
+}
+
 const VALID_CONTENT_TYPES: ContentType[] = ['LESSON', 'TEXT', 'VIDEO', 'PDF', 'INTERACTIVE', 'QUIZ', 'ASSIGNMENT'];
 const VALID_LANGUAGES: Language[] = ['FR', 'EN', 'MG', 'ES'];
 const VALID_QUIZ_MODES: QuizMode[] = ['PRACTICE', 'EXAM', 'TIMED_EXAM'];
@@ -87,9 +98,9 @@ export function parseCourseMd(fileContent: string): ParsedCourse {
     const [, yamlContent, markdownContent] = frontmatterMatch;
 
     // Parse YAML
-    let frontmatter: any;
+    let frontmatter: Frontmatter;
     try {
-      frontmatter = YAML.load(yamlContent) as any;
+      frontmatter = YAML.load(yamlContent) as Frontmatter;
     } catch (err) {
       errors.push({
         message: `YAML parsing error: ${err instanceof Error ? err.message : 'Unknown error'}`, 
@@ -313,11 +324,27 @@ function parseMarkdownContent(content: string, errors: ParseError[]): ParsedCour
 
 
 
+interface ExtractedMetadata {
+  type?: ContentType;
+  duration?: number;
+  offline?: boolean;
+  url?: string;
+  appearAfter?: number;
+  disappearAfter?: number;
+  mode?: QuizMode;
+  passingScore?: number;
+  timeLimit?: number;
+  showAnswersAfter?: boolean;
+  randomizeQuestions?: boolean;
+  dueDate?: string;
+  points?: number;
+}
+
 /**
  * Extract metadata from metadata lines (e.g., **Type:** LESSON)
  */
-function extractMetadata(content: string | string[]): Record<string, any> {
-  const metadata: Record<string, any> = {};
+function extractMetadata(content: string | string[]): ExtractedMetadata {
+  const metadata: ExtractedMetadata = {};
   const lines = Array.isArray(content) ? content : content.split('\n');
 
   for (const line of lines) {
@@ -328,7 +355,7 @@ function extractMetadata(content: string | string[]): Record<string, any> {
 
       switch (lowerKey) {
         case 'type':
-          metadata.type = value.toUpperCase();
+          metadata.type = value.toUpperCase() as ContentType;
           break;
         case 'duration':
           metadata.duration = parseInt(value);
@@ -346,7 +373,7 @@ function extractMetadata(content: string | string[]): Record<string, any> {
           metadata.disappearAfter = parseInt(value);
           break;
         case 'mode':
-          metadata.mode = value.toUpperCase();
+          metadata.mode = value.toUpperCase() as QuizMode;
           break;
         case 'passingscore':
           metadata.passingScore = parseInt(value);
@@ -375,7 +402,7 @@ function extractMetadata(content: string | string[]): Record<string, any> {
 /**
  * Parse quiz content into structured quiz data
  */
-function parseQuiz(content: string, metadata: Record<string, any>, errors: ParseError[], sectionTitle: string): ParsedQuiz {
+function parseQuiz(content: string, metadata: ExtractedMetadata, errors: ParseError[], sectionTitle: string): ParsedQuiz {
   const quiz: ParsedQuiz = {
     title: metadata.title || sectionTitle,
     description: metadata.description,
@@ -494,7 +521,7 @@ function parseQuestion(
   }
 
   // Determine correct answer type
-  let correctAnswerType: 'single' | 'multiple' = 'single';
+  const correctAnswerType: 'single' | 'multiple' = 'single';
   let correctAnswerValue: string | string[] = correctAnswerStr;
 
   if (questionType === 'MULTIPLE_CHOICE' || questionType === 'TRUE_FALSE') {

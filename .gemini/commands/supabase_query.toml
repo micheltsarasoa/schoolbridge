@@ -1,0 +1,10 @@
+# Usage: supabase_query <table>
+# Example: supabase_query User
+# Description: Fetches all data from a specified Supabase table.
+#
+# This command executes the supabase_query.mjs tool to retrieve records.
+# The tool reads SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from your .env.local file.
+
+tool = ".gemini/tools/supabase_query.mjs"
+args = ["$1"]
+shell = "node"

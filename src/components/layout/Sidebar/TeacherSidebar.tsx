@@ -47,7 +47,12 @@ const teacherData = {
     {
       name : "School 1",
       logo: StickyNote,
-      plan: ""
+      plan: "Plan 2"
+    },
+    {
+      name : "School 2",
+      logo: Pickaxe,
+      plan: "Plan 2"
     }
   ],
   navMain: [
@@ -87,16 +92,16 @@ const teacherData = {
       icon: LibraryBig,
       items: [
         {
-          title: "Lesson Plans",
-          url: "#",
+          title: "Courses",
+          url: "/dashboard/teacher/courses",
         },
         {
           title: "Teaching Materials",
-          url: "#",
+          url: "/dashboard/teacher/teaching-materials",
         },
         {
           title: "Shared Ressources",
-          url: "#",
+          url: "/dashboard/teacher/shared-ressources",
         }
       ],
     },

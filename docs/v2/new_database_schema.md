@@ -9,6 +9,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 // ========== COURSE MANAGEMENT ==========
 model Course {
   id                String   @id @default(cuid())
@@ -70,6 +71,7 @@ model Course {
   sections          Section[]
   assignments       Assignment[]
   validations       CourseValidation[]
+  conversations     Conversation[]     @relation("CourseConversations")
 
   // Indexes
   @@index([slug])
@@ -228,6 +230,7 @@ model Lecture {
 
   // CourseEnrollment relation
   courseEnrollments CourseEnrollment[] @relation("CourseEnrollmentToCurrentLecture")
+  conversations     Conversation[]     @relation("LectureConversations")
 
   // Indexes
   @@index([sectionId, order])
@@ -431,6 +434,9 @@ model Assignment {
   // Relations
   grades            Grade[]
   submissions       AssignmentSubmission[]
+  courses           Course[]
+
+  classes Class[]
 }
 
 model AssignmentSubmission {
@@ -600,6 +606,32 @@ model User {
   offlineContents       OfflineContent[]
   networkUsages         NetworkUsage[]
   networkPreference     UserNetworkPreference?
+  // Messaging Relations
+  createdConversations      Conversation[]            @relation("CreatedConversations")
+  conversationParticipants  ConversationParticipant[]
+  sentMessages              Message[]                 @relation("SentMessages")
+  messageReadStatuses       MessageReadStatus[]
+  accounts                  Account[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -1496,5 +1528,80 @@ enum NotificationPriority {
   NORMAL
   HIGH
   URGENT
+}
+
+// ========== MESSAGING ==========
+model Conversation {
+  id        String   @id @default(uuid())
+  name      String? // Can be the topic, e.g., "Discussion on Chapter 5 Quiz"
+  isGroup   Boolean  @default(false)
+  creatorId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // --- Context for Sub-Discussions ---
+  contextType ConversationContext?
+  // Link to a general course discussion
+  courseId  String?
+  course    Course?  @relation("CourseConversations", fields: [courseId], references: [id], onDelete: SetNull)
+  // Link to a specific lecture, quiz, or assignment discussion
+  lectureId String?
+  lecture   Lecture? @relation("LectureConversations", fields: [lectureId], references: [id], onDelete: SetNull)
+  creator      User?                     @relation("CreatedConversations", fields: [creatorId], references: [id], onDelete: SetNull)
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@index([creatorId])
+  @@index([courseId])
+  @@index([lectureId])
+}
+
+model ConversationParticipant {
+  id             String   @id @default(uuid())
+  userId         String
+  conversationId String
+  joinedAt       DateTime @default(now())
+  isAdmin        Boolean  @default(false)
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, conversationId])
+  @@index([userId])
+  @@index([conversationId])
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  senderId       String
+  content        String
+  createdAt      DateTime @default(now())
+
+  conversation Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User                @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  readStatus   MessageReadStatus[]
+
+  @@index([conversationId])
+  @@index([senderId])
+}
+
+model MessageReadStatus {
+  id        String   @id @default(uuid())
+  messageId String
+  userId    String
+  readAt    DateTime @default(now())
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+  @@index([messageId])
+  @@index([userId])
+}
+
+
+enum ConversationContext {
+  COURSE
+  LECTURE
 }
 

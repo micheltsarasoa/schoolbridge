@@ -56,7 +56,8 @@ export default function UserDetailsDialog({ userId, onClose, onEdit }: UserDetai
           </DialogDescription>
         </DialogHeader>
 
-        {loading ? (
+        {
+        loading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
           </div>
@@ -152,7 +153,8 @@ export default function UserDetailsDialog({ userId, onClose, onEdit }: UserDetai
               </Button>
             </div>
           </>
-        )}
+        )
+      }
       </DialogContent>
     </Dialog>
   );
