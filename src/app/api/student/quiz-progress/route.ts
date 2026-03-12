@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/student/quiz-progress - Get student's quiz submissions and progress
 export async function GET(request: NextRequest) {
@@ -42,12 +42,12 @@ export async function GET(request: NextRequest) {
     });
 
     // Format the data for the frontend
-    const quizProgress = submissions.map((submission) => ({
+    const quizProgress = submissions.map((submission: any) => ({
       id: submission.id,
       quizId: submission.quizId,
       quizTitle: submission.quiz.title,
-      courseTitle: submission.quiz.courseContent.course.title,
-      subjectName: submission.quiz.courseContent.course.subject.name,
+      courseTitle: submission.quiz.courseContent?.course.title || 'N/A',
+      subjectName: submission.quiz.courseContent?.course.subject?.name || 'N/A',
       score: submission.score,
       totalPoints: submission.totalPoints,
       passed: submission.score !== null && submission.score >= submission.quiz.passingScore,
@@ -56,15 +56,15 @@ export async function GET(request: NextRequest) {
       startedAt: submission.startedAt,
       submittedAt: submission.submittedAt,
       timeSpent: submission.timeSpent,
-      correctAnswers: submission.responses.filter((r) => r.isCorrect === true).length,
+      correctAnswers: submission.responses.filter((r: any) => r.isCorrect === true).length,
       totalQuestions: submission.responses.length,
     }));
 
     // Calculate overall stats
-    const submittedQuizzes = quizProgress.filter((q) => q.status === 'SUBMITTED' || q.status === 'GRADED');
-    const passedQuizzes = submittedQuizzes.filter((q) => q.passed);
+    const submittedQuizzes = quizProgress.filter((q: any) => q.status === 'SUBMITTED' || q.status === 'GRADED');
+    const passedQuizzes = submittedQuizzes.filter((q: any) => q.passed);
     const averageScore = submittedQuizzes.length > 0
-      ? submittedQuizzes.reduce((sum, q) => sum + (q.score || 0), 0) / submittedQuizzes.length
+      ? submittedQuizzes.reduce((sum: number, q: any) => sum + (q.score || 0), 0) / submittedQuizzes.length
       : 0;
 
     return NextResponse.json({

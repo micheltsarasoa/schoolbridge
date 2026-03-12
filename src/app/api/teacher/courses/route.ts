@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/teacher/courses - Get courses taught by the current teacher, grouped by subject
 export async function GET(request: NextRequest) {
@@ -39,12 +39,12 @@ export async function GET(request: NextRequest) {
     });
 
     // Check if any content is offline available
-    const coursesWithOffline = courses.map(course => ({
+    const coursesWithOffline = courses.map((course: any) => ({
       id: course.id,
       title: course.title,
       subjectId: course.subjectId,
-      subjectName: course.subject.name,
-      hasOfflineContent: course.content.some(c => c.offlineAvailable),
+      subjectName: course.subject ? course.subject.name : 'Uncategorized',
+      hasOfflineContent: course.content.some((c: any) => c.offlineAvailable),
     }));
 
     // Group courses by subject
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
       const subjectName = course.subjectName;
       if (!acc[subjectName]) {
         acc[subjectName] = {
-          subjectId: course.subjectId,
+          subjectId: course.subjectId || 'uncategorized',
           subjectName: subjectName,
           courses: [],
         };

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/student/quiz-results/[submissionId] - Get quiz submission results for review
 export async function GET(
@@ -82,7 +82,7 @@ export async function GET(
         id: submission.id,
         quizId: submission.quizId,
         quizTitle: submission.quiz.title,
-        courseTitle: submission.quiz.courseContent.course.title,
+        courseTitle: submission.quiz.courseContent?.course.title || 'N/A',
         score: submission.score,
         totalPoints,
         earnedPoints,

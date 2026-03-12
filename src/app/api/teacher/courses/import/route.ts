@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { parseCourseMd, ParsedCourseContent } from '@/lib/course-parser';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -108,13 +108,12 @@ export async function POST(request: NextRequest) {
       data: {
         title: parsedCourse.title,
         description: parsedCourse.description,
-        teacherId,
+        instructorId: teacherId,
         schoolId,
         subjectId: subject.id,
         status: parsedCourse.status,
         language: parsedCourse.language,
         requiresOnline: parsedCourse.requiresOnline,
-        thumbnailUrl: parsedCourse.thumbnailUrl,
         content: {
           create: parsedCourse.content.map((item) => ({
             contentOrder: item.contentOrder,

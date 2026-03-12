@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
-import { AttendanceStatus } from '@/generated/prisma/browser';
+import { prisma } from '@/lib/prisma';
+import { AttendanceStatus } from "@/types/db";
 import { includes } from 'zod';
 
 // GET /api/student/dashboard - Get student dashboard data
@@ -18,12 +18,8 @@ export async function GET(request: NextRequest) {
     const student = await prisma.user.findUnique({
       where: { id: studentId },
       include: {
-        students: {
-          include: {
-            CourseEnrollment: true
-          }
-        }
-      },
+        classes: true,
+      }
     });
 
     if (!student) {
@@ -54,9 +50,9 @@ export async function GET(request: NextRequest) {
     const submissions = await prisma.assignmentSubmission.findMany({
       where: { studentId },
       include: {
-        Assignment: {
+        assignment: {
           include: {
-            Course: true
+            course: true
           }
         }
       },
@@ -74,7 +70,7 @@ export async function GET(request: NextRequest) {
         : null;
 
     // Get active academic year
-    const activeYear = await prisma.academicPeriod.findFirst({
+    const activeYear = await prisma.academicYear.findFirst({
       where: {
         isActive: true,
         schoolId: student.schoolId || undefined,
@@ -92,14 +88,25 @@ export async function GET(request: NextRequest) {
     const studentProgress = await prisma.lectureProgress.findMany({
       where: { studentId },
       include: {
-        Lecture: {
+        lecture: {
           include: {
-            Section: {
+            section: {
               include: {
-                Course: {
+                course: {
                   select: {
                     title: true,
-                    Category: {
+                    category: {
+                      select: {
+                        name: true
+                      }
+                    },
+                    teacher: {
+                      select: {
+                        firstName: true,
+                        lastName: true,
+                      }
+                    },
+                    subject: {
                       select: {
                         name: true
                       }
@@ -155,13 +162,13 @@ export async function GET(request: NextRequest) {
         averageGrade,
       },
       courses: studentProgress.map((progress) => ({
-        id: progress.course.id,
-        title: progress.course.title,
-        teacher: progress.course.teacher.name,
-        subject: progress.course.subject.name,
-        progress: Math.round(progress.completionPercentage),
-        lastAccessed: progress.lastAccessed,
-        currentModule: progress.currentModule,
+        id: progress.lecture.section.course.id,
+        title: progress.lecture.section.course.title,
+        teacher: `${progress.lecture.section.course.teacher.firstName} ${progress.lecture.section.course.teacher.lastName}`,
+        subject: progress.lecture.section.course.subject?.name,
+        progress: Math.round(progress.watchedPercentage),
+        lastAccessed: progress.lastActivityAt,
+        currentModule: progress.lecture.section.title,
       })),
       assignments: assignments.map((assignment) => ({
         id: assignment.id,
@@ -172,17 +179,17 @@ export async function GET(request: NextRequest) {
       })),
       recentSubmissions: gradedSubmissions
         .sort((a, b) => {
-          const dateA = a.gradedAt ? new Date(a.gradedAt).getTime() : 0;
-          const dateB = b.gradedAt ? new Date(b.gradedAt).getTime() : 0;
+          const dateA = a.submittedAt ? new Date(a.submittedAt).getTime() : 0;
+          const dateB = b.submittedAt ? new Date(b.submittedAt).getTime() : 0;
           return dateB - dateA;
         })
         .slice(0, 5)
         .map((sub) => ({
           id: sub.id,
-          courseTitle: sub.courseContent.course.title,
-          contentTitle: sub.courseContent.title,
+          courseTitle: sub.assignment.course.title,
+          contentTitle: sub.assignment.title,
           grade: sub.grade,
-          gradedAt: sub.gradedAt,
+          gradedAt: sub.submittedAt,
           feedback: sub.feedback,
         })),
     };

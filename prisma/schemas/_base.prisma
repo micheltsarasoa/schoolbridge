@@ -1,0 +1,332 @@
+// --- GENERATOR & DATASOURCE ---
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== ENUMS =====
+
+enum UserRole {
+  ADMIN
+  EDUCATIONAL_MANAGER
+  TEACHER
+  STUDENT
+  PARENT
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  SCHOOL_ADMIN
+  CONTENT_MODERATOR
+}
+
+enum CourseStatus {
+  DRAFT
+  UNDER_REVIEW
+  APPROVED
+  PUBLISHED
+  ARCHIVED
+  UNPUBLISHED
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  ALL_LEVELS
+}
+
+enum CourseType {
+  LECTURE
+  ONLINE
+  HYBRID
+}
+
+enum Language {
+  FR
+  MG
+  EN
+  ES
+}
+
+enum LectureType {
+  VIDEO
+  ARTICLE
+  QUIZ
+  CODING_EXERCISE
+  ASSIGNMENT
+  PROJECT
+  RESOURCE
+}
+
+enum ContentType {
+  LESSON
+  TEXT
+  VIDEO
+  PDF
+  INTERACTIVE
+  QUIZ
+  ASSIGNMENT
+}
+
+enum NotificationType {
+  COURSE_ASSIGNED
+  GRADE_POSTED
+  PARENT_INSTRUCTION
+  COURSE_VALIDATED
+  COURSE_REJECTED
+  ASSIGNMENT_DUE
+  SYSTEM_ALERT
+  MESSAGE_RECEIVED
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum ValidationStatus {
+  PENDING
+  APPROVED
+  CHANGES_REQUESTED
+  REJECTED
+}
+
+enum SubmissionStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  NEEDS_REVISION
+  APPROVED
+  REJECTED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  MULTIPLE_ANSWER
+  TRUE_FALSE
+  FILL_BLANK
+  ORDERING
+  SHORT_ANSWER
+  ESSAY
+}
+
+enum QuizStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum QuizMode {
+  PRACTICE
+  EXAM
+  TIMED_EXAM
+}
+
+enum QuizAttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+}
+
+enum InstructionStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+  NEEDS_HELP
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DegreeLevel {
+  PS
+  MS
+  GS
+  CP
+  CE1
+  CE2
+  CM1
+  CM2
+  SIXIEME
+  CINQUIEME
+  QUATRIEME
+  TROISIEME
+  SECONDE
+  PREMIERE
+  TERMINALE
+  L1
+  L2
+  L3
+  M1
+  M2
+  PhD
+}
+
+// --- Offline/Sync Enums ---
+enum CachePriority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum CacheStatus {
+  PENDING
+  DOWNLOADING
+  CACHED
+  FAILED
+  EXPIRED
+}
+
+enum CachedContentType {
+  COURSE
+  LECTURE
+  VIDEO
+  ARTICLE
+  QUIZ
+  RESOURCE
+  IMAGE
+  THUMBNAIL
+}
+
+enum ConnectionType {
+  WIFI
+  CELLULAR_2G
+  CELLULAR_3G
+  CELLULAR_4G
+  CELLULAR_5G
+  ETHERNET
+  OFFLINE
+}
+
+enum ContentQuality {
+  LOW
+  MEDIUM
+  HIGH
+  ULTRA
+}
+
+enum DownloadPriority {
+  URGENT
+  HIGH
+  NORMAL
+  LOW
+  BACKGROUND
+}
+
+enum DownloadStatus {
+  QUEUED
+  DOWNLOADING
+  PAUSED
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum NetworkSpeed {
+  SLOW_2G
+  FAST_2G
+  SLOW_3G
+  FAST_3G
+  SLOW_4G
+  FAST_4G
+  WIFI
+}
+
+enum ResourceType {
+  PDF
+  DOCUMENT
+  PRESENTATION
+  SPREADSHEET
+  IMAGE
+  AUDIO
+  VIDEO
+  ARCHIVE
+  CODE
+  EXTERNAL_LINK
+  TEXT
+}
+
+enum ServerStatus {
+  ACTIVE
+  INACTIVE
+  MAINTENANCE
+  ERROR
+}
+
+enum SyncStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum SyncType {
+  FULL
+  INCREMENTAL
+  PRIORITY
+  MANUAL
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum EventType {
+  HOLIDAY
+  EXAM
+  SCHOOL_EVENT
+  SPORTS
+  MEETING
+  DEADLINE
+  PERSONAL
+}
+
+enum ReportType {
+  STUDENT_PERFORMANCE
+  TEACHER_ACTIVITY
+  COURSE_ENROLLMENT
+  ATTENDANCE_SUMMARY
+  FINANCIAL_OVERVIEW
+}
+
+enum InvitationCodeRole {
+  TEACHER
+  PARENT
+}
+
+enum ConversationContext {
+  COURSE
+  LECTURE
+}

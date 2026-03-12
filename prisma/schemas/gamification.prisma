@@ -1,0 +1,34 @@
+// ===== GAMIFICATION =====
+
+model Badge {
+  id          String      @id @default(uuid())
+  name        String      @unique @map("name")
+  description String      @map("description")
+  imageUrl    String      @map("image_url")
+  criteria    Json        @map("criteria")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  userBadges UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  badgeId  String   @map("badge_id")
+  earnedAt DateTime @default(now()) @map("earned_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}

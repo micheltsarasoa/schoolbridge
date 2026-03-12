@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { getUserSettings, updateUserSettings, sanitizeSettings } from '@/lib/settings';
 import { UserSettings } from '@/types/settings';
 
@@ -87,6 +87,8 @@ export async function PATCH(request: NextRequest) {
     );
   }
 }
+
+export const POST = PATCH;
 
 // PUT /api/settings - Replace all user settings (full update)
 export async function PUT(request: NextRequest) {

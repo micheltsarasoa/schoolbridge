@@ -1,0 +1,383 @@
+// ===== ADDITIONAL MODELS =====
+
+model Category {
+  id             String     @id @default(uuid())
+  name           String     @map("name")
+  description    String?    @map("description")
+  parentId       String?    @map("parent_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  parent   Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToCategory")
+  courses  Course[]
+
+  @@unique([name, parentId])
+  @@map("categories")
+}
+
+model Certificate {
+  id                   String  @id @default(uuid())
+  available            Boolean @default(false) @map("available")
+  completionPercentage Int?    @default(100) @map("completion_percentage")
+  quizzesRequired      Boolean @default(true) @map("quizzes_required")
+  minimumQuizScore     Int?    @default(70) @map("minimum_quiz_score")
+  courseId             String  @unique @map("course_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@map("certificates")
+}
+
+model FAQ {
+  id         String   @id @default(uuid())
+  question   String   @map("question")
+  answer     String   @map("answer")
+  helpful    Int      @default(0) @map("helpful")
+  notHelpful Int      @default(0) @map("not_helpful")
+  createdAt  DateTime @default(now()) @map("created_at")
+  courseId   String   @map("course_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@index([courseId])
+  @@map("faqs")
+}
+
+model InvitationCode {
+  id        String             @id @default(uuid())
+  code      String             @unique @map("code")
+  role      InvitationCodeRole @map("role")
+  schoolId  String             @map("school_id")
+  createdBy String             @map("created_by")
+  usedBy    String?            @unique @map("used_by")
+  isActive  Boolean            @default(true) @map("is_active")
+  expiresAt DateTime?          @map("expires_at")
+  createdAt DateTime           @default(now()) @map("created_at")
+  usedAt    DateTime?          @map("used_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+
+  @@index([code])
+  @@index([isActive])
+  @@index([schoolId])
+  @@map("invitation_codes")
+}
+
+model LectureProgress {
+  id                String    @id @default(uuid())
+  completed         Boolean   @default(false) @map("completed")
+  completedAt       DateTime? @map("completed_at")
+  lastActivityAt    DateTime? @map("last_activity_at")
+  lastPosition      Int?      @default(0) @map("last_position")
+  watchedPercentage Float?    @default(0) @map("watched_percentage")
+  attempts          Int?      @default(0) @map("attempts")
+  bestScore         Float?    @default(0) @map("best_score")
+  passed            Boolean?  @default(false) @map("passed")
+  lectureId         String    @map("lecture_id")
+  userId            String    @map("user_id")
+  studentId         String?   @map("student_id")
+  dataVersion Int @default(1) @map("data_version")
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture  Lecture  @relation(fields: [lectureId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+  student  Student? @relation(fields: [studentId], references: [id])
+
+  @@unique([lectureId, userId])
+  @@index([lectureId])
+  @@index([userId])
+  @@map("lecture_progress")
+}
+
+model Note {
+  id        String    @id @default(uuid())
+  content   String    @map("content")
+  timestamp Int?      @map("timestamp")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @map("updated_at")
+  lectureId String    @map("lecture_id")
+  userId    String    @map("user_id")
+  studentId String?   @map("student_id")
+  dataVersion Int @default(1) @map("data_version")
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture Lecture  @relation(fields: [lectureId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+  student Student? @relation(fields: [studentId], references: [id])
+
+  @@index([lectureId, userId])
+  @@index([userId])
+  @@map("notes")
+}
+
+model Project {
+  id                 String   @id @default(uuid())
+  title              String?  @map("title")
+  description        String?  @map("description")
+  complexity         String?  @map("complexity")
+  technologies       String[] @map("technologies")
+  learningObjectives String[] @map("learning_objectives")
+  milestones         Json?    @map("milestones")
+  submission         Json?    @map("submission")
+  lectureId          String   @unique @map("lecture_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture Lecture @relation(fields: [lectureId], references: [id])
+
+  @@map("projects")
+}
+
+model PromoVideo {
+  id        String  @id @default(uuid())
+  url       String  @map("url")
+  duration  Int?    @map("duration")
+  thumbnail String? @map("thumbnail")
+  courseId  String  @unique @map("course_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@map("promo_videos")
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int      @map("rating")
+  title      String?  @map("title")
+  content    String?  @map("content")
+  helpful    Int      @default(0) @map("helpful")
+  notHelpful Int      @default(0) @map("not_helpful")
+  createdAt  DateTime @default(now()) @map("created_at")
+  courseId   String   @map("course_id")
+  userId     String   @map("user_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([courseId, userId])
+  @@index([courseId, rating])
+  @@map("reviews")
+}
+
+model Statistics {
+  id                         String  @id @default(uuid())
+  totalSections              Int     @default(0) @map("total_sections")
+  totalLectures              Int     @default(0) @map("total_lectures")
+  totalQuizzes               Int     @default(0) @map("total_quizzes")
+  totalAssignments           Int     @default(0) @map("total_assignments")
+  totalArticles              Int     @default(0) @map("total_articles")
+  totalDownloadableResources Int     @default(0) @map("total_downloadable_resources")
+  totalDuration              Int     @default(0) @map("total_duration")
+  totalDurationFormatted     String? @map("total_duration_formatted")
+  totalStudents              Int     @default(0) @map("total_students")
+  totalReviews               Int     @default(0) @map("total_reviews")
+  averageRating              Float?  @default(0) @map("average_rating")
+  ratingDistribution         Json?   @map("rating_distribution")
+  completionRate             Float?  @default(0) @map("completion_rate")
+  lastMonthEnrollments       Int     @default(0) @map("last_month_enrollments")
+  courseId                   String  @unique @map("course_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@map("statistics")
+}
+
+model TeacherApproval {
+  id          String         @id @default(uuid())
+  userId      String         @unique @map("user_id")
+  schoolId    String         @map("school_id")
+  status      ApprovalStatus @default(PENDING) @map("status")
+  approvedBy  String?        @map("approved_by")
+  rejectedBy  String?        @map("rejected_by")
+  reason      String?        @map("reason")
+  requestedAt DateTime       @default(now()) @map("requested_at")
+  reviewedAt  DateTime?      @map("reviewed_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  @@index([schoolId])
+  @@index([status])
+  @@index([userId])
+  @@map("teacher_approvals")
+}
+
+model Version {
+  id                String   @id @default(uuid())
+  current           String   @map("current")
+  publishedVersions String[] @map("published_versions")
+  courseId          String   @unique @map("course_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@map("versions")
+}
+
+model CalendarEvent {
+  id          String    @id @default(uuid())
+  title       String    @map("title")
+  description String?   @map("description")
+  startTime   DateTime  @map("start_time")
+  endTime     DateTime  @map("end_time")
+  isAllDay    Boolean   @default(false) @map("is_all_day")
+  type        EventType @map("type")
+  schoolId    String?   @map("school_id")
+  classId     String?   @map("class_id")
+  userId      String?   @map("user_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school  School? @relation(fields: [schoolId], references: [id])
+  class   Class?  @relation(fields: [classId], references: [id])
+  creator User?   @relation(fields: [userId], references: [id])
+
+  @@index([schoolId, startTime])
+  @@index([classId, startTime])
+  @@map("calendar_events")
+}
+
+model Report {
+  id          String     @id @default(uuid())
+  name        String     @map("name")
+  type        ReportType @map("type")
+  generatedBy String     @map("generated_by")
+  generatedAt DateTime   @default(now()) @map("generated_at")
+  parameters  Json?      @map("parameters")
+  data        Json       @map("data")
+  format      String     @default("JSON") @map("format")
+
+  generator User @relation(fields: [generatedBy], references: [id])
+
+  @@index([type, generatedAt])
+  @@map("reports")
+}
+
+// ===== PARENT-CHILD & INSTRUCTION SYSTEM =====
+
+model ParentInstruction {
+  id              String    @id @default(uuid())
+  teacherId       String    @map("teacher_id")
+  studentId       String    @map("student_id")
+  instructionText String    @map("instruction_text")
+  isUrgent        Boolean   @default(false) @map("is_urgent")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  expiresAt       DateTime? @map("expires_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  teacher     User                        @relation("InstructionCreator", fields: [teacherId], references: [id], onDelete: Cascade)
+  completions ParentInstructionCompletion[]
+
+  @@index([teacherId])
+  @@index([studentId])
+  @@index([createdAt])
+  @@map("parent_instructions")
+}
+
+model ParentInstructionCompletion {
+  id            String            @id @default(uuid())
+  instructionId String            @map("instruction_id")
+  parentId      String            @map("parent_id")
+  completedAt   DateTime          @default(now()) @map("completed_at")
+  status        InstructionStatus @default(COMPLETED) @map("status")
+  notes         String?           @map("notes")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  instruction ParentInstruction @relation(fields: [instructionId], references: [id], onDelete: Cascade)
+  parent      User              @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([instructionId, parentId])
+  @@index([instructionId])
+  @@index([parentId])
+  @@map("parent_instruction_completions")
+}
+
+model Attendance {
+  id           String           @id @default(uuid())
+  studentId    String           @map("student_id")
+  classId      String           @map("class_id")
+  date         DateTime         @db.Date @map("date")
+  status       AttendanceStatus @default(ABSENT) @map("status")
+  notes        String?          @map("notes")
+  recordedById String           @map("recorded_by_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  student    Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  class      Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
+  recordedBy User    @relation("AttendancesRecorded", fields: [recordedById], references: [id], onDelete: Restrict)
+
+  @@unique([studentId, classId, date])
+  @@index([studentId])
+  @@index([classId])
+  @@index([recordedById])
+  @@map("attendances")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  action     String   @map("action")
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  oldValue   Json?    @map("old_value")
+  newValue   Json?    @map("new_value")
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  metadata   Json?    @map("metadata")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([entityType, entityId])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}

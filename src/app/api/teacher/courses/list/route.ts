@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/teacher/courses/list - Get all courses created by the current teacher
 export async function GET(request: NextRequest) {
@@ -31,18 +31,18 @@ export async function GET(request: NextRequest) {
         },
       },
       include: {
-        Category: true,
-        Section: {
+        category: true,
+        sections: {
           include: {
-            Lecture: true,
+            lectures: true,
           },
         },
-        Statistics: true,
+        statistics: true,
         _count: {
           select: {
-            Section: true,
-            CourseEnrollment: true,
-            Review: true,
+            sections: true,
+            enrollments: true,
+            reviews: true,
           },
         },
       },
@@ -53,9 +53,9 @@ export async function GET(request: NextRequest) {
     });
 
     // Transform and group by category
-    const groupedCourses = courses.reduce((acc, course) => {
-      const categoryName = course.Category?.name || 'Uncategorized';
-      const categoryId = course.Category?.id || 'uncategorized';
+    const groupedCourses = courses.reduce((acc, course: any) => {
+      const categoryName = course.category?.name || 'Uncategorized';
+      const categoryId = course.category?.id || 'uncategorized';
 
       if (!acc[categoryId]) {
         acc[categoryId] = {
@@ -66,14 +66,14 @@ export async function GET(request: NextRequest) {
       }
 
       // Calculate total lectures
-      const totalLectures = course.Section.reduce(
-        (sum, section) => sum + section.Lecture.length,
+      const totalLectures = course.sections.reduce(
+        (sum: number, section: any) => sum + section.lectures.length,
         0
       );
 
       // Calculate total duration from sections
-      const totalDuration = course.Section.reduce(
-        (sum, section) => sum + (section.totalDuration || 0),
+      const totalDuration = course.sections.reduce(
+        (sum: number, section: any) => sum + (section.totalDuration || 0),
         0
       );
 
@@ -86,19 +86,19 @@ export async function GET(request: NextRequest) {
         description: course.description,
         language: course.language,
         level: course.level,
-        contentType: course.contentType,
+        courseType: course.courseType,
         status: course.status,
         isPublic: course.isPublic,
         publishedAt: course.publishedAt,
         lastUpdatedAt: course.lastUpdatedAt,
         createdAt: course.createdAt,
         updatedAt: course.updatedAt,
-        totalSections: course._count.Section,
+        totalSections: course._count.sections,
         totalLectures,
         totalDuration,
-        totalEnrollments: course._count.CourseEnrollment,
-        totalReviews: course._count.Review,
-        averageRating: course.Statistics?.averageRating || 0,
+        totalEnrollments: course._count.enrollments,
+        totalReviews: course._count.reviews,
+        averageRating: course.statistics?.averageRating || 0,
         offlineAvailable: course.offlineAvailable,
         requiresOnline: course.requiresOnline,
         tags: course.tags,

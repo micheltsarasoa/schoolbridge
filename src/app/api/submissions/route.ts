@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/submissions - Fetch submissions for grading (teacher only)
 export async function GET(request: NextRequest) {
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
         grade: null, // Only ungraded submissions
         courseContent: {
           course: {
-            teacherId, // Only courses taught by this teacher
+            instructorId: teacherId, // Only courses taught by this teacher
             ...(courseId && { id: courseId }), // Optional course filter
           },
         },
@@ -40,7 +40,8 @@ export async function GET(request: NextRequest) {
         student: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
           },
         },
@@ -66,10 +67,10 @@ export async function GET(request: NextRequest) {
     });
 
     // Transform to match UI expectations
-    const transformedSubmissions = submissions.map((sub) => ({
+    const transformedSubmissions = submissions.map((sub: any) => ({
       id: sub.id,
       studentId: sub.student.id,
-      studentName: sub.student.name,
+      studentName: `${sub.student.firstName} ${sub.student.lastName}`,
       studentEmail: sub.student.email,
       courseId: sub.courseContent.course.id,
       courseTitle: sub.courseContent.course.title,

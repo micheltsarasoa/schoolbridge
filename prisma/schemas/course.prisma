@@ -1,0 +1,344 @@
+// ===== COURSE MANAGEMENT =====
+
+model Course {
+  id                 String       @id @default(uuid())
+  uuid               String       @unique @map("uuid")
+  title              String       @map("title")
+  slug               String       @unique @map("slug")
+  subtitle           String?      @map("subtitle")
+  description        String?      @map("description")
+  language           Language     @default(FR) @map("language")
+  level              CourseLevel  @map("level")
+  publishedAt        DateTime?    @map("published_at")
+  lastUpdatedAt      DateTime     @map("last_updated_at")
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @map("updated_at")
+  categoryId         String       @map("category_id")
+  instructorId       String       @map("instructor_id")
+  schoolId           String?      @map("school_id")
+  subjectId          String?      @map("subject_id")
+  courseType         CourseType   @default(HYBRID) @map("course_type")
+  status             CourseStatus @default(DRAFT) @map("status")
+  isPublic           Boolean      @default(false) @map("is_public")
+  requiresOnline     Boolean      @default(false) @map("requires_online")
+  features           String[]     @map("features")
+  requirements       String[]     @map("requirements")
+  targetAudience     String[]     @map("target_audience")
+  learningObjectives String[]     @map("learning_objectives")
+  tags               String[]     @map("tags")
+  captions           Json?        @map("captions")
+  totalSizeBytes     BigInt?      @map("total_size_bytes")
+  offlineAvailable   Boolean      @default(true) @map("offline_available")
+  downloadPriority   Int          @default(5) @map("download_priority")
+  estimatedDataUsage String?      @map("estimated_data_usage")
+  dataVersion        Int          @default(1) @map("data_version")
+  lastSyncedAt       DateTime?    @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  // Relations
+  teacher       User              @relation("CourseCreator", fields: [instructorId], references: [id])
+  school        School?           @relation(fields: [schoolId], references: [id])
+  subject       Subject?          @relation(fields: [subjectId], references: [id])
+  category      Category          @relation(fields: [categoryId], references: [id])
+  sections      Section[]
+  content       CourseContent[]
+  validations   CourseValidation[]
+  versions      Version[]
+  contentVersions ContentVersion[] @relation("CourseToContentVersion")
+  courseAssignments CourseAssignment[] @relation("CourseToCourseAssignment")
+  assignments   Assignment[]       @relation("CourseToAssignment")
+  courseProgress CourseProgress[]
+  certificate   Certificate?
+  conversations Conversation[]
+  enrollments   CourseEnrollment[]
+  faqs          FAQ[]
+  promoVideo    PromoVideo?
+  reviews       Review[]
+  grades        Grade[]
+  statistics    Statistics?
+  forums        Forum[]
+
+  @@index([status])
+  @@index([instructorId])
+  @@index([publishedAt])
+  @@index([slug])
+  @@map("courses")
+}
+
+model CourseContent {
+  id                     String      @id @default(uuid())
+  courseId               String      @map("course_id")
+  contentOrder           Int         @map("content_order")
+  contentType            ContentType @map("content_type")
+  title                  String      @map("title")
+  contentData            Json        @map("content_data")
+  appearsAfterSeconds    Int?        @map("appears_after_seconds")
+  disappearsAfterSeconds Int?        @map("disappears_after_seconds")
+  fileReference          String?     @map("file_reference")
+  offlineAvailable       Boolean     @default(false) @map("offline_available")
+  createdAt              DateTime    @default(now()) @map("created_at")
+  updatedAt              DateTime    @map("updated_at")
+  dataVersion     Int      @default(1) @map("data_version")
+  lastSyncedAt    DateTime? @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  submissions Submission[]
+  quiz        Quiz?
+
+  @@index([courseId, contentOrder])
+  @@map("course_content")
+}
+
+model CourseValidation {
+  id           String           @id @default(uuid())
+  courseId     String           @map("course_id")
+  reviewerId   String           @map("reviewer_id")
+  feedbackText String?          @map("feedback_text")
+  status       ValidationStatus @map("status")
+  suggestions  Json?            @map("suggestions")
+  reviewedAt   DateTime         @default(now()) @map("reviewed_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  reviewer User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  @@unique([courseId, reviewerId])
+  @@index([courseId])
+  @@index([reviewerId])
+  @@map("course_validations")
+}
+
+model ContentVersion {
+  id        String   @id @default(uuid())
+  courseId  String   @map("course_id")
+  version   Int      @map("version")
+  content   Json     @map("content")
+  changes   String?  @map("changes")
+  createdBy String   @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation("CourseToContentVersion", fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, version])
+  @@index([courseId])
+  @@map("content_versions")
+}
+
+model CourseAssignment {
+  id         String    @id @default(uuid())
+  courseId   String    @map("course_id")
+  studentId  String?   @map("student_id")
+  classId    String?   @map("class_id")
+  assignedAt DateTime  @default(now()) @map("assigned_at")
+  dueDate    DateTime? @map("due_date")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course @relation("CourseToCourseAssignment", fields: [courseId], references: [id], onDelete: Cascade)
+  class  Class? @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@index([courseId])
+  @@index([studentId])
+  @@index([classId])
+  @@map("course_assignments")
+}
+
+model CourseProgress {
+  id                   String   @id @default(uuid())
+  studentId            String   @map("student_id")
+  courseId             String   @map("course_id")
+  completionPercentage Float    @default(0) @map("completion_percentage")
+  timeSpentMinutes     Int      @default(0) @map("time_spent_minutes")
+  lastAccessed         DateTime @default(now()) @map("last_accessed")
+  currentModule        String?  @map("current_module")
+  updatedAt            DateTime @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  student User   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, courseId])
+  @@index([studentId])
+  @@index([courseId])
+  @@map("course_progress")
+}
+
+// ===== LECTURE & CONTENT MODELS =====
+
+model Section {
+  id                String    @id @default(uuid())
+  title             String    @map("title")
+  description       String?   @map("description")
+  order             Int       @map("order")
+  totalLectures     Int       @default(0) @map("total_lectures")
+  totalDuration     Int       @default(0) @map("total_duration")
+  durationFormatted String?   @map("duration_formatted")
+  courseId          String    @map("course_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course   Course    @relation(fields: [courseId], references: [id])
+  lectures Lecture[]
+
+  @@index([courseId, order])
+  @@map("sections")
+}
+
+model Lecture {
+  id                 String             @id @default(uuid())
+  title              String             @map("title")
+  description        String?            @map("description")
+  type               LectureType        @map("type")
+  order              Int                @map("order")
+  duration           Int?               @map("duration")
+  durationFormatted  String?            @map("duration_formatted")
+  isPreview          Boolean            @default(false) @map("is_preview")
+  isFree             Boolean            @default(true) @map("is_free")
+  downloadPriority   Int?               @map("download_priority")
+  sectionId          String             @map("section_id")
+  sizeBytes          BigInt?            @map("size_bytes")
+  estimatedDataUsage String?            @map("estimated_data_usage")
+  offlineAvailable   Boolean            @default(true) @map("offline_available")
+  dataVersion      Int      @default(1) @map("data_version")
+  lastSyncedAt     DateTime? @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  section          Section          @relation(fields: [sectionId], references: [id])
+  article          Article?
+  assignment       Assignment?
+  codingExercise   CodingExercise?
+  conversations    Conversation[]
+  project          Project?
+  quiz             Quiz?
+  resources        Resource[]
+  video            Video?
+  lectureProgress  LectureProgress[]
+  notes            Note[]
+  courseEnrollments CourseEnrollment[] @relation("CourseEnrollmentToCurrentLecture")
+
+  @@index([sectionId, order])
+  @@index([type])
+  @@map("lectures")
+}
+
+model Article {
+  id                   String   @id @default(uuid())
+  content              String?  @map("content")
+  contentHtml          String?  @map("content_html")
+  estimatedReadingTime Int?     @map("estimated_reading_time")
+  wordCount            Int?     @map("word_count")
+  images               Json?    @map("images")
+  updatedAt            DateTime @map("updated_at")
+  lectureId            String   @unique @map("lecture_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture Lecture @relation(fields: [lectureId], references: [id])
+
+  @@map("articles")
+}
+
+model Video {
+  id               String         @id @default(uuid())
+  versionId        String?        @map("version_id")
+  version          Int?           @default(1) @map("version")
+  sources          Json?          @map("sources")
+  hlsUrl           String?        @map("hls_url")
+  dashUrl          String?        @map("dash_url")
+  thumbnail        String?        @map("thumbnail")
+  thumbnailSprite  String?        @map("thumbnail_sprite")
+  captions         Json?          @map("captions")
+  uploadedAt       DateTime?      @map("uploaded_at")
+  processedAt      DateTime?      @map("processed_at")
+  status           VideoStatus    @default(PROCESSING) @map("status")
+  updateNotes      String?        @map("update_notes")
+  lectureId        String         @unique @map("lecture_id")
+  defaultQuality   ContentQuality @default(MEDIUM) @map("default_quality")
+  offlineOptimized Boolean        @default(false) @map("offline_optimized")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture          Lecture         @relation(fields: [lectureId], references: [id])
+  contentVariants  ContentVariant[]
+
+  @@map("videos")
+}
+
+model Resource {
+  id                String       @id @default(uuid())
+  title             String       @map("title")
+  type              ResourceType @map("type")
+  fileSize          Int?         @map("file_size")
+  fileSizeFormatted String?      @map("file_size_formatted")
+  url               String       @map("url")
+  downloadable      Boolean      @default(true) @map("downloadable")
+  lectureId         String       @map("lecture_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture Lecture @relation(fields: [lectureId], references: [id])
+
+  @@index([lectureId])
+  @@map("resources")
+}
+
+model CourseEnrollment {
+  id                   String   @id @default(uuid())
+  enrolledAt           DateTime @default(now()) @map("enrolled_at")
+  lastAccessedAt       DateTime? @map("last_accessed_at")
+  progressPercentage   Float    @default(0) @map("progress_percentage")
+  completedLectures    Int      @default(0) @map("completed_lectures")
+  totalTimeSpent       Int      @default(0) @map("total_time_spent") // in seconds
+  certificateEarned    Boolean  @default(false) @map("certificate_earned")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  // Relations
+  courseId             String   @map("course_id")
+  course               Course   @relation(fields: [courseId], references: [id])
+  userId               String   @map("user_id") // Links to the User who enrolled
+  user                 User     @relation(fields: [userId], references: [id])
+  studentId            String?  @map("student_id") // Optional link to the specific Student profile
+  student              Student? @relation(fields: [studentId], references: [id])
+  
+  // To track current position in a course
+  currentLectureId     String?  @map("current_lecture_id")
+  currentLecture       Lecture? @relation(name: "CourseEnrollmentToCurrentLecture", fields: [currentLectureId], references: [id])
+
+  @@unique([courseId, userId]) // A user can enroll in a course only once
+  @@index([userId])
+  @@index([courseId])
+  @@map("course_enrollments")
+}

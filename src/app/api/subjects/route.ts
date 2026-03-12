@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/subjects - Get all available subjects
 export async function GET(request: NextRequest) {
@@ -42,11 +42,11 @@ export async function GET(request: NextRequest) {
           where: { id: session.user.id },
           select: { schoolId: true },
         });
-        schoolId = manager?.schoolId;
+        schoolId = manager?.schoolId ?? undefined;
       }
 
       subjects = await prisma.subject.findMany({
-        where: schoolId ? { schoolId } : {},
+        where: schoolId ? { schoolId } : undefined,
         select: {
           id: true,
           name: true,

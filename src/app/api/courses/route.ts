@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { CourseStatus } from '@/generated/prisma';
 
 // GET /api/courses - Get all courses for the authenticated user

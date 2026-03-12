@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
-import { AttendanceStatus } from '@/generated/prisma/enums';
+import { AttendanceStatus } from '@/generated/prisma';
 //TO-DO
 interface Class {
   id: string;

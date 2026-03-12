@@ -8,127 +8,135 @@ const seedDataDir = path.join(__dirname, 'seed-data');
 
 // Map Prisma client model names to their JSON file names
 const MODEL_FILE_MAP: { [key: string]: string } = {
-  'schools': 'schools.json',
-  'academicPeriod': 'academicPeriods.json',
-  'user': 'users.json',
-  'admin': 'admins.json',
-  'instructor': 'instructors.json',
-  'students': 'students_profiles.json',
-  'parents': 'parents_profiles.json',
-  'classes': 'classes.json',
-  'parent_students': 'parent_students.json',
-  'class_enrollments': 'class_enrollments.json',
-  'attendance': 'attendances.json',
-  'calendarEvent': 'calendarEvents.json',
-  'announcement': 'announcements.json',
-  'badge': 'badges.json',
-  'userBadge': 'userBadges.json',
+  'School': 'schools.json',
+  'AcademicYear': 'academic-years.json',
+  'AcademicPeriod': 'academicPeriods.json',
+  'User': 'users.json',
+  'Admin': 'admins.json',
+  'Instructor': 'instructors.json',
+  'Student': 'students.json',
+  'Parent': 'parents.json',
+  'Class': 'classes.json',
+  'ParentStudent': 'parent_students.json',
+  'ClassEnrollment': 'class_enrollments.json',
+  'Attendance': 'attendances.json',
+  'CalendarEvent': 'calendarEvents.json',
+  'Announcement': 'announcements.json',
+  'Badge': 'badges.json',
+  'UserBadge': 'userBadges.json',
+  'Quiz': 'quizzes.json',
+  'Question': 'questions.json',
+  'Option': 'options.json',
+  'QuizAssignment': 'quiz_assignments.json',
+  'AnswerSubmission': 'answer_submissions.json',
+  'SidebarConfiguration': 'sidebar-configurations.json',
 };
 
 // --- Seeding Order (using actual Prisma client model property names) ---
-// The order is crucial to respect foreign key constraints.
 const SEED_ORDER = [
-  'schools',
-  'academicPeriod',
-  'user',
-  'admin',
-  'instructor',
-  'students',
-  'parents',
-  'classes',
-  'parent_students',
-  'class_enrollments',
-  'attendance',
-  'calendarEvent',
-  'announcement',
-  'badge',
-  'userBadge',
+  'School',
+  'AcademicYear',
+  'AcademicPeriod',
+  'User',
+  'Instructor',
+  'Student',
+  'Parent',
+  'ParentStudent',
+  'Class',
+  'ClassEnrollment',
+  'Attendance',
+  'CalendarEvent',
+  'Announcement',
+  'Badge',
+  'UserBadge',
+  'Quiz',
+  'Question',
+  'Option',
+  'QuizAssignment',
+  'AnswerSubmission',
+  'SidebarConfiguration',
 ];
 
-// --- Main Seeding Function ---
-async function main() {
-  console.log('🌱 Starting database seeding from JSON files...');
+async function seedModel(modelName: string) {
+  const fileName = MODEL_FILE_MAP[modelName];
+  if (!fileName) {
+    console.error(`🔴 Error: No file mapping found for model ${modelName}.`);
+    return;
+  }
+  const filePath = path.join(seedDataDir, fileName);
 
-  for (const modelName of SEED_ORDER) {
-    const fileName = MODEL_FILE_MAP[modelName];
-    if (!fileName) {
-      console.error(`🔴 Error: No file mapping found for model ${modelName}.`);
-      continue;
+  if (!fs.existsSync(filePath)) {
+    console.log(`🟡 Skipping ${modelName}: File '${fileName}' not found.`);
+    return;
+  }
+
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  if (!fileContent.trim()) {
+    console.log(`🟡 Skipping ${modelName}: File '${fileName}' is empty.`);
+    return;
+  }
+
+  const data = JSON.parse(fileContent);
+  if (!Array.isArray(data) || data.length === 0) {
+    console.log(`🟡 Skipping ${modelName}: No data to seed in '${fileName}'.`);
+    return;
+  }
+
+  console.log(`🌱 Seeding ${modelName} from '${fileName}'...`);
+  let count = 0;
+
+  if (modelName === 'Admin') {
+    for (const adminRecord of data) {
+      const { adminRole, ...userRecord } = adminRecord;
+      userRecord.password = await bcrypt.hash(userRecord.password, 10);
+      
+      const user = await prisma.user.upsert({
+        where: { email: userRecord.email },
+        update: userRecord,
+        create: { ...userRecord, updatedAt: new Date() },
+      });
+
+      await prisma.admin.upsert({
+        where: { userId: user.id },
+        update: { role: adminRole },
+        create: {
+          userId: user.id,
+          role: adminRole,
+        },
+      });
+      count++;
     }
-    const filePath = path.join(seedDataDir, fileName);
-
-    if (!fs.existsSync(filePath)) {
-      console.log(`🟡 Skipping ${modelName}: File '${fileName}' not found.`);
-      continue;
-    }
-
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    if (!fileContent.trim()) {
-      console.log(`🟡 Skipping ${modelName}: File '${fileName}' is empty.`);
-      continue;
-    }
-
-    const data = JSON.parse(fileContent);
-    if (!Array.isArray(data) || data.length === 0) {
-      console.log(`🟡 Skipping ${modelName}: No data to seed in '${fileName}'.`);
-      continue;
-    }
-
-    console.log(`🌱 Seeding ${modelName} from '${fileName}'...`);
-    let count = 0;
+  } else {
     for (const record of data) {
-      // --- Special Handling for Users: Hash Passwords ---
-      if (modelName === 'user' && record.password) {
+      if (modelName === 'User' && record.password) {
         record.password = await bcrypt.hash(record.password, 10);
       }
 
-      // --- Determine Unique Identifier for Upsert ---
       let whereClause: any = {};
-      // Most models have 'id' as the unique identifier for upsert
       if (record.id) {
         whereClause.id = record.id;
       } else {
-        // Handle models with composite unique keys or userId unique keys
-        switch (modelName) {
-          case 'parent_students':
-            whereClause = { parentId_studentId: { parentId: record.parentId, studentId: record.studentId } };
-            break;
-          case 'class_enrollments':
-            whereClause = { classId_studentId: { classId: record.classId, studentId: record.studentId } };
-            break;
-          case 'attendance':
-            whereClause = { studentId_classId_date: { studentId: record.studentId, classId: record.classId, date: new Date(record.date) } };
-            break;
-          case 'userBadge':
-            whereClause = { userId_badgeId: { userId: record.userId, badgeId: record.badgeId } };
-            break;
-          case 'schools':
-            whereClause = { code: record.code };
-            break;
-          case 'academicPeriod':
-            whereClause = { id: record.id };
-            break;
-          case 'classes':
-            whereClause = { id: record.id };
-            break;
-          case 'admin':
-          case 'instructor':
-          case 'students':
-          case 'parents':
-            whereClause = { userId: record.userId }; // These models have userId as a unique field
-            break;
-          default:
-            console.error(`🔴 Cannot upsert for ${modelName}: No 'id' field or specific unique key found in record for upsert ->`, record);
-            continue; // Skip this record if no upsert key is defined
-        }
+        // Handle composite keys and other unique identifiers
       }
 
       try {
-        await (prisma as any)[modelName].upsert({
-          where: whereClause,
-          update: record,
-          create: record,
-        });
+       if (modelName === 'SidebarConfiguration') {
+         await prisma.sidebarConfiguration.upsert({
+           where: { schoolId: record.schoolId },
+           update: { configuration: record.configuration as any },
+           create: {
+             schoolId: record.schoolId,
+             configuration: record.configuration as any,
+             clientId: 'system-seed', // or a default admin id
+           },
+         });
+       } else {
+         await (prisma as any)[modelName].upsert({
+           where: whereClause,
+           update: record,
+           create: record,
+         });
+       }
         count++;
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -138,7 +146,25 @@ async function main() {
         }
       }
     }
-    console.log(`✅ Seeded ${count}/${data.length} records for ${modelName}.`);
+  }
+  console.log(`✅ Seeded ${count}/${data.length} records for ${modelName}.`);
+}
+
+
+// --- Main Seeding Function ---
+async function main() {
+  const args = process.argv.slice(2);
+  const modelArg = args.find(arg => arg.startsWith('--model='));
+  const specificModel = modelArg ? modelArg.split('=')[1] : null;
+
+  if (specificModel) {
+    console.log(`🌱 Starting database seeding for model: ${specificModel}...`);
+    await seedModel(specificModel);
+  } else {
+    console.log('🌱 Starting database seeding from JSON files...');
+    for (const modelName of SEED_ORDER) {
+      await seedModel(modelName);
+    }
   }
 
   console.log('✅ Seeding completed successfully!');

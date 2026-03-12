@@ -9,9 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils"
-import { UserRole } from "@/generated/prisma/enums";
+import { UserRole } from "@/generated/prisma/";
 import Link from "next/link";
 import { showToast, isValidEmail } from "@/lib/toast-utils";
+import { signIn } from "next-auth/react"; // Import signIn
 
 interface School {
   id: string;
@@ -28,7 +29,15 @@ interface PasswordStrength {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    schoolId: string;
+    role: UserRole;
+    invitationCode: string;
+  }>({
     name: "",
     email: "",
     password: "",
@@ -137,8 +146,8 @@ export default function RegisterPage() {
     }
 
     // Check invitation code for TEACHER and PARENT roles
-    if ((formData.role === UserRole.TEACHER || formData.role === UserRole.PARENT) && !formData.invitationCode.trim()) {
-      showToast.warning("Invitation Code Required", `${formData.role === UserRole.TEACHER ? 'Teachers' : 'Parents'} need an invitation code to register.`);
+    if ((formData.role === UserRole.TEACHER.toString() || formData.role === UserRole.PARENT.toString()) && !formData.invitationCode.trim()) {
+      showToast.warning("Invitation Code Required", `${formData.role === UserRole.TEACHER.toString() ? 'Teachers' : 'Parents'} need an invitation code to register.`);
       setLoading(false);
       return;
     }
@@ -275,7 +284,7 @@ export default function RegisterPage() {
                     </Select>
                   </div>
 
-                  {(formData.role === UserRole.TEACHER || formData.role === UserRole.PARENT) && (
+                  {(formData.role === UserRole.TEACHER.toString() || formData.role === UserRole.PARENT.toString()) && (
                     <div className="grid gap-2">
                       <Label htmlFor="invitationCode">
                         Invitation Code *
@@ -287,10 +296,10 @@ export default function RegisterPage() {
                         name="invitationCode"
                         value={formData.invitationCode}
                         onChange={handleChange}
-                        required={formData.role === UserRole.TEACHER || formData.role === UserRole.PARENT}
+                        required={formData.role === UserRole.TEACHER.toString() || formData.role === UserRole.PARENT.toString()}
                       />
                       <p className="text-xs text-muted-foreground">
-                        {formData.role === UserRole.TEACHER 
+                        {formData.role === UserRole.TEACHER.toString() 
                           ? "Teachers need an invitation code from their school admin"
                           : "Parents need an invitation code to register and link children"}
                       </p>

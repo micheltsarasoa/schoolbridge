@@ -3,8 +3,8 @@ import Navbar from "@/components/layout/Navbar";
 import SidebarWrapper from "@/components/layout/Sidebar/SidebarWrapper";
 import ProfileCompletionBanner from "@/components/dashboard/profile-completion-banner";
 import { auth } from "@/auth";
-import { $Enums } from "@/generated/prisma/browser";
-import prisma from "@/lib/prisma";
+import { $Enums } from "@/generated/prisma";
+import { prisma } from "@/lib/prisma";
 import { isProfileComplete } from "@/types/profile";
 
 export default async function RootLayout( {children,

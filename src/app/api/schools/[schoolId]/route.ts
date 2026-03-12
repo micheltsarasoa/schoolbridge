@@ -12,10 +12,10 @@ const schoolSchema = z.object({
 
 export async function PUT(
   req: Request,
-  { params }: { params: { schoolId: string } }
+  context: { params: Promise<{ schoolId: string }> }
 ) {
   try {
-    const { schoolId } = params;
+    const { schoolId } = await context.params;
     const body = await req.json();
     const validation = schoolSchema.safeParse(body);
 
@@ -57,10 +57,10 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { schoolId: string } }
+  context: { params: Promise<{ schoolId: string }> }
 ) {
   try {
-    const { schoolId } = params;
+    const { schoolId } = await context.params;
 
     await prisma.school.delete({
       where: { id: schoolId },

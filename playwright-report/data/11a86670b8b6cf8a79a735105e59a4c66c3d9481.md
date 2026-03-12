@@ -1,0 +1,67 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - img [ref=e4]
+    - generic [ref=e9]: "Ready to syncLast sync: Never"
+  - generic [ref=e10]:
+    - img "Image" [ref=e12]
+    - generic [ref=e13]:
+      - link "SchoolBridge" [ref=e15] [cursor=pointer]:
+        - /url: /
+        - img [ref=e17]
+        - generic [ref=e21]: SchoolBridge
+      - generic [ref=e24]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - heading "Welcome back" [level=1] [ref=e30]
+            - paragraph [ref=e31]: Login to your SchoolBridge account
+          - generic [ref=e32]:
+            - generic [ref=e33]: Email
+            - textbox "Email" [ref=e34]:
+              - /placeholder: m@example.com
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - generic [ref=e37]: Password
+              - link "Forgot your password?" [ref=e38] [cursor=pointer]:
+                - /url: /request-password-reset
+            - textbox "Password" [ref=e39]:
+              - /placeholder: Minimum 8 characters
+          - button "Login" [ref=e40]
+          - generic [ref=e41]: Or continue with
+          - generic [ref=e42]:
+            - button "Login with Apple" [ref=e43]:
+              - img
+              - generic [ref=e44]: Login with Apple
+            - button "Login with Google" [ref=e45]:
+              - img
+              - generic [ref=e46]: Login with Google
+            - button "Login with Meta" [ref=e47]:
+              - img
+              - generic [ref=e48]: Login with Meta
+          - generic [ref=e49]:
+            - text: Don't have an account?
+            - link "Sign up" [ref=e50] [cursor=pointer]:
+              - /url: register
+        - generic [ref=e51]:
+          - text: By clicking continue, you agree to our
+          - link "Terms of Service" [ref=e52] [cursor=pointer]:
+            - /url: "#"
+          - text: and
+          - link "Privacy Policy" [ref=e53] [cursor=pointer]:
+            - /url: "#"
+          - text: .
+  - generic [ref=e55]:
+    - img [ref=e56]
+    - text: Online
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e66] [cursor=pointer]:
+    - generic [ref=e69]:
+      - text: Compiling
+      - generic [ref=e70]:
+        - generic [ref=e71]: .
+        - generic [ref=e72]: .
+        - generic [ref=e73]: .
+  - alert [ref=e74]
+```

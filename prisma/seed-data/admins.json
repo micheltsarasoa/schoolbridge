@@ -1,7 +1,22 @@
 [
   {
-    "id": "clv9v1n0v000308l5m2c3d4e3",
-    "role": "SCHOOL_ADMIN",
-    "userId": "clv9v1n0u000208l5k4f8a3b2"
+    "id": "clv9v1n0t000108l5e8g2h4j2",
+    "email": "superadmin@schoolbridge.com",
+    "firstName": "Super",
+    "lastName": "Admin",
+    "password": "superadmin-changeme",
+    "role": "ADMIN",
+    "adminRole": "SUPER_ADMIN",
+    "schoolId": null
+  },
+  {
+    "id": "clv9v1n0u000208l5h3k4f6n3",
+    "email": "schooladmin@schoolbridge.com",
+    "firstName": "School",
+    "lastName": "Admin",
+    "password": "schooladmin-changeme",
+    "role": "ADMIN",
+    "adminRole": "SCHOOL_ADMIN",
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1"
   }
 ]

@@ -47,3 +47,9 @@ next-env.d.ts
 .env.sentry-build-plugin
 
 .vercel
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.github/instructions/snyk_rules.instructions.md
+
+# Backup files
+*.backup

@@ -5,14 +5,24 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import AppleProvider from "next-auth/providers/apple";
-import prisma from "./lib/prisma";
+import { prisma } from "./lib/prisma";
 import bcrypt from "bcryptjs";
-import { UserRole } from "@/generated/prisma/browser";
+import { UserRole } from "@/generated/prisma/";
 
 const MAX_LOGIN_ATTEMPTS = 5;
-const LOCKOUT_TIME_IN_MINUTES = 15;
+const LOCKOUT_TIME_IN_MINUTES = 60;
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
+const protectedRoutes = [
+  '/admin',
+  '/teacher',
+  '/student',
+  '/parent',
+  '/profile',
+  '/notifications',
+  '/dashboard',
+];
+
+const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
 
@@ -90,6 +100,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const isProtectedRoute = protectedRoutes.some(route => nextUrl.pathname.startsWith(route));
+
+      if (isProtectedRoute && !isLoggedIn) {
+        const loginUrl = new URL('/login', nextUrl.origin);
+        loginUrl.searchParams.set('callbackUrl', nextUrl.pathname);
+        return Response.redirect(loginUrl);
+      }
+
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -104,9 +126,41 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
       return session;
     },
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "google" && user?.email) {
+        // Find the user created/updated by PrismaAdapter
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email },
+          select: { id: true, role: true, student: true }, // Select student profile to check existence
+        });
+
+        if (dbUser) {
+          // Ensure the user has the STUDENT role if no other specific role is set by the adapter or user record
+          if (!dbUser.role) { // If role is null or not explicitly set by adapter
+            await prisma.user.update({
+              where: { id: dbUser.id },
+              data: { role: UserRole.STUDENT },
+            });
+          }
+
+          // Ensure a Student profile exists for this user if they are a STUDENT and don't have one
+          // This implicitly handles the "unapproved" state as it's a default student profile,
+          // which an admin would then review and potentially assign a different specific profile/role.
+          if (dbUser.role === UserRole.STUDENT && !dbUser.student) {
+            await prisma.student.create({
+              data: { userId: dbUser.id },
+            });
+          }
+        }
+      }
+      return true; // Continue with the sign-in process
+    },
   },
   pages: {
     signIn: "/login",
     error: "/auth/error",
   },
 });
+
+export { auth, handlers, signIn, signOut };
+

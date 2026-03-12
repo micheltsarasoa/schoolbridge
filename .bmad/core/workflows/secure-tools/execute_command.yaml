@@ -1,0 +1,40 @@
+id: secure-execute-command
+name: Secure Execute Command
+description: Wraps the execute_command tool to require user confirmation.
+
+variables:
+  - name: command
+    type: string
+    description: The command to execute.
+  - name: cwd
+    type: string
+    description: The working directory for the command.
+    optional: true
+
+steps:
+  - id: confirm-execution
+    tool: ask_followup_question
+    input:
+      question: "An agent wants to execute the following command: '{{command}}'. Do you approve?"
+      follow_up:
+        - suggest: "Yes, proceed."
+        - suggest: "No, cancel."
+
+  - id: execute-command
+    tool: execute_command
+    input:
+      command: "{{command}}"
+      cwd: "{{cwd}}"
+    condition: "'{{confirm-execution.answer}}' == 'Yes, proceed.'"
+
+  - id: notify-user
+    tool: attempt_completion
+    input:
+      result: "Command '{{command}}' executed successfully."
+    condition: "'{{confirm-execution.answer}}' == 'Yes, proceed.'"
+
+  - id: cancel-execution
+    tool: attempt_completion
+    input:
+      result: "Command execution for '{{command}}' was cancelled by the user."
+    condition: "'{{confirm-execution.answer}}' == 'No, cancel.'"

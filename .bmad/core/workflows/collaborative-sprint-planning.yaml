@@ -1,0 +1,71 @@
+id: collaborative-sprint-planning
+name: Collaborative Sprint Planning
+description: Analyzes sprint goals, breaks them into tasks, and facilitates collaborative assignment.
+
+variables:
+  - name: sprint_name
+    type: string
+    description: "The name for the sprint, e.g., 'sprint_0001'."
+  - name: sprint_goals
+    type: string
+    description: "A description of the high-level goals for the sprint."
+
+steps:
+  - id: analyze-goals
+    tool: ask_followup_question
+    input:
+      question: |
+        Based on the sprint goals: "{{sprint_goals}}", I will now break down the work into tasks, analyze them, and suggest learning opportunities for you. Then, we will assign them. Is that correct?
+      follow_up:
+        - suggest: "Yes, proceed with the analysis."
+
+  - id: generate-task-analysis
+    tool: attempt_completion # This is a placeholder for the complex logic of task breakdown which is an internal capability.
+    input:
+      result: |
+        Here is the task breakdown for {{sprint_name}}:
+
+        **Goal: Implement User Authentication**
+
+        *   **Task 1: Create Database Schema for Users**
+            *   **My Capability:** I can write the Prisma schema for the User model, including fields for email, password hash, and roles.
+            *   **Difficulty:** Low
+            *   **Learning Suggestion for You:** Research how to add a `createdAt` and `updatedAt` field in Prisma for automatic timestamping.
+
+        *   **Task 2: Build the Signup API Endpoint**
+            *   **My Capability:** I can create the API route and controller logic to handle user registration, including password hashing with bcrypt.
+            *   **Difficulty:** Medium
+            *   **Learning Suggestion for You:** Create a simple utility function in a separate file to validate if an email has the correct format.
+
+        *   **Task 3: Design the Signup Page UI**
+            *   **My Capability:** I can create a basic, functional signup form using React and Tailwind CSS.
+            *   **Difficulty:** Medium
+            *   **Learning Suggestion for You:** Implement client-side form validation to give the user immediate feedback if their passwords don't match.
+
+        ---
+        Please assign each task to either 'Bmad Master' or '{{user_name}}'. You can copy-paste the list and edit it.
+
+  - id: assign-tasks
+    tool: ask_followup_question
+    input:
+      question: "Please provide the final task assignments."
+
+  - id: save-sprint-plan
+    tool: write_to_file
+    input:
+      path: "docs/todos/{{sprint_name}}.md"
+      content: |
+        # Sprint Plan: {{sprint_name}}
+
+        ## Goals
+        {{sprint_goals}}
+
+        ---
+
+        ## Task Assignments
+        {{assign-tasks.answer}}
+
+  - id: confirm-completion
+    tool: attempt_completion
+    input:
+      result: "The sprint plan for '{{sprint_name}}' has been created and saved to docs/todos/{{sprint_name}}.md."

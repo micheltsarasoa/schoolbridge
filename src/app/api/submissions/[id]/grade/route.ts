@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // PUT /api/submissions/[id]/grade - Grade a submission
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

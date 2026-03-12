@@ -1,0 +1,326 @@
+// ===== QUIZ SYSTEM =====
+
+model Quiz {
+  id                      String     @id @default(uuid())
+  courseContentId         String?    @unique @map("course_content_id")
+  lectureId               String?    @unique @map("lecture_id")
+  title                   String     @map("title")
+  description             String?    @map("description")
+  passingScore            Float      @default(70) @map("passing_score")
+  timeLimit               Int?       @map("time_limit")
+  mode                    QuizMode   @default(PRACTICE) @map("mode")
+  showAnswersAfter        Boolean    @default(true) @map("show_answers_after")
+  randomizeQuestions      Boolean    @default(false) @map("randomize_questions")
+  status                  QuizStatus @default(DRAFT) @map("status")
+  createdAt               DateTime   @default(now()) @map("created_at")
+  updatedAt               DateTime   @map("updated_at")
+  attemptsAllowed         Int?       @default(3) @map("attempts_allowed")
+  shuffleQuestions        Boolean    @default(false) @map("shuffle_questions")
+  shuffleAnswers          Boolean    @default(false) @map("shuffle_answers")
+  questionCount           Int?       @default(0) @map("question_count")
+  dataVersion Int @default(1) @map("data_version")
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  courseContent CourseContent? @relation(fields: [courseContentId], references: [id])
+  lecture       Lecture?       @relation(fields: [lectureId], references: [id])
+  questions     Question[]
+  assignments   QuizAssignment[]
+  submissions   QuizSubmission[]
+  quizAttempts  QuizAttempt[]
+
+  @@index([status])
+  @@map("quizzes")
+}
+
+model Question {
+  id           String       @id @default(uuid())
+  quizId       String       @map("quiz_id")
+  questionType QuestionType @map("question_type")
+  text         String       @map("text")
+  explanation  String?      @map("explanation")
+  order        Int          @map("order")
+  points       Float        @default(1) @map("points")
+  options      Json         @map("options")
+  correctAnswer Json        @map("correct_answer")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @map("updated_at")
+  dataVersion Int @default(1) @map("data_version")
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  quiz      Quiz            @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  responses QuestionResponse[]
+
+  @@index([quizId, order])
+  @@map("questions")
+}
+
+model QuestionResponse {
+  id         String   @id @default(uuid())
+  questionId String   @map("question_id")
+  submissionId String @map("submission_id")
+  studentAnswer Json   @map("student_answer")
+  isCorrect  Boolean? @map("is_correct")
+  pointsEarned Float  @default(0) @map("points_earned")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  question   Question      @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  submission QuizSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, submissionId])
+  @@index([questionId, submissionId])
+  @@map("question_responses")
+}
+
+model QuizSubmission {
+  id          String             @id @default(uuid())
+  quizId      String             @map("quiz_id")
+  studentId   String             @map("student_id")
+  attemptNumber Int              @default(1) @map("attempt_number")
+  startedAt   DateTime           @default(now()) @map("started_at")
+  submittedAt DateTime?          @map("submitted_at")
+  score       Float?             @map("score")
+  totalPoints Float?             @map("total_points")
+  timeSpent   Int?               @map("time_spent")
+  status      QuizAttemptStatus  @default(IN_PROGRESS) @map("status")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  quiz      Quiz               @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  student   User               @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  responses QuestionResponse[]
+
+  @@unique([quizId, studentId, attemptNumber])
+  @@index([quizId])
+  @@index([studentId])
+  @@index([status])
+  @@map("quiz_submissions")
+}
+
+model QuizAttempt {
+  id             String    @id @default(uuid())
+  quizId         String    @map("quiz_id")
+  userId         String    @map("user_id")
+  attemptNumber  Int       @map("attempt_number")
+  startedAt      DateTime? @map("started_at")
+  submittedAt    DateTime? @map("submitted_at")
+  score          Float?    @map("score")
+  pointsEarned   Int?      @map("points_earned")
+  pointsPossible Int?      @map("points_possible")
+  percentage     Float?    @map("percentage")
+  passed         Boolean?  @map("passed")
+  timeSpent      Int?      @map("time_spent")
+  answers        Json?     @map("answers")
+  studentId      String?   @map("student_id")
+  dataVersion Int @default(1) @map("data_version")
+  lastSyncedAt DateTime? @map("last_synced_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  quiz     Quiz @relation(fields: [quizId], references: [id])
+  user     User @relation(fields: [userId], references: [id])
+  student  Student? @relation(fields: [studentId], references: [id])
+
+  @@unique([quizId, userId, attemptNumber])
+  @@index([quizId, userId])
+  @@index([submittedAt])
+  @@map("quiz_attempts")
+}
+
+model QuizAssignment {
+  id          String   @id @default(uuid())
+  quizId      String   @map("quiz_id")
+  classId     String?  @map("class_id")
+  studentId   String?  @map("student_id")
+  assignedAt  DateTime @default(now()) @map("assigned_at")
+  dueDate     DateTime? @map("due_date")
+  scheduledDate DateTime? @map("scheduled_date")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  quiz  Quiz  @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  class Class? @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+  @@index([classId])
+  @@index([studentId])
+  @@map("quiz_assignments")
+}
+
+// ===== ASSESSMENT & SUBMISSIONS =====
+
+model Submission {
+  id              String           @id @default(uuid())
+  studentId       String           @map("student_id")
+  courseContentId String           @map("course_content_id")
+  submittedAt     DateTime         @default(now()) @map("submitted_at")
+  content         Json?            @map("content")
+  grade           Float?           @map("grade")
+  gradedById      String?          @map("graded_by_id")
+  gradedAt        DateTime?        @map("graded_at")
+  feedback        String?          @map("feedback")
+  status          SubmissionStatus @default(SUBMITTED) @map("status")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  student       User          @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  courseContent CourseContent @relation(fields: [courseContentId], references: [id], onDelete: Cascade)
+  gradedBy      User?         @relation("SubmissionsGraded", fields: [gradedById], references: [id], onDelete: SetNull)
+
+  @@unique([studentId, courseContentId])
+  @@index([studentId])
+  @@index([courseContentId])
+  @@index([gradedById])
+  @@map("submissions")
+}
+
+model Assignment {
+  id                   String                 @id @default(uuid())
+  title                String?                @map("title")
+  description          String?                @map("description")
+  instructions         String?                @map("instructions")
+  allowedFileTypes     String[]               @map("allowed_file_types")
+  maxFileSize          Int?                   @map("max_file_size")
+  dueDate              DateTime?              @map("due_date")
+  rubric               Json?                  @map("rubric")
+  lectureId            String                 @unique @map("lecture_id")
+  courseId             String?                @map("course_id")
+  classId              String?                @map("class_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture   Lecture    @relation(fields: [lectureId], references: [id])
+  course    Course?    @relation("CourseToAssignment", fields: [courseId], references: [id])
+  class     Class?     @relation("ClassToAssignment", fields: [classId], references: [id])
+  submissions AssignmentSubmission[]
+  grades     Grade[]
+
+  @@map("assignments")
+}
+
+model AssignmentSubmission {
+  id           String           @id @default(uuid())
+  files        Json?            @map("files")
+  submittedAt  DateTime         @default(now()) @map("submitted_at")
+  grade        Float?           @map("grade")
+  feedback     String?          @map("feedback")
+  status       SubmissionStatus @default(SUBMITTED) @map("status")
+  assignmentId String           @map("assignment_id")
+  userId       String           @map("user_id")
+  studentId    String?          @map("student_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  assignment Assignment @relation(fields: [assignmentId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  student    Student?  @relation(fields: [studentId], references: [id])
+
+  @@unique([assignmentId, userId])
+  @@index([assignmentId, userId])
+  @@map("assignment_submissions")
+}
+
+model CodingExercise {
+  id               String             @id @default(uuid())
+  title            String?            @map("title")
+  instructions     String?            @map("instructions")
+  starterCode      String?            @map("starter_code")
+  language         String?            @map("language")
+  expectedOutput   String?            @map("expected_output")
+  testCases        Json?              @map("test_cases")
+  hints            String[]           @map("hints")
+  solution         String?            @map("solution")
+  allowSubmission  Boolean            @default(true) @map("allow_submission")
+  maxSubmissions   Int?               @map("max_submissions")
+  lectureId        String             @unique @map("lecture_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  lecture         Lecture          @relation(fields: [lectureId], references: [id])
+  codingSubmissions CodingSubmission[]
+
+  @@map("coding_exercises")
+}
+
+model CodingSubmission {
+  id               String         @id @default(uuid())
+  code             String         @map("code")
+  submittedAt      DateTime       @default(now()) @map("submitted_at")
+  testsPassed      Int            @default(0) @map("tests_passed")
+  testsTotal       Int            @default(0) @map("tests_total")
+  passed           Boolean        @default(false) @map("passed")
+  output           String?        @map("output")
+  error            String?        @map("error")
+  codingExerciseId String         @map("coding_exercise_id")
+  userId           String         @map("user_id")
+  studentId        String?        @map("student_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  codingExercise CodingExercise @relation(fields: [codingExerciseId], references: [id])
+  user           User           @relation(fields: [userId], references: [id])
+  student        Student?       @relation(fields: [studentId], references: [id])
+
+  @@unique([codingExerciseId, userId])
+  @@index([codingExerciseId, userId])
+  @@index([submittedAt])
+  @@map("coding_submissions")
+}
+
+model Grade {
+  id             String      @id @default(uuid())
+  studentId      String      @map("student_id")
+  score          Decimal     @map("score")
+  maxScore       Decimal     @map("max_score")
+  percentage     Float?      @map("percentage")
+  letterGrade    String?     @map("letter_grade")
+  academicPeriod String?     @map("academic_period")
+  gradedBy       String?     @map("graded_by")
+  gradedAt       DateTime    @default(now()) @map("graded_at")
+  feedback       String?     @map("feedback")
+  assignmentId   String?     @map("assignment_id")
+  gradableType   String?     @map("gradable_type")
+  gradableId     String?     @map("gradable_id")
+  courseId       String?     @map("course_id")
+  classId        String?     @map("class_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  student     Student     @relation(fields: [studentId], references: [id])
+  assignment  Assignment? @relation(fields: [assignmentId], references: [id])
+  class       Class?      @relation(fields: [classId], references: [id])
+  course      Course?     @relation(fields: [courseId], references: [id])
+
+  @@index([studentId])
+  @@index([classId])
+  @@index([courseId])
+  @@index([gradableType, gradableId])
+  @@map("grades")
+}

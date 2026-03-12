@@ -1,11 +1,31 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from '@sentry/nextjs';
 
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  runtimeCaching: [
+    {
+      urlPattern: ({ url }) => url.pathname.startsWith('/api/sync'),
+      handler: 'NetworkOnly',
+      options: {
+        backgroundSync: {
+          name: 'syncQueue',
+          maxRetentionTime: 24 * 60, // 24 hours
+        },
+      },
+    },
+  ],
+});
+
 const nextConfig: NextConfig = {
   /* config options here */
 };
 
-export default withSentryConfig(nextConfig, {
+// Apply PWA wrapper first, then Sentry wrapper
+export default withSentryConfig(withPWA(nextConfig), {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

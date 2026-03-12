@@ -1,7 +1,7 @@
 
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import { UserRole } from "@/generated/prisma/browser";
+import { UserRole } from "@/types/db";
 
 type HandlerArgs = {
   params: Promise<{ [key: string]: string }>;

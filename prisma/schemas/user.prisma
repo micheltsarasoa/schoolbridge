@@ -1,0 +1,269 @@
+// ===== USER MANAGEMENT =====
+
+model User {
+  id                  String    @id @default(uuid())
+  email               String?   @unique @map("email")
+  phone               String?   @unique @map("phone")
+  firstName           String    @map("first_name")
+  lastName            String    @map("last_name")
+  emailVerified       DateTime? @map("email_verified")
+  phoneVerified       DateTime? @map("phone_verified")
+  password            String?   @map("password")
+  role                UserRole  @map("role")
+  languagePreference  Language  @default(FR) @map("language_preference")
+  isActive            Boolean   @default(true) @map("is_active")
+  lastLogin           DateTime? @map("last_login")
+  failedLoginAttempts Int       @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime? @map("locked_until")
+  avatar              String?   @map("avatar")
+  schoolId            String?   @map("school_id")
+  settings            Json?     @default("{}") @map("settings")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @map("updated_at")
+  lastLoginAt         DateTime? @map("last_login_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  // Relations
+  school               School?              @relation(fields: [schoolId], references: [id], onDelete: SetNull)
+  accounts             Account[]
+  sessions             Session[]
+  coursesCreated       Course[]             @relation("CourseCreator")
+  courseValidations    CourseValidation[]
+  parentRelations      UserRelationship[]   @relation("ParentUser")
+  studentRelations     UserRelationship[]   @relation("StudentUser")
+  courseProgress       CourseProgress[]
+  instructionsGiven    ParentInstruction[]  @relation("InstructionCreator")
+  instructionsReceived ParentInstructionCompletion[]
+  notifications        Notification[]
+  auditLogs            AuditLog[]
+  classes              Class[]              @relation("ClassStudents")
+  classSchedules       ClassSchedule[]      @relation("TeacherSchedules")
+  submissions          Submission[]
+  submissionsGraded    Submission[]         @relation("SubmissionsGraded")
+  attendancesRecorded  Attendance[]         @relation("AttendancesRecorded")
+  quizSubmissions      QuizSubmission[]
+  admin                Admin?
+  assignmentSubmissions AssignmentSubmission[]
+  codingSubmissions    CodingSubmission[]
+  conversations        Conversation[]
+  conversationParticipants ConversationParticipant[]
+  courseEnrollments    CourseEnrollment[]
+  instructor           Instructor?
+  lectureProgress      LectureProgress[]
+  messages             Message[]
+  messageReadStatuses  MessageReadStatus[]
+  notes                Note[]
+  quizAttempts         QuizAttempt[]
+  reviews              Review[]
+  parent               Parents?
+  student              Student?
+  downloadQueue        DownloadQueue[]
+  networkUsage         NetworkUsage[]
+  offlineContent       OfflineContent[]
+  offlineSyncs         OfflineSync[]
+  userNetworkPreferences UserNetworkPreferences?
+  calendarEvents       CalendarEvent[]
+  reports              Report[]
+  announcements        Announcement[]
+  threads              Thread[]
+  posts                Post[]
+  userBadges           UserBadge[]
+
+  @@index([email], map: "User_email_index")
+  @@index([phone], map: "User_phone_index")
+  @@index([schoolId], map: "User_school_id_index")
+  @@index([role], map: "User_role_index")
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String  @map("user_id")
+  type              String  @map("type")
+  provider          String  @map("provider")
+  providerAccountId String  @map("provider_account_id")
+  refreshToken      String? @map("refresh_token")
+  accessToken       String? @map("access_token")
+  expiresAt         Int?    @map("expires_at")
+  tokenType         String? @map("token_type")
+  scope             String? @map("scope")
+  idToken           String? @map("id_token")
+  sessionState      String? @map("session_state")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime @map("expires")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String   @map("identifier")
+  token      String   @unique @map("token")
+  expires    DateTime @map("expires")
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model PendingRegistration {
+  id           String   @id @default(uuid())
+  email        String   @unique @map("email")
+  name         String   @map("name")
+  passwordHash String   @map("password_hash")
+  role         UserRole @map("role")
+  schoolId     String   @map("school_id")
+  otpHash      String   @map("otp_hash")
+  expires      DateTime @map("expires")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  @@index([email])
+  @@map("pending_registrations")
+}
+
+model UserRelationship {
+  id         String   @id @default(uuid())
+  parentId   String   @map("parent_id")
+  studentId  String   @map("student_id")
+  isVerified Boolean  @default(false) @map("is_verified")
+  verifiedAt DateTime? @map("verified_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  parent  User @relation("ParentUser", fields: [parentId], references: [id], onDelete: Cascade)
+  student User @relation("StudentUser", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, studentId])
+  @@index([parentId])
+  @@index([studentId])
+  @@map("user_relationships")
+}
+
+// ===== SPECIALIZED USER MODELS =====
+
+model Admin {
+  id          String    @id @default(uuid())
+  role        AdminRole @map("role")
+  permissions Json?     @map("permissions")
+  userId      String    @unique @map("user_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("admins")
+}
+
+model Instructor {
+  id                String              @id @default(uuid())
+  title             String?             @map("title")
+  biography         String?             @map("biography")
+  rating            Float?              @map("rating")
+  totalStudents     Int?                @default(0) @map("total_students")
+  totalCourses      Int?                @default(0) @map("total_courses")
+  website           String?             @map("website")
+  social            Json?               @map("social")
+  userId            String              @unique @map("user_id")
+  config            Json?               @map("config")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user    User                 @relation(fields: [userId], references: [id])
+  classes Class[]              @relation("ClassInstructors")
+
+  @@map("instructors")
+}
+
+model Student {
+  id                   String                 @id @default(uuid())
+  studentId            String?                @unique @map("student_id")
+  gradeLevel           String?                @map("grade_level")
+  birthDate            DateTime?              @map("birth_date")
+  userId               String                 @unique @map("user_id")
+  config               Json?                  @map("config")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user                 User                   @relation(fields: [userId], references: [id])
+  assignmentSubmissions AssignmentSubmission[]
+  codingSubmissions    CodingSubmission[]
+  courseEnrollments    CourseEnrollment[]
+  lectureProgress      LectureProgress[]
+  notes                Note[]
+  quizAttempts         QuizAttempt[]
+  classEnrollments     ClassEnrollment[]
+  grades               Grade[]
+  parentStudents       ParentStudent[]
+  attendances          Attendance[]
+
+  @@map("students")
+}
+
+model Parents {
+  id              String            @id @default(uuid())
+  userId          String            @unique @map("user_id")
+  config          Json?             @map("config")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user           User              @relation(fields: [userId], references: [id])
+  parentStudents ParentStudent[]
+
+  @@map("parents")
+}
+
+model ParentStudent {
+  id           String   @id @default(uuid())
+  relationship String   @default("parent") @map("relationship")
+  isVerified   Boolean  @default(false) @map("is_verified")
+  parentId     String   @map("parent_id")
+  studentId    String   @map("student_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  parent  Parents @relation(fields: [parentId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@unique([parentId, studentId])
+  @@map("parent_students")
+}

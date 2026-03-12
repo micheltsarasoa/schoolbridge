@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { LogOutIcon, Moon, MoonIcon, Settings2, SettingsIcon, Sun, SunIcon } from "lucide-react";
+import { LogOutIcon, Moon, MoonIcon, RotateCw, Settings2, SettingsIcon, Sun, SunIcon } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -33,10 +33,12 @@ import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 import { Notifications } from '@/components/layout/NavBar/notifications';
-
+import { useSyncStore } from '@/stores/useSyncStore';
+ 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const { data: session } = useSession();
+  const { startSync, status } = useSyncStore();
   // Get the current path
   const pathname = usePathname();
 
@@ -116,6 +118,32 @@ const Navbar = () => {
             </Tooltip>
           </TooltipProvider>
 
+        {/* Manual Sync Trigger (US 4.1) */}
+        {session?.user && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    // Assuming session.data.token is the way to access the token for the API call
+                    // This needs adjustment if the token path is different (e.g., session.token)
+                    if ((session as any)?.token && session.user?.id) {
+                      startSync((session as any).token, session.user.id);
+                    }
+                  }}
+                  disabled={status === 'syncing'}
+                >
+                  <RotateCw className={`h-[1.2rem] w-[1.2rem] ${status === 'syncing' ? 'animate-spin text-blue-500' : 'text-gray-500'}`} />
+                  <span className="sr-only">Manual Sync</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{status === 'syncing' ? 'Synchronizing...' : 'Sync Data'}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+ 
         {/* User Profile / Login Button */}
         {session?.user ? (
           <DropdownMenu>

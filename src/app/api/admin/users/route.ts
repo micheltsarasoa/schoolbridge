@@ -15,10 +15,14 @@ async function getHandler(req: Request) {
     const roleFilter = searchParams.get("role");
     const statusFilter = searchParams.get("status");
     const searchQuery = searchParams.get("search");
+ 
+    const url = new URL(req.url);
+    const adminSession = await auth();
+    const adminSchoolId = adminSession?.user?.schoolId;
 
     // Build where clause
     const where: any = {};
-
+ 
     if (roleFilter) {
       where.role = roleFilter;
     }
@@ -34,6 +38,11 @@ async function getHandler(req: Request) {
       ];
     }
 
+    // School Admin Scope: Filter users belonging to the admin's school, unless the admin is Super Admin (or role is not assigned to a school)
+    if (adminSchoolId && adminSession?.user?.role !== 'SUPER_ADMIN') {
+        where.schoolId = adminSchoolId;
+    }
+ 
     // Fetch users with pagination
     const [users, totalCount] = await Promise.all([
       prisma.user.findMany({
@@ -48,6 +57,8 @@ async function getHandler(req: Request) {
           schoolId: true,
           lastLogin: true,
           createdAt: true,
+          failedLoginAttempts: true, // Added for lockout status
+          lockedUntil: true, // Added for lockout status
         },
         orderBy: { createdAt: "desc" },
         skip,
@@ -77,6 +88,9 @@ async function getHandler(req: Request) {
 
 async function postHandler(req: Request) {
   try {
+    const adminSession = await auth();
+    const adminSchoolId = adminSession?.user?.schoolId;
+
     const body = await req.json();
     const {
       name,

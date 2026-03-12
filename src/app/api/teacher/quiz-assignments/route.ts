@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/teacher/quiz-assignments - Get all quiz assignments for teacher (timeline)
 export async function GET(request: NextRequest) {
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         quiz: {
           courseContent: {
             course: {
-              teacherId: session.user.id,
+              instructorId: session.user.id,
             },
           },
         },
@@ -73,20 +73,20 @@ export async function GET(request: NextRequest) {
     });
 
     // Transform data for timeline view
-    const assignments = quizzesAndAssignments.map((assignment) => {
+    const assignments = quizzesAndAssignments.map((assignment: any) => {
       const totalStudents = assignment.class?.students.length || 1;
       const submissionsMap = new Map(
-        assignment.quiz.submissions.map((s) => [s.studentId, s])
+        assignment.quiz?.submissions.map((s: any) => [s.studentId, s]) || []
       );
 
       let submittedCount = 0;
       let passedCount = 0;
       let averageScore = 0;
 
-      assignment.quiz.submissions.forEach((submission) => {
+      assignment.quiz?.submissions.forEach((submission: any) => {
         if (submission.status === 'SUBMITTED' || submission.status === 'GRADED') {
           submittedCount++;
-          if (submission.score !== null && submission.score >= assignment.quiz.passingScore) {
+          if (submission.score !== null && submission.score >= (assignment.quiz?.passingScore || 0)) {
             passedCount++;
           }
           if (submission.score !== null) {
@@ -100,14 +100,14 @@ export async function GET(request: NextRequest) {
       return {
         id: assignment.id,
         quizId: assignment.quizId,
-        quizTitle: assignment.quiz.title,
-        courseTitle: assignment.quiz.courseContent.course.title,
-        subjectName: assignment.quiz.courseContent.course.subject.name,
+        quizTitle: assignment.quiz?.title,
+        courseTitle: assignment.quiz?.courseContent?.course.title || 'N/A',
+        subjectName: assignment.quiz?.courseContent?.course.subject?.name || 'N/A',
         className: assignment.class?.name,
         assignedAt: assignment.assignedAt,
         dueDate: assignment.dueDate,
         scheduledDate: assignment.scheduledDate,
-        passingScore: assignment.quiz.passingScore,
+        passingScore: assignment.quiz?.passingScore,
         submissions: {
           total: submittedCount,
           passed: passedCount,

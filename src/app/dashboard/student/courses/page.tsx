@@ -9,7 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { List, Grid, AlertCircle } from 'lucide-react';
+import { List, Grid, AlertCircle, CloudDownload, XCircle, CheckCircle } from 'lucide-react';
+import { useCourseDownloadStatuses, CourseDownloadStatus, getDownloadPercentage } from '@/hooks/useCourseDownloadStatus';
+
 
 type Course = {
   id: string;
@@ -21,6 +23,9 @@ type Course = {
   progress: number;
   lastAccessed: string;
   contentCount: number;
+  // Temporary client-side fields for download status
+  downloadStatus?: CourseDownloadStatus;
+  downloadPercentage?: number;
 };
 
 type CoursesResponse = {
@@ -35,12 +40,25 @@ export default function StudentCoursesPage() {
   const router = useRouter();
   const [view, setView] = useState('grid');
   const [courses, setCourses] = useState<Course[]>([]);
-  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
+  
+  // Maps and hooks for course download status lookup (must be defined first as they rely only on 'courses' state)
+  const serverContentCounts = new Map(courses.map(c => [c.id, c.contentCount]));
+  const courseIds = courses.map(c => c.id);
+  const { statuses: downloadStatuses, localContentCounts } = useCourseDownloadStatuses(courseIds, serverContentCounts);
+
+  // Merge download status into course data
+  const coursesWithStatus: Course[] = courses.map(course => ({
+    ...course,
+    downloadStatus: downloadStatuses.get(course.id),
+    downloadPercentage: getDownloadPercentage(course.id, localContentCounts, serverContentCounts),
+  }));
+
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>(coursesWithStatus);
 
   // Fetch courses on mount
   useEffect(() => {
@@ -56,7 +74,6 @@ export default function StudentCoursesPage() {
         const data: CoursesResponse = await response.json();
         setCourses(data.courses);
         setSubjects(data.stats.subjects);
-        setFilteredCourses(data.courses);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load courses');
         console.error('Error fetching courses:', err);
@@ -66,11 +83,11 @@ export default function StudentCoursesPage() {
     };
 
     fetchCourses();
-  }, []);
+  }, []); // Only runs on mount
 
-  // Filter courses based on search query and selected subject
+  // Filter courses whenever server data or download statuses change
   useEffect(() => {
-    let filtered = courses;
+    let filtered = coursesWithStatus;
 
     // Filter by subject
     if (selectedSubject !== 'all') {
@@ -88,7 +105,7 @@ export default function StudentCoursesPage() {
     }
 
     setFilteredCourses(filtered);
-  }, [courses, searchQuery, selectedSubject]);
+  }, [coursesWithStatus, searchQuery, selectedSubject]);
 
   const handleContinue = (courseId: string) => {
     router.push(`/student/course/${courseId}`);
@@ -170,33 +187,83 @@ export default function StudentCoursesPage() {
         ) : (
           <div className={`grid ${view === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'gap-4'}`}>
             {filteredCourses.map((course) => (
-              <Card key={course.id}>
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle>{course.title}</CardTitle>
-                      <CardDescription>{course.subject}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-2">Taught by {course.teacher}</p>
-                  <div className="flex items-center justify-between text-sm mb-2">
-                    <span>Progress</span>
-                    <span>{course.progress}%</span>
-                  </div>
-                  <Progress value={course.progress} className="h-2" />
-                  <p className="text-xs text-muted-foreground mt-2">Last accessed: {course.lastAccessed}</p>
-                  <p className="text-xs text-muted-foreground">Content: {course.contentCount} items</p>
-                </CardContent>
-                <div className="flex justify-end p-4 pt-0">
-                  <Button onClick={() => handleContinue(course.id)}>Continue</Button>
-                </div>
-              </Card>
+              <CourseCard key={course.id} course={course} handleContinue={handleContinue} />
             ))}
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+interface CourseCardProps {
+  course: Course;
+  handleContinue: (courseId: string) => void;
+}
+
+function getStatusDisplay(status: CourseDownloadStatus | undefined, percentage: number | undefined): { icon: JSX.Element; color: string; text: string } {
+    if (percentage === undefined) percentage = 0;
+    if (status === 'downloaded') {
+        return { icon: <CheckCircle className="h-4 w-4" />, color: 'text-green-500', text: 'Downloaded' };
+    }
+    if (status === 'partial') {
+        return {
+            icon: <CloudDownload className="h-4 w-4" />,
+            color: 'text-yellow-500',
+            text: `Downloading (${percentage}%)`
+        };
+    }
+    if (status === 'not_started') {
+        return { icon: <CloudDownload className="h-4 w-4" />, color: 'text-gray-500', text: 'Offline Content' };
+    }
+    // Handle error or pending more explicitly if we add that logic later
+    if (status === 'error') {
+      return { icon: <XCircle className="h-4 w-4" />, color: 'text-red-500', text: 'Download Error' };
+    }
+
+    return { icon: <CloudDownload className="h-4 w-4" />, color: 'text-gray-500', text: 'Offline Content' }; // Defaulting to 'Offline Content' for simplicity
+}
+
+function CourseCard({ course, handleContinue }: CourseCardProps) {
+  const { icon, color, text } = getStatusDisplay(course.downloadStatus, course.downloadPercentage);
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle>{course.title}</CardTitle>
+            <CardDescription>{course.subject}</CardDescription>
+          </div>
+          <Badge variant="outline" className={`flex items-center gap-1 ${color}`}>
+            {icon}
+            <span className="text-xs">{text}</span>
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground mb-2">Taught by {course.teacher}</p>
+        <div className="flex items-center justify-between text-sm mb-2">
+          <span>Progress</span>
+          <span>{course.progress}%</span>
+        </div>
+        <Progress value={course.progress} className="h-2" />
+        <p className="text-xs text-muted-foreground mt-2">Last accessed: {course.lastAccessed}</p>
+        <p className="text-xs text-muted-foreground">Content: {course.contentCount} items</p>
+        {/* If partially downloaded, show secondary progress bar for download */}
+        {course.downloadStatus === 'partial' && course.downloadPercentage !== undefined && (
+             <div className="mt-2">
+                 <div className="flex items-center justify-between text-xs text-yellow-600 mb-1">
+                     <span>Download Progress</span>
+                     <span>{course.downloadPercentage}%</span>
+                 </div>
+                 <Progress value={course.downloadPercentage} className="h-1 bg-yellow-100" indicatorClassName="bg-yellow-500" />
+             </div>
+        )}
+      </CardContent>
+      <div className="flex justify-end p-4 pt-0">
+        <Button onClick={() => handleContinue(course.id)}>Continue</Button>
+      </div>
+    </Card>
   );
 }

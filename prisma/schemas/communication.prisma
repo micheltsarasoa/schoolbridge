@@ -1,0 +1,188 @@
+// ===== NOTIFICATION & SYSTEM MODELS =====
+
+model Notification {
+  id        String               @id @default(uuid())
+  userId    String               @map("user_id")
+  type      NotificationType     @map("type")
+  title     String               @map("title")
+  message   String               @map("message")
+  data      Json?                @map("data")
+  read      Boolean              @default(false) @map("read")
+  readAt    DateTime?            @map("read_at")
+  actionUrl String?              @map("action_url")
+  priority  NotificationPriority @default(NORMAL) @map("priority")
+  createdAt DateTime             @default(now()) @map("created_at")
+  expiresAt DateTime?            @map("expires_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt])
+  @@index([type])
+  @@map("notifications")
+}
+
+// ===== CONVERSATION & MESSAGING =====
+
+model Conversation {
+  id                      String               @id @default(uuid())
+  name                    String?              @map("name")
+  isGroup                 Boolean              @default(false) @map("is_group")
+  creatorId               String?              @map("creator_id")
+  createdAt               DateTime             @default(now()) @map("created_at")
+  updatedAt               DateTime             @map("updated_at")
+  contextType             ConversationContext? @map("context_type")
+  courseId                String?              @map("course_id")
+  lectureId               String?              @map("lecture_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course     Course?                 @relation(fields: [courseId], references: [id])
+  creator    User?                   @relation(fields: [creatorId], references: [id])
+  lecture    Lecture?                @relation(fields: [lectureId], references: [id])
+  participants ConversationParticipant[]
+  messages   Message[]
+
+  @@index([courseId])
+  @@index([creatorId])
+  @@index([lectureId])
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  id             String       @id @default(uuid())
+  userId         String       @map("user_id")
+  conversationId String       @map("conversation_id")
+  joinedAt       DateTime     @default(now()) @map("joined_at")
+  isAdmin        Boolean      @default(false) @map("is_admin")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, conversationId])
+  @@index([conversationId])
+  @@index([userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String              @id @default(uuid())
+  conversationId String              @map("conversation_id")
+  senderId       String              @map("sender_id")
+  content        String              @map("content")
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  conversation Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User                @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  readStatuses MessageReadStatus[]
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@map("messages")
+}
+
+model MessageReadStatus {
+  id        String   @id @default(uuid())
+  messageId String   @map("message_id")
+  userId    String   @map("user_id")
+  readAt    DateTime @default(now()) @map("read_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId])
+  @@index([messageId])
+  @@index([userId])
+  @@map("message_read_statuses")
+}
+
+model Forum {
+  id          String   @id @default(uuid())
+  title       String   @map("title")
+  description String?  @map("description")
+  courseId    String?  @map("course_id")
+  classId     String?  @map("class_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  course Course? @relation(fields: [courseId], references: [id])
+  class  Class?  @relation(fields: [classId], references: [id])
+  threads Thread[]
+
+  @@map("forums")
+}
+
+model Thread {
+  id        String   @id @default(uuid())
+  title     String   @map("title")
+  forumId   String   @map("forum_id")
+  creatorId String   @map("creator_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  forum   Forum @relation(fields: [forumId], references: [id])
+  creator User  @relation(fields: [creatorId], references: [id])
+  posts   Post[]
+
+  @@map("threads")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  content   String   @map("content")
+  threadId  String   @map("thread_id")
+  authorId  String   @map("author_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  thread Thread @relation(fields: [threadId], references: [id])
+  author User   @relation(fields: [authorId], references: [id])
+
+  @@map("posts")
+}
+
+model Announcement {
+  id         String    @id @default(uuid())
+  title      String    @map("title")
+  content    String    @map("content")
+  authorId   String    @map("author_id")
+  schoolId   String?   @map("school_id")
+  targetRole UserRole? @map("target_role")
+  expiresAt  DateTime? @map("expires_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  author User    @relation(fields: [authorId], references: [id])
+  school School? @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId, createdAt])
+  @@map("announcements")
+}

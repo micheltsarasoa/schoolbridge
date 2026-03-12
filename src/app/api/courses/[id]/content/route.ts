@@ -1,8 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { ContentType } from '@/generated/prisma';
 
+/**
+ * Utility to increment the Course dataVersion upon any content change (US 4.4).
+ */
+async function incrementCourseDataVersion(courseId: string) {
+    return prisma.$transaction(async (tx) => {
+        const course = await tx.course.findUnique({
+            where: { id: courseId },
+            select: { dataVersion: true }
+        });
+
+        if (!course) {
+            throw new Error('Course not found for version update');
+        }
+
+        // Increment dataVersion on the Course model
+        await tx.course.update({
+            where: { id: courseId },
+            data: { dataVersion: course.dataVersion + 1, lastUpdatedAt: new Date() },
+        });
+        
+        return course.dataVersion + 1;
+    });
+}
+ 
 // GET /api/courses/[id]/content - Get all content for a course
 export async function GET(
   request: NextRequest,
@@ -19,7 +43,7 @@ export async function GET(
     // Verify course exists and user has access
     const course = await prisma.course.findUnique({
       where: { id },
-      select: { teacherId: true, status: true },
+      select: { instructorId: true, status: true },
     });
 
     if (!course) {
@@ -27,26 +51,36 @@ export async function GET(
     }
 
     // Only course teacher can view content
-    if (course.teacherId !== session.user.id && session.user.role !== 'ADMIN') {
+    if (course.instructorId !== session.user.id && session.user.role !== 'ADMIN') {
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
-    // Fetch all content items for the course
-    const content = await prisma.courseContent.findMany({
-      where: { courseId: id },
-      orderBy: { contentOrder: 'asc' },
-      include: {
-        quiz: {
-          include: {
-            questions: {
-              orderBy: { order: 'asc' },
+    // Fetch course version and all content items for the course
+    const [course, content] = await Promise.all([
+        prisma.course.findUnique({
+            where: { id },
+            select: { dataVersion: true, lastUpdatedAt: true }
+        }),
+        prisma.courseContent.findMany({
+            where: { courseId: id },
+            orderBy: { contentOrder: 'asc' },
+            include: {
+                quiz: {
+                    include: {
+                        questions: {
+                            orderBy: { order: 'asc' },
+                        },
+                    },
+                },
             },
-          },
-        },
-      },
-    });
+        })
+    ]);
 
-    return NextResponse.json({ content });
+    if (!course) {
+        return NextResponse.json({ message: 'Course not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ content, dataVersion: course.dataVersion, lastUpdatedAt: course.lastUpdatedAt });
   } catch (error) {
     console.error('Error fetching course content:', error);
     return NextResponse.json(
@@ -74,7 +108,7 @@ export async function POST(
     // Verify course exists and user has access
     const course = await prisma.course.findUnique({
       where: { id },
-      select: { teacherId: true, _count: { select: { content: true } } },
+      select: { instructorId: true, _count: { select: { content: true } } },
     });
 
     if (!course) {
@@ -82,7 +116,7 @@ export async function POST(
     }
 
     // Only course teacher can add content
-    if (course.teacherId !== session.user.id && session.user.role !== 'ADMIN') {
+    if (course.instructorId !== session.user.id && session.user.role !== 'ADMIN') {
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
@@ -96,6 +130,7 @@ export async function POST(
 
     // Create the content item
     const newContent = await prisma.courseContent.create({
+      
       data: {
         courseId: id,
         contentType: contentType as ContentType,
@@ -153,6 +188,8 @@ export async function POST(
       }
     }
 
+    // US 4.4: Increment version upon content creation
+    await incrementCourseDataVersion(id);
     return NextResponse.json({ content: newContent }, { status: 201 });
   } catch (error) {
     console.error('Error creating course content:', error);
@@ -188,14 +225,14 @@ export async function PUT(
     // Verify course exists and user has access
     const course = await prisma.course.findUnique({
       where: { id },
-      select: { teacherId: true },
+      select: { instructorId: true },
     });
 
     if (!course) {
       return NextResponse.json({ message: 'Course not found' }, { status: 404 });
     }
 
-    if (course.teacherId !== session.user.id && session.user.role !== 'ADMIN') {
+    if (course.instructorId !== session.user.id && session.user.role !== 'ADMIN') {
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
@@ -290,6 +327,9 @@ export async function PUT(
       }
     }
 
+    // US 4.4: Increment version upon content update
+    await incrementCourseDataVersion(id);
+
     return NextResponse.json({ content: updatedContent });
   } catch (error) {
     console.error('Error updating course content:', error);
@@ -325,14 +365,14 @@ export async function DELETE(
     // Verify course exists and user has access
     const course = await prisma.course.findUnique({
       where: { id },
-      select: { teacherId: true },
+      select: { instructorId: true },
     });
 
     if (!course) {
       return NextResponse.json({ message: 'Course not found' }, { status: 404 });
     }
 
-    if (course.teacherId !== session.user.id && session.user.role !== 'ADMIN') {
+    if (course.instructorId !== session.user.id && session.user.role !== 'ADMIN') {
       return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
     }
 
@@ -359,6 +399,9 @@ export async function DELETE(
     const deletedContent = await prisma.courseContent.delete({
       where: { id: contentId },
     });
+
+    // US 4.4: Increment version upon content deletion
+    await incrementCourseDataVersion(id);
 
     // Reorder remaining content items
     const remainingContent = await prisma.courseContent.findMany({

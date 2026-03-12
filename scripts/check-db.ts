@@ -48,7 +48,7 @@ async function checkDatabase() {
         select: {
           email: true,
           role: true,
-          name: true,
+          firstName: true,
         },
         take: 5,
       });
@@ -56,7 +56,7 @@ async function checkDatabase() {
       if (users.length > 0) {
         console.log('👥 Sample Users:');
         users.forEach((user) => {
-          console.log(`   - ${user.name} (${user.role}) - ${user.email || 'no email'}`);
+          console.log(`   - ${user.email} (${user.role}) - ${user.email || 'no email'}`);
         });
         console.log('\n💡 Use these credentials to login (password: Password123!)');
       }

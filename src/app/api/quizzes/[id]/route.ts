@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/quizzes/[id] - Get quiz with questions
 export async function GET(
@@ -52,7 +52,7 @@ export async function GET(
     if (session.user.role === 'STUDENT') {
       const courseAssignment = await prisma.courseAssignment.findFirst({
         where: {
-          courseId: quiz.courseContent.courseId,
+          courseId: quiz.courseContent?.courseId,
           OR: [
             { studentId: session.user.id },
             {
@@ -92,6 +92,7 @@ export async function GET(
             quizId: id,
             studentId: session.user.id,
             attemptNumber: 1,
+            updatedAt: new Date(),
           },
         });
       }

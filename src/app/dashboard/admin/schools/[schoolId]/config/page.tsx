@@ -17,7 +17,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { SchoolConfig } from '@/generated/prisma'; //TO-DO: 
 import { useRole } from '@/hooks/useRole';
-import { UserRole } from '@/generated/prisma/enums';
+import { UserRole } from '@/generated/prisma';
 import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

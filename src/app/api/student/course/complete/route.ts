@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // POST /api/student/course/complete - Mark course as completed
 export async function POST(
@@ -26,7 +26,7 @@ export async function POST(
     const studentId = session.user.id;
 
     // Update or create student progress with 100% completion
-    const studentProgress = await prisma.studentProgress.upsert({
+    const studentProgress = await prisma.courseProgress.upsert({
       where: {
         studentId_courseId: {
           studentId: studentId,

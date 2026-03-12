@@ -1,0 +1,240 @@
+// ===== OFFLINE & SYNC MODELS =====
+
+model ContentCache {
+  id               String            @id @default(uuid())
+  contentType      CachedContentType @map("content_type")
+  contentId        String            @map("content_id")
+  priority         CachePriority     @default(MEDIUM) @map("priority")
+  sizeInBytes      BigInt            @map("size_in_bytes")
+  version          String            @map("version")
+  checksum         String?           @map("checksum")
+  status           CacheStatus       @default(PENDING) @map("status")
+  downloadProgress Float             @default(0) @map("download_progress")
+  cachedAt         DateTime?         @map("cached_at")
+  lastAccessedAt   DateTime?         @map("last_accessed_at")
+  accessCount      Int               @default(0) @map("access_count")
+  expiresAt        DateTime?         @map("expires_at")
+  pinned           Boolean           @default(false) @map("pinned")
+  serverId         String            @map("server_id")
+
+  schoolServer SchoolServer @relation(fields: [serverId], references: [id])
+
+  @@unique([serverId, contentType, contentId])
+  @@index([contentType, contentId])
+  @@index([lastAccessedAt])
+  @@index([serverId, status])
+  @@map("content_cache")
+}
+
+model ContentVariant {
+  id             String         @id @default(uuid())
+  contentType    String         @map("content_type")
+  contentId      String         @map("content_id")
+  quality        ContentQuality @map("quality")
+  resolution     String?        @map("resolution")
+  bitrate        Int?           @map("bitrate")
+  codec          String?        @map("codec")
+  format         String?        @map("format")
+  url            String         @map("url")
+  sizeInBytes    BigInt         @map("size_in_bytes")
+  sizeFormatted  String         @map("size_formatted")
+  duration       Int?           @map("duration")
+  isDefault      Boolean        @default(false) @map("is_default")
+  recommendedFor NetworkSpeed[] @map("recommended_for")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  videoId        String?        @map("video_id")
+
+  video Video? @relation(fields: [videoId], references: [id])
+
+  @@unique([contentType, contentId, quality])
+  @@index([contentType, contentId])
+  @@map("content_variants")
+}
+
+model DownloadQueue {
+  id             String           @id @default(uuid())
+  deviceId       String           @map("device_id")
+  contentType    String           @map("content_type")
+  contentId      String           @map("content_id")
+  variantQuality ContentQuality   @default(MEDIUM) @map("variant_quality")
+  priority       DownloadPriority @default(NORMAL) @map("priority")
+  status         DownloadStatus   @default(QUEUED) @map("status")
+  progress       Float            @default(0) @map("progress")
+  wifiOnly       Boolean          @default(true) @map("wifi_only")
+  scheduledFor   DateTime?        @map("scheduled_for")
+  estimatedSize  BigInt?          @map("estimated_size")
+  downloadedSize BigInt           @default(0) @map("downloaded_size")
+  startedAt      DateTime?        @map("started_at")
+  completedAt    DateTime?        @map("completed_at")
+  retryCount     Int              @default(0) @map("retry_count")
+  maxRetries     Int              @default(3) @map("max_retries")
+  lastError      String?          @map("last_error")
+  userId         String           @map("user_id")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([scheduledFor])
+  @@index([status, priority])
+  @@index([userId, status])
+  @@map("download_queue")
+}
+
+model NetworkUsage {
+  id             String         @id @default(uuid())
+  deviceId       String         @map("device_id")
+  date           DateTime       @default(now()) @db.Date @map("date")
+  dataDownloaded BigInt         @default(0) @map("data_downloaded")
+  dataUploaded   BigInt         @default(0) @map("data_uploaded")
+  videoData      BigInt         @default(0) @map("video_data")
+  documentData   BigInt         @default(0) @map("document_data")
+  imageData      BigInt         @default(0) @map("image_data")
+  otherData      BigInt         @default(0) @map("other_data")
+  connectionType ConnectionType @map("connection_type")
+  userId         String         @map("user_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, deviceId, date, connectionType])
+  @@index([userId, date])
+  @@map("network_usage")
+}
+
+model OfflineContent {
+  id             String          @id @default(uuid())
+  deviceId       String          @map("device_id")
+  contentType    String          @map("content_type")
+  contentId      String          @map("content_id")
+  variantQuality ContentQuality? @map("variant_quality")
+  localPath      String?         @map("local_path")
+  sizeInBytes    BigInt          @map("size_in_bytes")
+  downloadedAt   DateTime        @map("downloaded_at")
+  lastAccessedAt DateTime        @map("last_accessed_at")
+  accessCount    Int             @default(0) @map("access_count")
+  expiresAt      DateTime?       @map("expires_at")
+  pinned         Boolean         @default(false) @map("pinned")
+  autoDelete     Boolean         @default(true) @map("auto_delete")
+  needsUpdate    Boolean         @default(false) @map("needs_update")
+  cloudVersion   String?         @map("cloud_version")
+  localVersion   String?         @map("local_version")
+  userId         String          @map("user_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, deviceId, contentType, contentId])
+  @@index([expiresAt])
+  @@index([lastAccessedAt])
+  @@index([userId, deviceId])
+  @@map("offline_content")
+}
+
+model OfflineSync {
+  id             String   @id @default(uuid())
+  deviceId       String   @map("device_id")
+  lastSyncAt     DateTime @map("last_sync_at")
+  pendingChanges Json?    @map("pending_changes")
+  userId         String   @map("user_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, deviceId])
+  @@map("offline_syncs")
+}
+
+model UserNetworkPreferences {
+  id                 String         @id @default(uuid())
+  autoDownload       Boolean        @default(false) @map("auto_download")
+  wifiOnlyDownload   Boolean        @default(true) @map("wifi_only_download")
+  maxDailyData       Int?           @map("max_daily_data")
+  wifiQuality        ContentQuality @default(HIGH) @map("wifi_quality")
+  cellularQuality    ContentQuality @default(LOW) @map("cellular_quality")
+  prioritizeVideos   Boolean        @default(true) @map("prioritize_videos")
+  prioritizeQuizzes  Boolean        @default(true) @map("prioritize_quizzes")
+  prioritizeArticles Boolean        @default(true) @map("prioritize_articles")
+  syncSchedule       String?        @map("sync_schedule")
+  syncWindowStart    Int?           @map("sync_window_start")
+  syncWindowEnd      Int?           @map("sync_window_end")
+  autoDeleteWatched  Boolean        @default(false) @map("auto_delete_watched")
+  keepDuration       Int?           @default(30) @map("keep_duration")
+  maxStorageGB       Int?           @map("max_storage_gb")
+  userId             String         @unique @map("user_id")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_network_preferences")
+}
+
+model SchoolServer {
+  id                 String          @id @default(uuid())
+  serverName         String          @map("server_name")
+  ipAddress          String?         @map("ip_address")
+  macAddress         String?         @map("mac_address")
+  storageCapacity    Int             @map("storage_capacity")
+  storageUsed        Int             @default(0) @map("storage_used")
+  status             ServerStatus    @default(ACTIVE) @map("status")
+  lastPingAt         DateTime?       @map("last_ping_at")
+  isMainServer       Boolean         @default(false) @map("is_main_server")
+  canServeContent    Boolean         @default(true) @map("can_serve_content")
+  maxConcurrentUsers Int             @default(100) @map("max_concurrent_users")
+  syncWithCloud      Boolean         @default(true) @map("sync_with_cloud")
+  syncSchedule       String?         @map("sync_schedule")
+  lastSyncAt         DateTime?       @map("last_sync_at")
+  nextSyncAt         DateTime?       @map("next_sync_at")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @map("updated_at")
+  schoolId           String?         @map("school_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school          School?         @relation(fields: [schoolId], references: [id])
+  contentCaches   ContentCache[]
+  serverSyncLogs  ServerSyncLog[]
+
+  @@index([schoolId])
+  @@index([status])
+  @@map("school_servers")
+}
+
+model ServerSyncLog {
+  id             String     @id @default(uuid())
+  syncType       SyncType   @map("sync_type")
+  startedAt      DateTime   @default(now()) @map("started_at")
+  completedAt    DateTime?  @map("completed_at")
+  status         SyncStatus @default(IN_PROGRESS) @map("status")
+  itemsSynced    Int        @default(0) @map("items_synced")
+  itemsFailed    Int        @default(0) @map("items_failed")
+  totalSize      BigInt     @default(0) @map("total_size")
+  errors         Json?      @map("errors")
+  serverId       String     @map("server_id")
+
+  schoolServer SchoolServer @relation(fields: [serverId], references: [id])
+
+  @@index([serverId, startedAt])
+  @@index([status])
+  @@map("server_sync_logs")
+}

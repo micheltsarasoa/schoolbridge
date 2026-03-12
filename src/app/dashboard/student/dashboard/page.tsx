@@ -1,5 +1,5 @@
 'use client';
-
+// TO-DO: (jms) run dev and see if this page is needed)
 import { useEffect, useState } from 'react';
 import { Activity, BookOpen, GraduationCap, CheckCircle, Clock, ArrowUpRight, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';

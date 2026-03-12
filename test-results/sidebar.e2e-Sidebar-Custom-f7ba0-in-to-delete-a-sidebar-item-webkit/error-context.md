@@ -1,0 +1,62 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - img [ref=e4]
+    - generic [ref=e8]: "Ready to syncLast sync: Never"
+  - generic [ref=e9]:
+    - img "Image" [ref=e11]
+    - generic [ref=e12]:
+      - link "SchoolBridge" [ref=e14]:
+        - /url: /
+        - img [ref=e16]
+        - generic [ref=e18]: SchoolBridge
+      - generic [ref=e21]:
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - heading "Welcome back" [level=1] [ref=e27]
+            - paragraph [ref=e28]: Login to your SchoolBridge account
+          - generic [ref=e29]:
+            - generic [ref=e30]: Email
+            - textbox "Email" [ref=e31]:
+              - /placeholder: m@example.com
+          - generic [ref=e32]:
+            - generic [ref=e33]:
+              - generic [ref=e34]: Password
+              - link "Forgot your password?" [ref=e35]:
+                - /url: /request-password-reset
+            - textbox "Password" [ref=e36]:
+              - /placeholder: Minimum 8 characters
+          - button "Login" [ref=e37]
+          - generic [ref=e38]: Or continue with
+          - generic [ref=e39]:
+            - button "Login with Apple" [ref=e40]:
+              - img
+              - generic [ref=e41]: Login with Apple
+            - button "Login with Google" [ref=e42]:
+              - img
+              - generic [ref=e43]: Login with Google
+            - button "Login with Meta" [ref=e44]:
+              - img
+              - generic [ref=e45]: Login with Meta
+          - generic [ref=e46]:
+            - text: Don't have an account?
+            - link "Sign up" [ref=e47]:
+              - /url: register
+        - generic [ref=e48]:
+          - text: By clicking continue, you agree to our
+          - link "Terms of Service" [ref=e49]:
+            - /url: "#"
+          - text: and
+          - link "Privacy Policy" [ref=e50]:
+            - /url: "#"
+          - text: .
+  - generic [ref=e52]:
+    - img [ref=e53]
+    - text: Online
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e62] [cursor=pointer]:
+    - img [ref=e63]
+  - alert [ref=e68]
+```

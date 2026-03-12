@@ -1,0 +1,220 @@
+# 📋 USER STORIES & USE CASES (V2) - SchoolBridge LMS
+ 
+## 1. User Roles & Personas
+ 
+The SchoolBridge LMS introduces a granular, profile-based role system. A single `User` account can have one or more of the following profiles attached, defining their capabilities within the platform.
+ 
+-   **Student ("Fara"):** The primary consumer of content. Enrolls in courses, tracks progress, takes assessments, and utilizes offline features.
+-   **Parent ("Marie"):** Linked to one or more Student accounts. Monitors progress, views grades, and communicates with teachers.
+-   **Instructor ("Mr. Jean"):** The primary content creator. Designs courses, creates lectures and assignments, grades student work, and monitors class progress.
+-   **Educational Manager / Content Moderator ("Dr. Rakoto"):** Responsible for quality control. Reviews and validates courses created by Instructors before they are published.
+-   **School Admin ("Mrs. Duval"):** Manages the operational aspects of a specific school, including user accounts, class creation, academic period setup, and local server monitoring.
+-   **Super Admin:** Has platform-wide oversight, manages schools, and can perform all administrative functions.
+ 
+---
+ 
+## 2. User Stories by Epic
+ 
+### Epic 1: Comprehensive Course & Content Management
+ 
+> This epic covers the entire lifecycle of educational content, from creation to publication and maintenance.
+ 
+#### 👨‍🏫 Instructor Stories
+-   As an **Instructor**, I want to create a new course with a title, description, level, and language, so I can set up the basic structure for my content.
+-   As an **Instructor**, I want to organize my course into multiple `Sections` (e.g., "Week 1", "Module 1"), so I can logically group my lessons.
+-   As an **Instructor**, I want to add different types of `Lectures` to a section, including video, articles, quizzes, and assignments, so I can create a rich and varied learning experience.
+-   As an **Instructor**, I want to upload video files and have them automatically processed into different quality levels (`ContentVariant`), so the content is accessible on all network speeds.
+-   As an **Instructor**, I want to write rich-text `Articles` with embedded images, so I can provide detailed reading material.
+-   As an **Instructor**, I want to define course prerequisites, learning objectives, and target audience, so students know if the course is right for them.
+-   As an **Instructor**, I want to save my course as a `DRAFT` and publish it only when it's ready, so I can work on it over time.
+-   As an **Instructor**, I want to submit my completed course for validation, so I can get it approved for student enrollment.
+-   As an **Instructor**, I want to view feedback from validators and update my course content accordingly, so I can improve its quality.
+-   As an **Instructor**, I want to manage a version history for my courses, so I can track changes and revert if necessary.
+ 
+#### 👨‍🏫 Educational Manager (content validator) Stories
+-   As an **Educational Manager**, I want to receive a notification when an Instructor submits a course for validation, so I can begin the review process promptly.
+-   As an **Educational Manager**, I want to review all content within a submitted course, including lectures, quizzes, and assignments, so I can ensure it meets our quality standards.
+-   As an **Educational Manager**, I want to either `APPROVE` a course, `REJECT` it, or send it back with `CHANGES_REQUESTED`, so I can manage the quality control workflow.
+-   As an **Educational Manager**, I want to provide structured feedback and suggestions on the course content, so the Instructor knows exactly what to improve.
+ 
+---
+ 
+### Epic 2: Engaging Learning & Progress Tracking
+ 
+> This epic focuses on the student's journey, from enrolling in a course to tracking their learning progress.
+ 
+#### 🎯 Student Stories
+-   As a **Student**, I want to browse a catalog of available courses and enroll in them, so I can start learning.
+-   As a **Student**, I want to see my course progress, including my overall completion percentage and which lectures I have completed, so I can track my advancement.
+-   As a **Student**, I want my position in a video lecture to be saved automatically (`lastPosition`), so I can resume watching exactly where I left off.
+-   As a **Student**, I want to take notes directly within a lecture and associate them with a specific timestamp in a video, so I can easily review key concepts.
+-   As a **Student**, I want to see all downloadable resources associated with a lecture, so I can access supplementary materials.
+-   As a **Student**, I want to earn a `Certificate` upon completing a course if all requirements are met, so I have a formal recognition of my achievement.
+-   As a **Student**, I want to view my course `Statistics`, such as total time spent and completion rate, so I can monitor my own engagement.
+ 
+---
+ 
+### Epic 3: Advanced Assessment & Grading
+ 
+> This epic covers all forms of student assessment, from automated quizzes to manually graded assignments.
+ 
+#### 🎯 Student Stories
+-   As a **Student**, I want to take a `Quiz` with various question types (multiple choice, fill-in-the-blank, etc.), so I can test my knowledge.
+-   As a **Student**, I want to receive my quiz score immediately after submission (if configured), so I can get instant feedback.
+-   As a **Student**, I want to review my quiz answers and see explanations for the correct ones, so I can learn from my mistakes.
+-   As a **Student**, I want to submit files for an `Assignment`, so I can turn in my homework.
+-   As a **Student**, I want to receive a grade and written feedback for my assignment submission, so I understand how I was evaluated.
+-   As a **Student**, I want to view all my grades for a course in one place, so I can understand my overall performance.
+ 
+#### 👨‍🏫 Instructor Stories
+-   As an **Instructor**, I want to create a `Quiz` with a time limit, a set number of attempts, and a passing score, so I can create a formal assessment.
+-   As an **Instructor**, I want to build a question bank with multiple `Question` types, points, and hints, so I can design comprehensive quizzes.
+-   As an **Instructor**, I want to create an `Assignment` with a due date, instructions, and allowed file types, so I can give students projects to complete.
+-   As an **Instructor**, I want to view student assignment submissions, download their files, and assign a `Grade`, so I can evaluate their work.
+-   As an **Instructor**, I want to provide written feedback along with a grade, so I can help students improve.
+-   As an **Instructor**, I want to view a gradebook for my class that shows all students and their scores on all graded items, so I have a clear overview of class performance.
+ 
+---
+ 
+### Epic 4: Offline-First & Local Network Access
+ 
+> This epic is the cornerstone of SchoolBridge's resilience, ensuring access to education in any environment.
+ 
+#### 🎯 Student Stories
+-   As a **Student**, I want to see which courses and lectures are available for offline download, so I can plan my learning.
+-   As a **Student**, I want to add courses, sections, or individual lectures to a `DownloadQueue`, so I can download them for offline use.
+-   As a **Student**, I want to manage my download preferences, such as "WiFi-only" and preferred video quality (`UserNetworkPreference`), so I can control my data usage.
+-   As a **Student**, I want to access all my downloaded content through the PWA when I have no internet connection, so I can continue learning anywhere.
+-   As a **Student**, I want to complete a quiz or save a note while offline, and have my progress automatically sync to the server when I'm back online.
+-   As a **Student**, I want to manage my `OfflineContent`, see how much storage it's using, and delete content I no longer need.
+-   As a **Student**, when sync conflicts occur (e.g., local note modification vs. server update), I want to be prompted with a clear choice to resolve the conflict (Keep Local or Keep Server version), so I maintain explicit control over potentially lost data. (Enabled by Hybrid Sync/Versioning)
+ 
+#### 👨‍💼 School Admin Stories
+-   As a **School Admin**, I want to monitor the status and storage usage of our local `SchoolServer`, so I can ensure it's running smoothly.
+-   As a **School Admin**, I want to configure the content caching strategy for the local server, prioritizing critical courses (`CachePriority`), so essential materials are always available.
+-   As a **School Admin**, I want to view `ServerSyncLog`s to see when the local server last synced with the cloud and if there were any errors.
+-   As a **School Admin**, I want to be able to trigger a manual sync between the local server and the cloud, so I can ensure content is up-to-date before the internet is disconnected.
+ 
+---
+ 
+### Epic 5: Comprehensive User & School Management
+ 
+> This epic covers the administrative functions for managing the school's structure and its people.
+ 
+#### 👨‍💼 School Admin Stories
+-   As a **School Admin**, I want to create, update, and disable user accounts for my school, so I can manage platform access.
+-   As a **School Admin**, I want to assign roles (Student, Teacher, Parent) to users and link them to their respective profiles, so they have the correct permissions.
+-   As a **School Admin**, I want to create `Classes` for each academic period (e.g., "Math - Grade 7"), so I can organize my school's structure.
+-   As a **School Admin**, I want to enroll `Students` into `Classes`, so they have access to the correct materials and teachers.
+-   As a **School Admin**, I want to assign `Instructors` to the classes they teach.
+-   As a **School Admin**, I want to define `AcademicPeriod`s (e.g., "Term 1 2025"), so I can structure the school year.
+-   As a **School Admin**, I want to view `AuditLog`s to track important activities within my school's instance, so I can monitor for security and compliance.
+ 
+#### 👑 Super Admin Stories
+-   As a **Super Admin**, I want to assign a default `School` ID to any new or unattached `User` upon creation, so that they are immediately placed into a context even without explicit enrollment instructions.
+-   As a **Super Admin**, I want to view an aggregate list of all schools currently active on the platform, so I can maintain an operational overview.
+-   As a **Super Admin**, I want the ability to `RETIRE` an entire `School` instance (soft delete/archive), ensuring all associated data is retained but access is revoked globally.
+-   As a **Super Admin**, I want the ability to manage user profiles and roles across *all* schools, independent of School Admin permissions, so I can resolve complex, platform-wide access issues.
+ 
+---
+ 
+### Epic 6: Parent & Stakeholder Engagement
+ 
+> This epic focuses on keeping parents informed and involved in their children's education.
+ 
+#### 👨‍👩‍👧‍👦 Parent Stories
+-   As a **Parent**, I want to create an account and link it to my child's (or children's) `Student` profile, so I can access their information.
+-   As a **Parent**, I want to see a dashboard with an overview of all my children's progress, so I can easily monitor their learning.
+-   As a **Parent**, I want to view my child's detailed progress in a specific course, including completion percentage and time spent.
+-   As a **Parent**, I want to see my child's grades on quizzes and assignments, so I am aware of their academic performance.
+-   As a **Parent**, I want to receive `Notifications` for important events, such as a new grade being posted or an assignment being due soon.
+ 
+---
+ 
+### Epic 7: Communication & Collaboration
+ 
+> This epic introduces a robust messaging system, enabling direct, group, and contextual discussions to foster better communication and focused learning.
+ 
+#### 🎯 Student Stories
+-   As a **Student**, I want to send a direct message to my teacher, so I can ask private questions about a lesson.
+-   As a **Student**, I want to participate in a discussion thread linked directly to a specific `Lecture`, so I can ask questions and get clarification on that content.
+-   As a **Student**, I want to participate in a discussion thread linked directly to a specific `Course`, so I can discuss general course topics with my peers and instructor.
+-   As a **Student**, I want to see unread message indicators for my conversations, so I know when there's new activity.
+ 
+#### 👨‍🏫 Instructor Stories
+-   As an **Instructor**, I want to receive direct messages from my students, so I can provide personalized support.
+-   As an **Instructor**, I want to initiate a group conversation with all students in a `StudentClass`, so I can make announcements or facilitate group discussions.
+-   As an **Instructor**, I want to participate in discussion threads linked to `Lectures` and `Courses`, so I can answer student questions and guide discussions.
+-   As an **Instructor**, I want to easily switch between general conversations and contextual discussions, so I can manage all my communications efficiently.
+ 
+#### 👨‍👩‍👧‍👦 Parent Stories
+-   As a **Parent**, I want to send a direct message to my child's teacher, so I can discuss my child's progress or concerns.
+-   As a **Parent**, I want to receive messages from my child's teacher, so I stay informed about their education.
+ 
+---
+ 
+### Epic 8: Super Admin Global Management & Default Linking
+ 
+> This epic introduces enhanced administrative capabilities for the Super Admin to manage global platform state, including school retirement and default user linking.
+ 
+#### 👑 Super Admin Stories
+-   As a **Super Admin**, I want to assign a default `School` ID to any new or unattached `User` upon creation, so that they are immediately placed into a context even without explicit enrollment instructions.
+-   As a **Super Admin**, I want to view an aggregate list of all schools currently active on the platform, so I can maintain an operational overview.
+-   As a **Super Admin**, I want the ability to `RETIRE` an entire `School` instance (soft delete/archive), ensuring all associated data is retained but access is revoked globally.
+-   As a **Super Admin**, I want the ability to manage user profiles and roles across *all* schools, independent of School Admin permissions, so I can resolve complex, platform-wide access issues.
+ 
+---
+ 
+## 3. Detailed Use Cases
+ 
+### Use Case 1: Full Offline Learning Cycle
+ 
+-   **Actors:** Student (Fara), School Admin (Mrs. Duval)
+-   **Scenario:** Fara's school has a local SchoolBridge server. Her home has no internet.
+-   **Steps:**
+     1.  **At School (Online):** Fara logs into the SchoolBridge PWA on her tablet via the school's WiFi. The app connects to the local `SchoolServer`.
+     2.  She navigates to her "History - Grade 7" course and adds the entire course to her `DownloadQueue`.
+     3.  The PWA downloads all course content (videos in `LOW` quality as per her preference, articles, quiz definitions) from the `SchoolServer` and stores it in `OfflineContent` on her device.
+     4.  **At Home (Offline):** Fara opens the PWA. It works seamlessly. She watches two video lectures and reads an article. Her `LectureProgress` is saved locally.
+     5.  She takes a 10-question quiz. Her `QuizAttempt`, including her answers and score, is created and stored locally.
+     6.  **Back at School (Online):** Fara connects to the school's WiFi. The PWA detects the connection and initiates a sync.
+     7.  Her `LectureProgress` and `QuizAttempt` data are pushed to the local `SchoolServer`.
+     8.  The `SchoolServer` later syncs this new data to the cloud, and Fara's teacher can now see her completed work.
+ 
+ ### Use Case 2: Course Creation and Validation
+ 
+ -   **Actors:** Instructor (Mr. Jean), Educational Manager (Dr. Rakoto)
+ -   **Scenario:** Mr. Jean wants to create a new course on "Introduction to Algebra".
+ -   **Steps:**
+     1.  **Creation:** Mr. Jean creates a new `Course`, setting its status to `DRAFT`. He adds 5 `Sections`.
+     2.  He populates the sections with 10 video `Lectures`, 5 `Articles`, and 3 `Quizzes`.
+     3.  **Submission:** Once complete, he changes the course status to "Ready for Review". This triggers a `CourseValidation` entry with a `PENDING` status and notifies Dr. Rakoto.
+     4.  **Review:** Dr. Rakoto reviews the entire course. He finds a mistake in one of the quizzes.
+     5.  He sets the validation status to `CHANGES_REQUESTED` and adds a comment: "Please correct Question 3 in the 'Linear Equations' quiz."
+     6.  **Revision:** Mr. Jean receives a notification, corrects the quiz question, and resubmits the course for validation.
+     7.  **Approval:** Dr. Rakoto reviews the change and sets the validation status to `APPROVED`. The course `status` is automatically changed to `PUBLISHED`, making it available for student enrollment.
+ 
+ ---
+ 
+ ## 4. Non-Functional Requirements (V2)
+ 
+ -   **Performance:**
+     -   Client-side database queries (in IndexedDB) must complete in <50ms.
+     -   Initial PWA load time on a cached, repeat visit should be <1.5 seconds.
+     -   The UI must remain responsive while background sync is in progress.
+ -   **Scalability:**
+     -   The system must support 500 concurrent users connected to a single `SchoolServer`.
+     -   The cloud infrastructure must support 50+ `SchoolServer` instances syncing simultaneously.
+ -   **Reliability:**
+     -   The local `SchoolServer` must have an uptime of 99.9%.
+     -   Data sync conflict resolution must handle 99% of cases automatically. A manual resolution path must exist for the remaining 1%.
+ -   **Data & Storage:**
+     -   Video content should be compressed and offered in at least three `ContentQuality` variants (low, medium, high).
+     -   The application should provide clear feedback on device storage usage for offline content.
+ -   **Security:**
+     -   All data stored in the client-side `OfflineContent` cache must be encrypted.
+     -   Strict data isolation must be enforced between schools (multi-tenancy).
+ 
+ ---
+ 
+ 🏗️ **Next Document:** TECHNICAL ARCHITECTURE DOCUMENT (V2)

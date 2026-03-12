@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from "react";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal, Plus, Trash2, Unlock } from "lucide-react"; // Added Unlock icon
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -57,6 +57,8 @@ export type User = {
   schoolId?: string;
   lastLogin?: string;
   createdAt: string;
+  failedLoginAttempts: number; // New field for lockout status
+  lockedUntil?: string; // New field for lockout status
   classes?: Array<{ id: string; name: string }>;
 };
 
@@ -114,6 +116,25 @@ export const columns: ColumnDef<User>[] = [
     ),
   },
   {
+    accessorKey: "lockoutStatus",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Lockout Status" />
+    ),
+    cell: ({ row }) => {
+      const lockedUntil = row.original.lockedUntil;
+      const failedAttempts = row.original.failedLoginAttempts;
+      const isLocked = lockedUntil && new Date(lockedUntil) > new Date();
+      
+      if (isLocked) {
+        const unlockTime = new Date(lockedUntil).toLocaleString();
+        return <Badge variant="destructive">Locked (until {unlockTime})</Badge>;
+      } else if (failedAttempts > 0) {
+        return <Badge variant="warning">Attempts: {failedAttempts}</Badge>;
+      }
+      return <Badge variant="secondary">Not Locked</Badge>;
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Created At" />
@@ -142,6 +163,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row, table }) => {
       const user = row.original;
       const tableInstance = table as any;
+      const isLocked = user.lockedUntil && new Date(user.lockedUntil) > new Date();
 
       return (
         <DropdownMenu>
@@ -169,6 +191,14 @@ export const columns: ColumnDef<User>[] = [
             >
               Edit user
             </DropdownMenuItem>
+            {isLocked && ( // Conditionally render Unlock button
+              <DropdownMenuItem
+                onClick={() => tableInstance?.handleUnlockUser?.(user.id)}
+              >
+                <Unlock className="h-4 w-4 mr-2" />
+                Unlock User
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
               onClick={() => tableInstance?.handleDelete?.(user.id)}
               className="text-red-600"
@@ -240,9 +270,36 @@ export function UserTable({ roleFilter }: UserTableProps) {
       });
       if (response.ok) {
         fetchUsers(currentPage);
+        toast.success("User deleted successfully.");
+      } else {
+        const errorData = await response.json();
+        toast.error("Failed to delete user", errorData.message);
       }
     } catch (err) {
       console.error('Failed to delete user:', err);
+      toast.error("Failed to delete user", "Something went wrong.");
+    }
+  };
+
+  const handleUnlockUser = async (userId: string) => {
+    if (!window.confirm('Are you sure you want to unlock this user account?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/users/${userId}/unlock`, {
+        method: 'PUT',
+      });
+      if (response.ok) {
+        fetchUsers(currentPage); // Refetch users to update status in table
+        toast.success("User account unlocked successfully.");
+      } else {
+        const errorData = await response.json();
+        toast.error("Failed to unlock user", errorData.message);
+      }
+    } catch (err) {
+      console.error('Failed to unlock user:', err);
+      toast.error("Failed to unlock user", "Something went wrong.");
     }
   };
 
@@ -290,6 +347,7 @@ export function UserTable({ roleFilter }: UserTableProps) {
   // Add methods to table instance for dropdown callbacks
   (table as any).setSelectedUser = handleSetSelectedUser;
   (table as any).handleDelete = handleDelete;
+  (table as any).handleUnlockUser = handleUnlockUser; // Added Unlock method
 
   const totalPages = Math.ceil(totalCount / pageSize);
 

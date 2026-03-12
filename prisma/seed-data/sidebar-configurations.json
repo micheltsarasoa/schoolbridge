@@ -1,0 +1,81 @@
+[
+  {
+    "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "configuration": {
+      "items": [
+        {
+          "id": "dashboard",
+          "type": "link",
+          "label": "Dashboard",
+          "icon": "home",
+          "href": "/dashboard",
+          "roles": ["ADMIN", "INSTRUCTOR", "STUDENT", "PARENT"]
+        },
+        {
+          "type": "divider",
+          "roles": ["ADMIN", "INSTRUCTOR", "STUDENT", "PARENT"]
+        },
+        {
+          "id": "academics",
+          "type": "group",
+          "label": "Academics",
+          "icon": "school",
+          "roles": ["ADMIN", "INSTRUCTOR", "STUDENT"],
+          "children": [
+            {
+              "id": "courses",
+              "type": "link",
+              "label": "Courses",
+              "href": "/dashboard/academics/courses",
+              "roles": ["ADMIN", "INSTRUCTOR", "STUDENT"]
+            },
+            {
+              "id": "assignments",
+              "type": "link",
+              "label": "Assignments",
+              "href": "/dashboard/academics/assignments",
+              "roles": ["ADMIN", "INSTRUCTOR", "STUDENT"]
+            },
+            {
+              "id": "grades",
+              "type": "link",
+              "label": "Grades",
+              "href": "/dashboard/academics/grades",
+              "roles": ["ADMIN", "INSTRUCTOR", "STUDENT"]
+            }
+          ]
+        },
+        {
+          "id": "administration",
+          "type": "group",
+          "label": "Administration",
+          "icon": "settings",
+          "roles": ["ADMIN"],
+          "children": [
+            {
+              "id": "users",
+              "type": "link",
+              "label": "Users",
+              "href": "/dashboard/admin/users",
+              "roles": ["ADMIN"]
+            },
+            {
+              "id": "classes",
+              "type": "link",
+              "label": "Classes",
+              "href": "/dashboard/admin/classes",
+              "roles": ["ADMIN"]
+            },
+            {
+              "id": "settings",
+              "type": "link",
+              "label": "Settings",
+              "href": "/dashboard/admin/settings",
+              "roles": ["ADMIN"]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

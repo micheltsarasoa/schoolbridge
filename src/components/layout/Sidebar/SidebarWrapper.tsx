@@ -1,20 +1,10 @@
-import { StudentSidebar } from './StudentSidebar';
-import { $Enums } from '@/generated/prisma/browser';
-import { TeacherSidebar } from './TeacherSidebar';
-import { AdminSidebar } from './AdminSidebar';
-import { ParentSidebar } from './ParentSidebar';
+import { UserRole } from '@/generated/prisma';
+import DynamicSidebar from './DynamicSidebar';
 
-export default function SidebarWrapper({ userRole }: { userRole: $Enums.UserRole }) {
-  switch (userRole) {
-    case $Enums.UserRole.STUDENT:
-      return <StudentSidebar />;
-    case $Enums.UserRole.TEACHER:
-      return <TeacherSidebar />;
-    case $Enums.UserRole.ADMIN:
-      return <AdminSidebar />;
-    case $Enums.UserRole.PARENT:
-      return <ParentSidebar />;
-    default:
-      return null;
+
+export default function SidebarWrapper({ userRole }: { userRole: UserRole | undefined }) {
+  if (!userRole) {
+    return <div>Loading sidebar...</div>;
   }
+  return <DynamicSidebar userRole={userRole} />;
 }

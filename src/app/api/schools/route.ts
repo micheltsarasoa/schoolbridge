@@ -16,7 +16,7 @@ const schoolSchema = z.object({
 // GET all schools - public endpoint for registration
 export async function GET(req: Request) {
   try {
-    const schools = await prisma.schools.findMany({
+    const schools = await prisma.school.findMany({
       orderBy: {
         name: "asc",
       },
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     } = validation.data;
 
     // Check if school with the same code already exists
-    const existingSchool = await prisma.schools.findFirst({
+    const existingSchool = await prisma.school.findFirst({
       where: { OR: [{ code }, { name }] },
     });
 
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const school = await prisma.schools.create({
+    const school = await prisma.school.create({
       data: {
         name,
         code,

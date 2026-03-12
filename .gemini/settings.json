@@ -1,14 +1,6 @@
 {
   "mcpServers": {
-    "supabase": {
-      "command": "npx",
-      "headers": {"Authorization": "Bearer ${SUPABASE_ACCESS_TOKEN}"},
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.supabase.com/mcp?project_ref=kpdvdbhwudcfjrgnqadl"
-      ]
-    },
+    
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
@@ -20,6 +12,10 @@
         "NEON_API_KEY": "napi_qft4bfb83a2j9tacm43e1xgrbkbd3wcglvxkmn59b4tlmkzw2fk2w5t4vo4094jq",
         "DATABASE_URL": "postgresql://neondb_owner:npg_j68PzQBWgLpw@ep-delicate-resonance-ag0uhpiz-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
       }
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp", "--api-key", "ctx7sk-30204dcc-a94f-49ee-992d-e1eb9d05c444"]
     }
   }
 }

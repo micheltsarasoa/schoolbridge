@@ -6,7 +6,7 @@
     "lastName": "User",
     "password": "admin123",
     "role": "ADMIN",
-    "verified": true,
+    "isActive": true,
     "schoolId": "clv9v1n0s000008l5g1p4e2n1",
     "updatedAt": "2025-11-26T10:00:00.000Z"
   },
@@ -17,7 +17,7 @@
     "lastName": "Rakoto",
     "password": "teacher123",
     "role": "TEACHER",
-    "verified": true,
+    "isActive": true,
     "schoolId": "clv9v1n0s000008l5g1p4e2n1",
     "updatedAt": "2025-11-26T10:00:00.000Z"
   },
@@ -28,7 +28,7 @@
     "lastName": "Dupont",
     "password": "student123",
     "role": "STUDENT",
-    "verified": true,
+    "isActive": true,
     "schoolId": "clv9v1n0s000008l5g1p4e2n1",
     "updatedAt": "2025-11-26T10:00:00.000Z"
   },
@@ -39,7 +39,7 @@
     "lastName": "Dupont",
     "password": "parent123",
     "role": "PARENT",
-    "verified": true,
+    "isActive": true,
     "schoolId": "clv9v1n0s000008l5g1p4e2n1",
     "updatedAt": "2025-11-26T10:00:00.000Z"
   },
@@ -50,7 +50,7 @@
     "lastName": "User",
     "password": "password123",
     "role": "STUDENT",
-    "verified": true,
+    "isActive": true,
     "schoolId": "clv9v1n0s000008l5g1p4e2n1",
     "updatedAt": "2025-11-26T10:00:00.000Z"
   },
@@ -61,8 +61,19 @@
     "lastName": "User",
     "password": "password123",
     "role": "STUDENT",
-    "verified": true,
+    "isActive": true,
     "schoolId": "clv9v1n0s000008l5g1p4e2n1",
+    "updatedAt": "2025-11-26T10:00:00.000Z"
+  },
+  {
+    "id": "clz1v1n1s000008l5g1p4e2n1",
+    "email": "superadmin@school.mg",
+    "firstName": "Super",
+    "lastName": "Admin",
+    "password": "superadmin123",
+    "role": "ADMIN",
+    "isActive": true,
+    "schoolId": null,
     "updatedAt": "2025-11-26T10:00:00.000Z"
   }
 ]

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 // GET /api/teacher/quizzes/[id]/submissions - Get all submissions for a quiz
 export async function GET(
@@ -28,7 +28,7 @@ export async function GET(
       },
     });
 
-    if (!quiz || quiz.courseContent.course.teacherId !== session.user.id) {
+    if (!quiz || !quiz.courseContent || quiz.courseContent.course.teacherId !== session.user.id) {
       return NextResponse.json({ message: 'Access denied' }, { status: 403 });
     }
 
@@ -58,8 +58,27 @@ export async function GET(
       orderBy: { submittedAt: 'desc' },
     });
 
+    type FormattedSubmission = {
+      id: string;
+      studentId: string;
+      studentName: string | null;
+      studentEmail: string | null;
+      score: number | null;
+      totalPoints: number | null;
+      passed: boolean;
+      status: string;
+      attemptNumber: number;
+      startedAt: Date;
+      submittedAt: Date | null;
+      timeSpent: number | null;
+      correctAnswers: number;
+      totalQuestions: number;
+      needsReview: boolean;
+      responses: any[];
+    };
+
     // Format data with analytics
-    const formattedSubmissions = submissions.map((submission) => ({
+    const formattedSubmissions: FormattedSubmission[] = submissions.map((submission) => ({
       id: submission.id,
       studentId: submission.student.id,
       studentName: submission.student.name,
@@ -72,9 +91,9 @@ export async function GET(
       startedAt: submission.startedAt,
       submittedAt: submission.submittedAt,
       timeSpent: submission.timeSpent,
-      correctAnswers: submission.responses.filter((r) => r.isCorrect === true).length,
+      correctAnswers: submission.responses.filter((r: any) => r.isCorrect === true).length,
       totalQuestions: submission.responses.length,
-      needsReview: submission.responses.some((r) => r.isCorrect === null),
+      needsReview: submission.responses.some((r: any) => r.isCorrect === null),
       responses: submission.responses,
     }));
 

@@ -1,0 +1,189 @@
+// ===== SCHOOL MANAGEMENT =====
+
+model School {
+  id        String   @id @default(uuid())
+  name      String   @map("name")
+  code      String   @unique @map("code")
+  address   String?  @map("address")
+  city      String?  @map("city")
+  phone     String?  @map("phone")
+  email     String?  @map("email")
+  country   String   @default("Madagascar") @map("country")
+  timezone  String   @default("Indian/Antananarivo") @map("timezone")
+  config    Json?    @map("config")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  verified  Boolean  @default(false)
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  // Relations
+  users         User[]
+  courses       Course[]
+  schoolConfig  SchoolConfig?
+  academicYears AcademicYear[]
+  subjects      Subject[]
+  classes       Class[]
+  invitationCodes InvitationCode[]
+  schoolServers SchoolServer[]
+  calendarEvents CalendarEvent[]
+  announcements Announcement[]
+  sidebarConfiguration SidebarConfiguration?
+  @@index([code])
+  @@index([name])
+  @@map("schools")
+}
+
+model SchoolConfig {
+  id                       String  @id @default(uuid())
+  schoolId                 String  @unique @map("school_id")
+  allowVideoDownload       Boolean @default(true) @map("allow_video_download")
+  allowPdfDownload         Boolean @default(true) @map("allow_pdf_download")
+  allowInteractiveDownload Boolean @default(true) @map("allow_interactive_download")
+  syncFrequencyHours       Int     @default(24) @map("sync_frequency_hours")
+  maxDownloadSizeMB        Int     @default(100) @map("max_download_size_mb")
+  otpEnabled               Boolean @default(true) @map("otp_enabled")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+
+  @@map("school_configs")
+}
+
+model SidebarConfiguration {
+  id                String   @id @default(uuid())
+  schoolId          String   @unique @map("school_id")
+  configuration     Json     @map("configuration")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  clientUpdatedAt   DateTime @updatedAt @map("client_updated_at")
+  isDeleted         Boolean  @default(false) @map("is_deleted")
+  clientId          String   @default(cuid()) @map("client_id")
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+
+  @@map("sidebar_configurations")
+}
+
+
+// ===== ACADEMICS =====
+
+model AcademicYear {
+  id        String   @id @default(uuid())
+  name      String   @map("name")
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  schoolId  String   @map("school_id")
+  isActive  Boolean  @default(false) @map("is_active")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  classes   Class[] @relation("AcademicYearClasses")
+
+  @@unique([schoolId, name])
+  @@index([schoolId])
+  @@map("academic_years")
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  name      String   @map("name")
+  schoolId  String   @map("school_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school  School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  courses Course[]
+
+  @@unique([schoolId, name])
+  @@index([schoolId])
+  @@map("subjects")
+}
+
+model Class {
+  id        String   @id @default(uuid())
+  name      String   @map("name")
+  schoolId  String   @map("school_id")
+  degreeLevel DegreeLevel @map("degree_level")
+  subject   String?  @map("subject")
+  academicPeriodId String @map("academic_period_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  school         School               @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  academicPeriod AcademicYear         @relation("AcademicYearClasses", fields: [academicPeriodId], references: [id])
+  students       User[]               @relation("ClassStudents")
+  courseAssignments    CourseAssignment[]
+  quizAssignments QuizAssignment[]
+  assignments     Assignment[]          @relation("ClassToAssignment")
+  attendances    Attendance[]
+  schedules      ClassSchedule[]
+  classEnrollments ClassEnrollment[]
+  grades         Grade[]
+  calendarEvents CalendarEvent[]
+  forums         Forum[]
+  instructors    Instructor[]          @relation("ClassInstructors")
+
+  @@unique([schoolId, name])
+  @@index([schoolId])
+  @@map("classes")
+}
+
+model ClassEnrollment {
+  id         String   @id @default(uuid())
+  enrolledAt DateTime @default(now()) @map("enrolled_at")
+  classId    String   @map("class_id")
+  studentId  String   @map("student_id")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  class   Class   @relation(fields: [classId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@unique([classId, studentId])
+  @@map("class_enrollments")
+}
+
+model ClassSchedule {
+  id                  String   @id @default(uuid())
+  classId             String   @map("class_id")
+  teacherId           String   @map("teacher_id")
+  dayOfWeek           DayOfWeek @map("day_of_week")
+  plannedStartTime    String   @map("planned_start_time")
+  plannedDuration     Int      @map("planned_duration")
+  actualStartTime     String?  @map("actual_start_time")
+  actualDuration      Int?     @map("actual_duration")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @map("updated_at")
+
+  clientUpdatedAt DateTime @updatedAt @map("client_updated_at")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+  clientId        String   @default(cuid()) @map("client_id")
+
+  class   Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+  teacher User  @relation("TeacherSchedules", fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, dayOfWeek])
+  @@index([classId])
+  @@index([teacherId])
+  @@index([dayOfWeek])
+  @@map("class_schedules")
+}

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { nanoid } from 'nanoid';
 
 // POST /api/teacher/courses/builder - Create a new course from the course builder
@@ -65,10 +65,11 @@ export async function POST(request: NextRequest) {
         description: course.description,
         language: course.language || 'FR',
         level: course.level || 'BEGINNER',
-        contentType: course.contentType || 'HYBRID',
+        courseType: course.courseType || 'HYBRID',
         status: 'DRAFT',
         publishedAt: null,
         lastUpdatedAt: new Date(),
+        updatedAt: new Date(),
         categoryId: category.id,
         instructorId: instructor.id,
         schoolId: session.user.schoolId || null,
@@ -82,17 +83,33 @@ export async function POST(request: NextRequest) {
         tags: course.tags || [],
         downloadPriority: course.downloadPriority || 5,
         // Create sections
-        Section: {
-          create: (course.sections || []).map((section: any, sectionIndex: number) => ({
+        sections: {
+          create: (course.sections || []).map((section: { title: any; description: any; lectures: any[]; }, sectionIndex: number) => ({
             id: nanoid(),
             title: section.title,
             description: section.description,
             order: sectionIndex + 1,
             totalLectures: section.lectures?.length || 0,
-            totalDuration: section.lectures?.reduce((sum: number, l: any) => sum + (l.duration || 0), 0) || 0,
+            totalDuration: section.lectures?.reduce((sum: number, l: { duration: number; }) => sum + (l.duration || 0), 0) || 0,
             // Create lectures
-            Lecture: {
-              create: (section.lectures || []).map((lecture: any, lectureIndex: number) => {
+            lectures: {
+              create: (section.lectures || []).map((lecture: {
+                type: string;
+                video: { defaultQuality: string; offlineOptimized: boolean; };
+                article: { content: string; contentHtml: string; wordCount: number; estimatedReadingTime: any; };
+                quiz: { title: any; description: any; passingScore: number; totalPoints: number; timeLimit: any; attemptsAllowed: number; shuffleQuestions: boolean; shuffleAnswers: boolean; showCorrectAnswers: boolean; showCorrectAnswersAfter: string; questions: any[]; };
+                codingExercise: { title: any; instructions: string; starterCode: any; language: string; expectedOutput: any; testCases: any[]; hints: any[]; solution: any; allowSubmission: boolean; maxSubmissions: any; };
+                assignment: { title: any; description: any; instructions: string; allowedFileTypes: string[]; maxFileSize: number; dueDate: any; rubric: any; };
+                project: { title: any; description: string; complexity: string; technologies: any[]; learningObjectives: any[]; milestones: any[]; submission: any; };
+                resources: any[];
+                title: any;
+                description: any;
+                duration: any;
+                isPreview: boolean;
+                isFree: boolean;
+                offlineAvailable: boolean;
+                downloadPriority: any;
+              }, lectureIndex: number) => {
                 const lectureData: any = {
                   id: nanoid(),
                   title: lecture.title,
@@ -108,7 +125,7 @@ export async function POST(request: NextRequest) {
 
                 // Create type-specific data
                 if (lecture.type === 'VIDEO' && lecture.video) {
-                  lectureData.Video = {
+                  lectureData.video = {
                     create: {
                       id: nanoid(),
                       defaultQuality: lecture.video.defaultQuality || 'MEDIUM',
@@ -119,7 +136,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 if (lecture.type === 'ARTICLE' && lecture.article) {
-                  lectureData.Article = {
+                  lectureData.article = {
                     create: {
                       id: nanoid(),
                       content: lecture.article.content || '',
@@ -132,7 +149,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 if (lecture.type === 'QUIZ' && lecture.quiz) {
-                  lectureData.Quiz = {
+                  lectureData.quiz = {
                     create: {
                       id: nanoid(),
                       title: lecture.quiz.title || lecture.title,
@@ -147,7 +164,7 @@ export async function POST(request: NextRequest) {
                       showCorrectAnswersAfter: lecture.quiz.showCorrectAnswersAfter || 'submission',
                       questionCount: lecture.quiz.questions?.length || 0,
                       // Create questions
-                      Question: {
+                      questions: {
                         create: (lecture.quiz.questions || []).map((q: any) => {
                           const questionData: any = {
                             id: nanoid(),
@@ -201,7 +218,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 if (lecture.type === 'CODING_EXERCISE' && lecture.codingExercise) {
-                  lectureData.CodingExercise = {
+                  lectureData.codingExercise = {
                     create: {
                       id: nanoid(),
                       title: lecture.codingExercise.title,
@@ -219,7 +236,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 if (lecture.type === 'ASSIGNMENT' && lecture.assignment) {
-                  lectureData.Assignment = {
+                  lectureData.assignment = {
                     create: {
                       id: nanoid(),
                       title: lecture.assignment.title,
@@ -234,7 +251,7 @@ export async function POST(request: NextRequest) {
                 }
 
                 if (lecture.type === 'PROJECT' && lecture.project) {
-                  lectureData.Project = {
+                  lectureData.project = {
                     create: {
                       id: nanoid(),
                       title: lecture.project.title,
@@ -250,7 +267,7 @@ export async function POST(request: NextRequest) {
 
                 // Add resources if any
                 if (lecture.resources && lecture.resources.length > 0) {
-                  lectureData.Resource = {
+                  lectureData.resources = {
                     create: lecture.resources.map((resource: any) => ({
                       id: nanoid(),
                       title: resource.title,
@@ -270,21 +287,21 @@ export async function POST(request: NextRequest) {
         },
       },
       include: {
-        Section: {
+        sections: {
           include: {
-            Lecture: {
+            lectures: {
               include: {
-                Video: true,
-                Article: true,
-                Quiz: {
+                video: true,
+                article: true,
+                quiz: {
                   include: {
-                    Question: true,
+                    questions: true,
                   },
                 },
-                CodingExercise: true,
-                Assignment: true,
-                Project: true,
-                Resource: true,
+                codingExercise: true,
+                assignment: true,
+                project: true,
+                resources: true,
               },
             },
           },

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { DayOfWeek } from '@/generated/prisma';
 
 // GET /api/teacher/schedules/today - Get today's schedules for teacher

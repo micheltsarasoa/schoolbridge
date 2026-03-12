@@ -38,6 +38,9 @@ jobs:
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
 
+      - name: Lighthouse PWA Audit Quality Gate
+        run: npx lhci autorun --config=./lighthouserc.json
+
       - name: Check PR title
         uses: amannn/action-semantic-pull-request@v5
         env:

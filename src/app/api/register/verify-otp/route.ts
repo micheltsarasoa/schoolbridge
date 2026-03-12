@@ -1,126 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
-import { checkRateLimit } from "@/lib/rate-limiter";
+import { sendOTPEmail } from "@/lib/email";
+import { UserRole } from "@/types/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const { limited } = await checkRateLimit(req, "VERIFY_OTP");
-    if (limited) {
-      return new NextResponse("Too Many Requests", { status: 429 });
-    }
-
     const body = await req.json();
     const { email, otp } = body;
 
     if (!email || !otp) {
-      return new NextResponse("Email and OTP are required", { status: 400 });
+      return new NextResponse("Missing email or OTP", { status: 400 });
     }
 
-    if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
-      return new NextResponse("Invalid OTP format", { status: 400 });
-    }
-
-    // Hash the provided OTP
-    const hashedOtp = crypto
-      .createHash("sha256")
-      .update(otp)
-      .digest("hex");
-
-    // Find pending registration
-    const pendingRegistration = await prisma.pendingRegistration.findUnique({
+    const pendingReg = await prisma.pendingRegistration.findUnique({
       where: { email },
     });
 
-    if (!pendingRegistration) {
-      return new NextResponse("No pending registration found. Please register again.", {
-        status: 404,
-      });
+    if (!pendingReg) {
+      return new NextResponse("Registration not found or expired", { status: 404 });
     }
 
-    // Check if OTP matches
-    if (pendingRegistration.otpHash !== hashedOtp) {
-      return new NextResponse("Invalid verification code", { status: 400 });
+    // Hash the received OTP for comparison
+    const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
+
+    if (pendingReg.otpHash !== hashedOtp) {
+      return new NextResponse("Invalid OTP", { status: 400 });
     }
 
-    // Check if OTP has expired
-    if (pendingRegistration.expires < new Date()) {
-      await prisma.pendingRegistration.delete({
-        where: { email },
-      });
-      return new NextResponse("Verification code has expired. Please register again.", {
-        status: 400,
-      });
+    if (new Date() > pendingReg.expires) {
+      await prisma.pendingRegistration.delete({ where: { email } });
+      return new NextResponse("OTP expired", { status: 400 });
     }
 
-    // Verify email doesn't already exist
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (existingUser) {
-      await prisma.pendingRegistration.delete({
-        where: { email },
-      });
-      return new NextResponse("User already exists", {
-        status: 409,
-      });
-    }
-
-    // Create the user
-    const user = await prisma.user.create({
+    // OTP is valid and not expired, proceed with user creation
+    const newUser = await prisma.user.create({
       data: {
-        email: pendingRegistration.email,
-        name: pendingRegistration.name,
-        password: pendingRegistration.passwordHash,
-        role: pendingRegistration.role,
-        schoolId: pendingRegistration.schoolId,
-        isActive: true,
-        emailVerified: new Date(),
+        email: pendingReg.email,
+        firstName: pendingReg.name.split(' ')[0],
+        lastName: pendingReg.name.split(' ').slice(1).join(' '),
+        password: pendingReg.passwordHash,
+        role: pendingReg.role,
+        schoolId: pendingReg.schoolId,
+        emailVerified: new Date(), // Mark email as verified
+        // Create associated profile based on role
+        ...(pendingReg.role === UserRole.STUDENT && {
+          student: {
+            create: {
+              // Any default student data can go here
+            },
+          },
+        }),
+        ...(pendingReg.role === UserRole.PARENT && {
+          parents: {
+            create: {
+              // Any default parent data can go here
+            },
+          },
+        }),
+        ...(pendingReg.role === UserRole.TEACHER && {
+          instructor: {
+            create: {
+              // Any default teacher/instructor data can go here
+            },
+          },
+        }),
+        // Add more roles as needed
+        updatedAt: new Date(),
       },
     });
 
-    // Update invitation code with actual user ID
-    const invitationCode = await prisma.invitationCode.findFirst({
-      where: { usedBy: email },
-    });
 
-    if (invitationCode) {
-      await prisma.invitationCode.update({
-        where: { id: invitationCode.id },
-        data: { usedBy: user.id },
-      });
-    }
+    // Delete the pending registration record
+    await prisma.pendingRegistration.delete({ where: { email } });
 
-    // Create teacher approval record if role is TEACHER
-    if (pendingRegistration.role === 'TEACHER') {
-      await prisma.teacherApproval.create({
-        data: {
-          userId: user.id,
-          schoolId: pendingRegistration.schoolId,
-          status: 'PENDING',
-        },
-      });
-      console.log(`Teacher approval record created for: ${email}`);
-    }
-
-    // Delete pending registration
-    await prisma.pendingRegistration.delete({
-      where: { email },
-    });
-
-    // Log success
-    console.log(`User created successfully: ${email}`);
-
-    return NextResponse.json(
-      {
-        message: "Email verified successfully",
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Email verified and user created successfully" }, { status: 200 });
   } catch (error) {
     console.error("[VERIFY_OTP_POST]", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
-

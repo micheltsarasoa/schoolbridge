@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { nanoid } from 'nanoid';
 
 // GET /api/teacher/courses/builder/[id] - Get course with all details for editing
@@ -35,31 +35,31 @@ export async function GET(
         instructorId: instructor.id, // Ensure teacher owns this course
       },
       include: {
-        Section: {
+        sections: {
           orderBy: { order: 'asc' },
           include: {
-            Lecture: {
+            lectures: {
               orderBy: { order: 'asc' },
               include: {
-                Video: true,
-                Article: true,
-                Quiz: {
+                video: true,
+                article: true,
+                quiz: {
                   include: {
-                    Question: {
+                    questions: {
                       orderBy: { order: 'asc' },
                     },
                   },
                 },
-                CodingExercise: true,
-                Assignment: true,
-                Project: true,
-                Resource: true,
+                codingExercise: true,
+                assignment: true,
+                project: true,
+                resources: true,
               },
             },
           },
         },
-        Category: true,
-        Instructor: true,
+        category: true,
+        instructor: true,
       },
     });
 
@@ -70,24 +70,24 @@ export async function GET(
     // Transform to frontend format
     const transformed = {
       ...course,
-      sections: course.Section.map((section) => ({
+      sections: course.sections.map((section: any) => ({
         ...section,
-        lectures: section.Lecture.map((lecture) => {
+        lectures: section.lectures.map((lecture: any) => {
           const lectureData: any = {
             ...lecture,
-            video: lecture.Video || undefined,
-            article: lecture.Article || undefined,
-            codingExercise: lecture.CodingExercise || undefined,
-            assignment: lecture.Assignment || undefined,
-            project: lecture.Project || undefined,
-            resources: lecture.Resource || [],
+            video: lecture.video || undefined,
+            article: lecture.article || undefined,
+            codingExercise: lecture.codingExercise || undefined,
+            assignment: lecture.assignment || undefined,
+            project: lecture.project || undefined,
+            resources: lecture.resources || [],
           };
 
           // Transform quiz data
-          if (lecture.Quiz) {
+          if (lecture.quiz) {
             lectureData.quiz = {
-              ...lecture.Quiz,
-              questions: lecture.Quiz.Question.map((q) => {
+              ...lecture.quiz,
+              questions: lecture.quiz.questions.map((q: any) => {
                 const questionData: any = {
                   ...q,
                 };
@@ -109,13 +109,13 @@ export async function GET(
           }
 
           // Remove Prisma relations from response
-          delete lectureData.Video;
-          delete lectureData.Article;
-          delete lectureData.Quiz;
-          delete lectureData.CodingExercise;
-          delete lectureData.Assignment;
-          delete lectureData.Project;
-          delete lectureData.Resource;
+          delete lectureData.video;
+          delete lectureData.article;
+          delete lectureData.quiz;
+          delete lectureData.codingExercise;
+          delete lectureData.assignment;
+          delete lectureData.project;
+          delete lectureData.resources;
 
           return lectureData;
         }),
@@ -123,9 +123,9 @@ export async function GET(
     };
 
     // Remove Prisma relations from response
-    delete (transformed as any).Section;
-    delete (transformed as any).Category;
-    delete (transformed as any).Instructor;
+    delete (transformed as any).sections;
+    delete (transformed as any).category;
+    delete (transformed as any).instructor;
 
     return NextResponse.json({
       success: true,
@@ -198,7 +198,7 @@ export async function PUT(
           description: course.description,
           language: course.language,
           level: course.level,
-          contentType: course.contentType,
+          courseType: course.courseType,
           status: course.status || 'DRAFT',
           isPublic: course.isPublic,
           requiresOnline: course.requiresOnline,

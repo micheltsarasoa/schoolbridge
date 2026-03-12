@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAdmin } from "@/lib/auth-utils";
-import { UserRole } from "@/generated/prisma/browser";
+import { UserRole } from "@/types/db";
 
 interface IParams {
   params: Promise<{ userId: string }>;
